@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Blossom';
+  src: url('/fonts/Blossom.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
+   TEMA WARNA (opsional)
+   Sesuaikan dengan palet desain Figma milikmu.
+   ============================================================ */
+@theme {
+  --color-cream: #fcf9f5;
+  --color-forest: #21502b;
+  --color-sage: #7f8963;
+}
+
+:root {
+  --content-max: 1080px;
+  --content-max-portrait: 620px;
+  --page-pad-y: clamp(2rem, 6vh, 4rem);
+  --page-pad-x: clamp(1rem, 4vw, 3rem);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.reveal-section {
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section,
+  .reveal-section.is-visible {
+    opacity: 1;
+    transition: none;
+  }
+}
