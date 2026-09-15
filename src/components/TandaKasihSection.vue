@@ -23,9 +23,15 @@ const copyAccount = async (number) => {
       <div class="top-section">
         <h2 class="title">{{ wedding.giftPage.title }}</h2>
 
-        <img :src="wedding.giftPage.icon" alt="" class="icon-cake" />
+        <img
+          :src="wedding.giftPage.icon"
+          alt=""
+          class="icon-cake"
+        />
 
-        <p class="description">{{ wedding.giftPage.description }} :</p>
+        <p class="description">
+          {{ wedding.giftPage.description }} :
+        </p>
 
         <div class="bank-card">
           <article

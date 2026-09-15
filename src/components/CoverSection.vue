@@ -35,7 +35,11 @@ defineProps({
           Kepada: <span>{{ guestName }}</span>
         </p>
 
-        <button type="button" class="invite-btn" @click="emit('open')">
+        <button
+          type="button"
+          class="invite-btn"
+          @click="emit('open')"
+        >
           {{ wedding.cover.subtitle }}
         </button>
       </div>
@@ -133,11 +137,24 @@ defineProps({
   font-size: 1.8rem;
   line-height: 1.2;
   box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
-  transition: background-color 0.3s;
+  animation: invite-glow 3.5s ease-in-out infinite;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .invite-btn:hover {
   background-color: #1e3f29;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 28%);
+}
+
+@keyframes invite-glow {
+  0%,
+  100% {
+    box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
+  }
+
+  50% {
+    box-shadow: 0 6px 20px rgb(255 255 255 / 28%);
+  }
 }
 
 .decorative-icon {
@@ -267,7 +284,8 @@ defineProps({
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .decorative-icon {
+  .decorative-icon,
+  .invite-btn {
     animation: none;
   }
 }

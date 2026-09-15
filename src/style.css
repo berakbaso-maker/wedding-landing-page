@@ -29,28 +29,26 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   overflow-x: hidden;
 }
 
 #app {
-  min-height: 100vh;
+  height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
-.reveal-section {
-  opacity: 0;
-  transition: opacity 700ms ease;
-}
-
-.reveal-section.is-visible {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal-section,
-  .reveal-section.is-visible {
-    opacity: 1;
-    transition: none;
-  }
+#app > section {
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }

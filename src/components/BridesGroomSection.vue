@@ -20,10 +20,16 @@ const people = [
       />
 
       <div class="profiles-section">
-        <h2 class="section-title">Brides &amp; Groom</h2>
+        <h2 class="section-title">
+          Brides &amp; Groom
+        </h2>
 
         <div class="profiles-wrapper">
-          <div v-for="(person, index) in people" :key="person.role" class="profile-card-wrapper">
+          <div
+            v-for="(person, index) in people"
+            :key="person.role"
+            class="profile-card-wrapper"
+          >
             <img :src="person.frame" alt="" class="profile-frame" aria-hidden="true" />
 
             <article class="profile-card">

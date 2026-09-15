@@ -2,11 +2,22 @@
 import { wedding } from '../data/wedding'
 
 const galleryPhotos = wedding.gallery
+
+const galleryPages = [
+  {
+    photos: galleryPhotos.slice(2, 8),
+    featured: galleryPhotos[8],
+  },
+  {
+    photos: [galleryPhotos[8], galleryPhotos[9], galleryPhotos[1], galleryPhotos[2]],
+    featured: galleryPhotos[0],
+  },
+]
 </script>
 
 <template>
-  <section id="gallery" class="gallery-page">
-    <div class="gallery-container">
+  <section id="gallery" class="gallery-page gallery-intro-page">
+    <div class="gallery-container intro-container">
       <div class="top-section">
         <div class="top-left">
           <img
@@ -17,7 +28,9 @@ const galleryPhotos = wedding.gallery
         </div>
 
         <div class="top-right">
-          <h2 class="title">{{ wedding.galleryPage.title }}</h2>
+          <h2 class="title">
+            {{ wedding.galleryPage.title }}
+          </h2>
 
           <img
             src="/assets/the-gallery/icon17-2-42.png"
@@ -53,36 +66,31 @@ const galleryPhotos = wedding.gallery
           </p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="bottom-section">
+  <section
+    v-for="(page, pageIndex) in galleryPages"
+    :key="`gallery-page-${pageIndex}`"
+    class="gallery-page gallery-grid-page"
+  >
+    <div class="gallery-container grid-container">
+      <div class="bottom-section" :class="`gallery-grid-${pageIndex + 1}`">
         <div
-          v-for="(photo, index) in galleryPhotos.slice(2, 8)"
-          :key="`${photo}-${index}`"
+          v-for="(photo, index) in page.photos"
+          :key="`${pageIndex}-${index}`"
           class="polaroid-grid"
         >
-          <img :src="photo" :alt="`Foto galeri ${index + 3}`" class="photo-inner" loading="lazy" />
+          <img
+            :src="photo"
+            :alt="`Foto galeri ${pageIndex * 6 + index + 3}`"
+            class="photo-inner"
+            loading="lazy"
+          />
         </div>
 
-        <div class="large-card card-1">
-          <img :src="galleryPhotos[8]" alt="Foto galeri utama 1" />
-        </div>
-
-        <div class="polaroid-grid">
-          <img :src="galleryPhotos[8]" alt="Foto galeri 9" class="photo-inner" loading="lazy" />
-        </div>
-        <div class="polaroid-grid">
-          <img :src="galleryPhotos[9]" alt="Foto galeri 10" class="photo-inner" loading="lazy" />
-        </div>
-
-        <div class="large-card card-2">
-          <img :src="galleryPhotos[0]" alt="Foto galeri utama 2" />
-        </div>
-
-        <div class="polaroid-grid">
-          <img :src="galleryPhotos[1]" alt="Foto galeri 11" class="photo-inner" loading="lazy" />
-        </div>
-        <div class="polaroid-grid">
-          <img :src="galleryPhotos[2]" alt="Foto galeri 12" class="photo-inner" loading="lazy" />
+        <div class="large-card">
+          <img :src="page.featured" :alt="`Foto galeri utama ${pageIndex + 1}`" />
         </div>
       </div>
     </div>
@@ -92,9 +100,9 @@ const galleryPhotos = wedding.gallery
 <style scoped>
 .gallery-page {
   display: flex;
-  min-height: 0;
+  min-height: 100svh;
   width: 100%;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
   background: #f4f4f4;
   padding: 0;
@@ -107,18 +115,23 @@ const galleryPhotos = wedding.gallery
   box-sizing: border-box;
   width: 100%;
   max-width: none;
-  min-height: auto;
-  margin: 0 auto;
+  min-height: 100%;
+  margin: 0;
   flex-direction: column;
   overflow: hidden;
   background: #798665;
   box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
 }
 
+.intro-container,
+.grid-container {
+  height: 100svh;
+}
+
 .top-section {
   display: flex;
   width: 100%;
-  height: clamp(460px, 58vh, 620px);
+  height: 100%;
   flex-shrink: 0;
   border-bottom: 6px solid #d3d3d3;
   background: #fff;
@@ -146,7 +159,7 @@ const galleryPhotos = wedding.gallery
   display: flex;
   min-width: 0;
   width: 50%;
-  min-height: clamp(460px, 58vh, 620px);
+  min-height: 100%;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
@@ -255,7 +268,9 @@ const galleryPhotos = wedding.gallery
   display: grid;
   flex: 1;
   grid-template-columns: repeat(2, minmax(120px, 1fr)) minmax(320px, 2.2fr);
+  grid-auto-flow: row;
   width: min(100%, 1240px);
+  height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
   column-gap: clamp(1.5rem, 3vw, 2.5rem);
@@ -263,9 +278,17 @@ const galleryPhotos = wedding.gallery
   padding: 20px;
 }
 
+.gallery-grid-1 {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+.gallery-grid-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 .polaroid-grid {
   display: flex;
-  aspect-ratio: 1 / 1.3;
+  min-height: 0;
   flex-direction: column;
   overflow: hidden;
   border-radius: 18px;
@@ -274,16 +297,28 @@ const galleryPhotos = wedding.gallery
   box-shadow: 1px 3px 8px rgb(0 0 0 / 20%);
 }
 
+.polaroid-grid:hover,
+.large-card:hover {
+  translate: 0 -6px;
+  box-shadow: 0 16px 28px rgb(0 0 0 / 28%);
+}
+
 .polaroid-grid .photo-inner {
   width: 100%;
   height: 100%;
   flex-grow: 1;
   border-radius: 12px;
   object-fit: cover;
+  transition: transform 600ms ease;
+}
+
+.polaroid-grid:hover .photo-inner {
+  transform: scale(1.035);
 }
 
 .large-card {
   grid-column: 3;
+  grid-row: 1 / -1;
   min-height: 0;
   overflow: hidden;
   border: 4px solid #fff;
@@ -296,14 +331,17 @@ const galleryPhotos = wedding.gallery
   width: 100%;
   height: 100%;
   object-fit: cover;
+  animation: gallery-breathe 12s ease-in-out infinite alternate;
+  transition: transform 600ms ease;
 }
 
-.card-1 {
-  grid-row: 1 / span 3;
+.large-card:hover img {
+  transform: scale(1.035);
 }
 
-.card-2 {
-  grid-row: 4 / span 2;
+@keyframes gallery-breathe {
+  from { scale: 1; }
+  to { scale: 1.04; }
 }
 
 @media (max-width: 500px) {
@@ -313,18 +351,58 @@ const galleryPhotos = wedding.gallery
   }
 
   .top-section {
-    height: clamp(400px, 52vh, 500px);
+    flex-direction: column;
+  }
+
+  .top-left {
+    width: 100%;
+    height: 34%;
+  }
+
+  .top-illustration {
+    width: min(70%, 260px);
+    height: 92%;
   }
 
   .top-right {
-    min-height: clamp(400px, 52vh, 500px);
+    width: 100%;
+    min-height: 0;
+    height: 66%;
+  }
+
+  .title {
+    top: 0.75rem;
+    font-size: clamp(2.5rem, 12vw, 3.25rem);
+  }
+
+  .polaroid-stack {
+    top: 55%;
+    width: min(86%, 330px);
+    height: 220px;
   }
 
   .bottom-section {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(140px, 1.35fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 10px;
     row-gap: 10px;
     padding: 12px;
+  }
+
+  .gallery-grid-1 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+
+  .gallery-grid-2 {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+
+  .large-card {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  .gallery-grid-1 .large-card {
+    grid-row: 4;
   }
 
   .polaroid-tilt {
@@ -333,7 +411,31 @@ const galleryPhotos = wedding.gallery
   }
 
   .p-2 {
-    left: calc(50% + 15px);
+    right: 8%;
+    left: auto;
+  }
+
+  .subtitle {
+    bottom: 0.75rem;
+    font-size: 0.68rem;
+  }
+}
+
+@media (hover: none) {
+  .polaroid-grid:hover,
+  .large-card:hover {
+    translate: 0 0;
+  }
+
+  .polaroid-grid:hover .photo-inner,
+  .large-card:hover img {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .large-card img {
+    animation: none;
   }
 }
 </style>
