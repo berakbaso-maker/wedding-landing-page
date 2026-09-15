@@ -107,8 +107,8 @@ const copyAccount = async (number) => {
 
 .icon-cake {
   display: block;
-  width: 4rem;
-  height: 4rem;
+  width: clamp(8rem, 10vw, 10rem);
+  height: clamp(8rem, 10vw, 10rem);
   margin: 0 auto 1.25rem;
   object-fit: contain;
   opacity: 0.9;
@@ -124,26 +124,30 @@ const copyAccount = async (number) => {
 
 .bank-card {
   box-sizing: border-box;
-  width: min(100%, 860px);
+  width: min(100%, 680px);
   border-radius: 8px;
   background: #fff;
-  padding: 1.875rem 1.25rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
   color: #333;
   text-align: left;
   box-shadow: 0 5px 15px rgb(0 0 0 / 10%);
 }
 
 .bank-item {
-  margin-bottom: 1.875rem;
+  margin-bottom: clamp(1.25rem, 2vw, 1.5rem);
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
+  padding-bottom: clamp(1.25rem, 2vw, 1.5rem);
 }
 
 .bank-item:last-child {
-  margin-bottom: 0.625rem;
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .bank-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.9375rem;
@@ -159,7 +163,7 @@ const copyAccount = async (number) => {
 .bank-name,
 .acc-number {
   font-family: 'Marcellus', serif;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
 }
 
 .bank-name {
@@ -167,13 +171,13 @@ const copyAccount = async (number) => {
 }
 
 .acc-name {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
   font-weight: 600;
 }
 
 .bank-logo {
-  width: 86px;
-  max-height: 42px;
+  width: clamp(110px, 13vw, 150px);
+  max-height: 60px;
   flex-shrink: 0;
   object-fit: contain;
 }
@@ -183,11 +187,11 @@ const copyAccount = async (number) => {
   border: 0;
   border-radius: 20px;
   background: #dfc0c1;
-  padding: 0.625rem;
+  padding: 0.75rem;
   color: #fff;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   transition: opacity 0.3s ease;
 }
 
@@ -240,16 +244,4 @@ const copyAccount = async (number) => {
   }
 }
 
-@media (min-width: 760px) {
-  .bank-card {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
-  }
-
-  .bank-item,
-  .bank-item:last-child {
-    margin-bottom: 0;
-  }
-}
 </style>

@@ -77,6 +77,13 @@ const galleryPhotos = wedding.gallery
         <div class="large-card card-2">
           <img :src="galleryPhotos[0]" alt="Foto galeri utama 2" />
         </div>
+
+        <div class="polaroid-grid">
+          <img :src="galleryPhotos[1]" alt="Foto galeri 11" class="photo-inner" loading="lazy" />
+        </div>
+        <div class="polaroid-grid">
+          <img :src="galleryPhotos[2]" alt="Foto galeri 12" class="photo-inner" loading="lazy" />
+        </div>
       </div>
     </div>
   </section>
@@ -111,7 +118,7 @@ const galleryPhotos = wedding.gallery
 .top-section {
   display: flex;
   width: 100%;
-  height: clamp(260px, 40vh, 360px);
+  height: clamp(460px, 58vh, 620px);
   flex-shrink: 0;
   border-bottom: 6px solid #d3d3d3;
   background: #fff;
@@ -120,7 +127,7 @@ const galleryPhotos = wedding.gallery
 .top-left {
   display: flex;
   min-width: 0;
-  width: 45%;
+  width: 50%;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -128,8 +135,8 @@ const galleryPhotos = wedding.gallery
 }
 
 .top-illustration {
-  width: 90%;
-  height: 90%;
+  width: min(82%, 420px);
+  height: 88%;
   object-fit: contain;
   opacity: 0.8;
 }
@@ -138,8 +145,8 @@ const galleryPhotos = wedding.gallery
   position: relative;
   display: flex;
   min-width: 0;
-  width: 55%;
-  min-height: clamp(260px, 40vh, 360px);
+  width: 50%;
+  min-height: clamp(460px, 58vh, 620px);
   flex-direction: column;
   align-items: center;
   overflow: hidden;
@@ -149,13 +156,13 @@ const galleryPhotos = wedding.gallery
 
 .title {
   position: absolute;
-  top: clamp(1rem, 3vw, 1.5rem);
+  top: clamp(1.25rem, 2.5vw, 1.75rem);
   left: 50%;
   z-index: 1;
   margin: 0;
   color: #fff;
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(2.25rem, 6vw, 3rem);
+  font-size: clamp(2.75rem, 5vw, 4rem);
   font-weight: 400;
   text-align: center;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 20%);
@@ -173,69 +180,73 @@ const galleryPhotos = wedding.gallery
 }
 
 .d-car {
-  top: 1.25rem;
-  right: 1.25rem;
-  width: 3.25rem;
-  height: 3.25rem;
+  top: 8%;
+  right: 6%;
+  width: clamp(3.5rem, 5vw, 5rem);
+  height: clamp(3.5rem, 5vw, 5rem);
 }
 
 .d-bouquet {
-  bottom: 3.75rem;
-  left: 1.25rem;
-  width: 3rem;
-  height: 3rem;
+  bottom: 10%;
+  left: 6%;
+  width: clamp(3.25rem, 4.5vw, 4.5rem);
+  height: clamp(3.25rem, 4.5vw, 4.5rem);
   transform: rotate(-15deg);
 }
 
 .polaroid-stack {
   position: absolute;
-  top: 53%;
+  top: 58%;
   left: 50%;
-  width: clamp(190px, 25vw, 280px);
-  height: clamp(150px, 20vw, 210px);
+  width: clamp(340px, 38vw, 500px);
+  height: clamp(280px, 32vw, 390px);
   transform: translate(-50%, -50%);
 }
 
 .polaroid-tilt {
   position: absolute;
-  width: clamp(90px, 10vw, 130px);
-  height: clamp(110px, 13vw, 155px);
-  border-radius: 6px;
+  display: flex;
+  box-sizing: border-box;
+  width: clamp(180px, 19vw, 230px);
+  aspect-ratio: 1 / 1.15;
+  border-radius: 12px;
   background: #fff;
-  padding: clamp(6px, 0.8vw, 8px) clamp(6px, 0.8vw, 8px) clamp(22px, 2.5vw, 30px);
-  box-shadow: 2px 4px 15px rgb(0 0 0 / 30%);
+  padding: 6px 6px 20px;
+  box-shadow: 0 10px 20px rgb(0 0 0 / 22%);
 }
 
 .polaroid-tilt .photo-inner {
   width: 100%;
-  height: 100%;
-  border-radius: 3px;
+  min-height: 0;
+  flex: 1;
+  border-radius: 7px;
   object-fit: cover;
 }
 
 .p-1 {
-  top: 0;
-  left: 50%;
+  top: 4%;
+  left: 8%;
   z-index: 2;
-  margin-left: clamp(-65px, -5vw, -45px);
+  margin-left: 0;
   transform: rotate(-10deg);
 }
 
 .p-2 {
-  top: clamp(25px, 4vw, 45px);
-  left: calc(50% + clamp(15px, 3vw, 30px));
+  top: 18%;
+  right: 8%;
+  left: auto;
   z-index: 1;
   transform: rotate(15deg);
 }
 
 .subtitle {
   position: absolute;
-  bottom: clamp(0.75rem, 2vw, 1.25rem);
-  width: min(90%, 420px);
+  bottom: clamp(1rem, 2vw, 1.5rem);
+  width: min(88%, 520px);
   margin: 0;
   color: #fff;
-  font-size: 0.5rem;
-  line-height: 1.4;
+  font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+  line-height: 1.5;
   text-align: center;
   opacity: 0.9;
 }
@@ -243,21 +254,23 @@ const galleryPhotos = wedding.gallery
 .bottom-section {
   display: grid;
   flex: 1;
-  grid-template-columns: 1fr 1fr 2.2fr;
-  width: 100%;
+  grid-template-columns: repeat(2, minmax(120px, 1fr)) minmax(320px, 2.2fr);
+  width: min(100%, 1240px);
   box-sizing: border-box;
-  gap: 15px;
+  margin: 0 auto;
+  column-gap: clamp(1.5rem, 3vw, 2.5rem);
+  row-gap: clamp(1.5rem, 3vw, 2.5rem);
   padding: 20px;
 }
 
 .polaroid-grid {
   display: flex;
-  aspect-ratio: 1 / 1.15;
+  aspect-ratio: 1 / 1.3;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 18px;
   background: #fff;
-  padding: 6px 6px 20px;
+  padding: 10px 10px 24px;
   box-shadow: 1px 3px 8px rgb(0 0 0 / 20%);
 }
 
@@ -265,33 +278,32 @@ const galleryPhotos = wedding.gallery
   width: 100%;
   height: 100%;
   flex-grow: 1;
-  border-radius: 3px;
+  border-radius: 12px;
   object-fit: cover;
 }
 
 .large-card {
   grid-column: 3;
-  min-height: 100%;
+  min-height: 0;
   overflow: hidden;
   border: 4px solid #fff;
-  border-radius: 8px;
+  border-radius: 18px;
   background: #dcb8b9;
-  box-shadow: 1px 3px 8px rgb(0 0 0 / 20%);
+  box-shadow: 0 12px 24px rgb(0 0 0 / 22%);
 }
 
 .large-card img {
   width: 100%;
   height: 100%;
-  min-height: 100%;
   object-fit: cover;
 }
 
 .card-1 {
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
 }
 
 .card-2 {
-  grid-row: 3 / span 2;
+  grid-row: 4 / span 2;
 }
 
 @media (max-width: 500px) {
@@ -301,15 +313,17 @@ const galleryPhotos = wedding.gallery
   }
 
   .top-section {
-    height: clamp(240px, 36vh, 280px);
+    height: clamp(400px, 52vh, 500px);
   }
 
   .top-right {
-    min-height: clamp(240px, 36vh, 280px);
+    min-height: clamp(400px, 52vh, 500px);
   }
 
   .bottom-section {
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(140px, 1.35fr);
+    column-gap: 10px;
+    row-gap: 10px;
     padding: 12px;
   }
 

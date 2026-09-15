@@ -102,7 +102,7 @@ const people = [
   box-sizing: border-box;
   width: min(100%, 440px);
   margin: 0 auto;
-  padding: 60px;
+  padding: 65px;
   isolation: isolate;
 }
 
