@@ -73,7 +73,7 @@ const copyAccount = async (number) => {
   justify-content: center;
   background: #dfc0c1;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Blossom', 'Montserrat', sans-serif;
   box-shadow: 0 -12px 24px rgb(0 0 0 / 18%), 0 12px 24px rgb(0 0 0 / 18%);
 }
 
@@ -86,7 +86,7 @@ const copyAccount = async (number) => {
   margin: 0;
   flex-direction: column;
   overflow: hidden;
-  background: #7a8b68;
+  background: #7f8963;
   box-shadow: 0 4px 15px rgb(255 255 255 / 10%);
 }
 
@@ -105,7 +105,7 @@ const copyAccount = async (number) => {
 
 .title {
   margin: 0 0 1.25rem;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Allura', cursive;
   font-size: clamp(3rem, 7vw, 4.5rem);
   font-weight: 400;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
@@ -230,7 +230,7 @@ const copyAccount = async (number) => {
 
 .couple-names {
   margin: 0;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Allura', cursive;
   font-size: 3rem;
   font-weight: 400;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);

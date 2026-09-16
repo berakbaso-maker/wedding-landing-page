@@ -2,8 +2,9 @@
 import { wedding } from './data/wedding'
 import CoverSection from './components/CoverSection.vue'
 import SaveTheDateSection from './components/SaveTheDateSection.vue'
-import BridesGroomSection from './components/BridesGroomSection.vue'
 import GallerySection from './components/GallerySection.vue'
+import BridesGroomSection from './components/BridesGroomSection.vue'
+import GalleryGridSection from './components/GalleryGridSection.vue'
 import TandaKasihSection from './components/TandaKasihSection.vue'
 
 // TODO: nama tamu otomatis dari query string, mis. ?to=Budi
@@ -20,7 +21,8 @@ const open = () => {
 <template>
   <CoverSection :guest-name="guestName" @open="open" />
   <SaveTheDateSection />
-  <BridesGroomSection />
   <GallerySection />
+  <BridesGroomSection />
+  <GalleryGridSection />
   <TandaKasihSection />
 </template>

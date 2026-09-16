@@ -177,18 +177,18 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.65rem, 1.4vh, 1.1rem);
+  gap: clamp(0.8rem, 2.2vh, 1.6rem);
   overflow: hidden;
-  background: #798865;
-  padding: clamp(0.5rem, 1.2vh, 1rem) clamp(1rem, 3vw, 2rem);
+  background: #7f8963;
+  padding: clamp(0.9rem, 2vh, 1.75rem) clamp(0.8rem, 2.4vw, 1.5rem);
 }
 
 .title {
   z-index: 1;
   margin: 0 0 clamp(0.4rem, 1vh, 0.75rem);
   color: #fff;
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(4rem, 8vh, 6rem);
+  font-family: 'Allura', cursive;
+  font-size: clamp(3.5rem, 8vh, 6rem);
   font-weight: 400;
   line-height: 0.9;
   text-shadow: 1px 1px 3px rgb(0 0 0 / 20%);
@@ -197,12 +197,12 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 .calendar-container {
   z-index: 1;
   box-sizing: border-box;
-  width: min(82%, 620px);
+  width: min(100%, 760px);
   max-width: none;
   margin-bottom: 0;
   border-radius: 15px;
   background: #fdfaf6;
-  padding: clamp(0.75rem, 1.4vh, 1.15rem) clamp(1.5rem, 3vw, 3rem);
+  padding: clamp(0.9rem, 2vh, 1.5rem) clamp(1.5rem, 3vw, 3rem);
   text-align: center;
   box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
 }
@@ -211,35 +211,35 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   margin-bottom: clamp(0.75rem, 1.4vh, 1.1rem);
   color: #4a4a4a;
   font-family: 'Marcellus', serif;
-  font-size: clamp(1.65rem, 3vh, 2.25rem);
+  font-size: clamp(2rem, 4.2vh, 3rem);
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  column-gap: clamp(0.6rem, 1.2vw, 1rem);
-  row-gap: clamp(0.25rem, 0.7vh, 0.55rem);
+  column-gap: clamp(0.5rem, 1.4vw, 1.2rem);
+  row-gap: clamp(0.25rem, 0.9vh, 0.6rem);
   color: #666;
   font-family: 'Marcellus', serif;
-  font-size: clamp(1rem, 1.8vh, 1.25rem);
+  font-size: clamp(1rem, 2.1vh, 1.5rem);
 }
 
 .day-name {
-  margin-bottom: clamp(0.25rem, 0.8vh, 0.5rem);
-  font-size: clamp(0.75rem, 1.4vh, 0.95rem);
+  margin-bottom: clamp(0.3rem, 1vh, 0.6rem);
+  font-size: clamp(0.8rem, 1.6vh, 1.05rem);
 }
 
 .day {
   display: flex;
-  min-height: clamp(24px, 3.2vh, 34px);
+  min-height: clamp(26px, 4.2vh, 42px);
   align-items: center;
   justify-content: center;
 }
 
 .highlight-day span {
   display: flex;
-  width: clamp(28px, 3.5vh, 36px);
-  height: clamp(28px, 3.5vh, 36px);
+  width: clamp(32px, 5vh, 46px);
+  height: clamp(32px, 5vh, 46px);
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -250,30 +250,30 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 
 .countdown-section {
   z-index: 1;
-  width: min(82%, 620px);
+  width: min(100%, 760px);
   color: #fff;
   text-align: center;
 }
 
 .countdown-title {
-  margin: 0 0 clamp(0.55rem, 1.2vh, 0.9rem);
+  margin: 0 0 clamp(0.6rem, 1.4vh, 1rem);
   font-family: 'Marcellus', serif;
-  font-size: clamp(1.35rem, 2.5vh, 1.8rem);
+  font-size: clamp(1.4rem, 2.8vh, 2rem);
   font-weight: 400;
 }
 
 .countdown-blocks {
   display: flex;
   justify-content: center;
-  gap: clamp(0.75rem, 1.8vw, 1.5rem);
-  margin-bottom: clamp(0.4rem, 0.9vh, 0.7rem);
+  gap: clamp(0.8rem, 2vw, 1.6rem);
+  margin-bottom: clamp(0.4rem, 1vh, 0.75rem);
 }
 
 .time-unit {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(0.35rem, 0.8vh, 0.55rem);
+  gap: clamp(0.4rem, 1vh, 0.75rem);
 }
 
 .digits {
@@ -284,15 +284,15 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 .digit {
   border-radius: 4px;
   background: #2a4332;
-  padding: clamp(0.5rem, 1.1vh, 0.75rem) clamp(0.65rem, 1.2vw, 1rem);
+  padding: clamp(0.5rem, 1.3vh, 0.9rem) clamp(0.7rem, 1.4vw, 1.2rem);
   color: #fff;
   font-family: 'Marcellus', serif;
-  font-size: clamp(1.65rem, 3.2vh, 2.25rem);
+  font-size: clamp(1.8rem, 4vh, 2.8rem);
 }
 
 .unit-label,
 .countdown-footer {
-  font-size: clamp(0.78rem, 1.4vh, 0.95rem);
+  font-size: clamp(0.85rem, 1.6vh, 1.15rem);
 }
 
 .unit-label {
@@ -300,8 +300,8 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 }
 
 .countdown-footer {
-  margin: clamp(0.6rem, 1.2vh, 0.9rem) auto 0;
-  max-width: 620px;
+  margin: clamp(0.6rem, 1.4vh, 1rem) auto 0;
+  max-width: 760px;
   line-height: 1.65;
   opacity: 0.9;
 }
@@ -424,18 +424,18 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 
 @media (max-height: 760px) and (min-width: 701px) {
   .right-panel {
-    gap: 0.55rem;
+    gap: 0.6rem;
     padding-block: 0.6rem;
   }
 
   .title {
-    margin-bottom: 0.4rem;
-    font-size: clamp(3rem, 7vh, 4rem);
+    margin-bottom: 0.35rem;
+    font-size: clamp(2.6rem, 5.5vh, 3.4rem);
   }
 
   .calendar-container,
   .countdown-section {
-    width: min(78%, 540px);
+    width: min(96%, 640px);
   }
 
   .calendar-container {
@@ -444,32 +444,32 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 
   .calendar-header {
-    margin-bottom: 0.55rem;
-    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
   }
 
   .calendar-grid {
-    gap: 0.2rem 0.35rem;
-    font-size: 0.82rem;
+    gap: 0.2rem 0.6rem;
+    font-size: 0.9rem;
   }
 
   .day {
-    min-height: 20px;
+    min-height: 22px;
   }
 
   .highlight-day span {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
   }
 
   .countdown-title {
     margin-bottom: 0.45rem;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
   }
 
   .digit {
-    padding: 0.35rem 0.6rem;
-    font-size: 1.4rem;
+    padding: 0.4rem 0.65rem;
+    font-size: 1.5rem;
   }
 
   .countdown-footer {
@@ -512,18 +512,18 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 
   .title {
-    margin-bottom: 0.35rem;
-    font-size: clamp(2.4rem, 6.5vh, 3.4rem);
+    margin-bottom: 0.3rem;
+    font-size: clamp(2rem, 5.5vh, 2.8rem);
   }
 
   .calendar-container {
     width: min(100%, 390px);
-    padding: clamp(0.45rem, 1vh, 0.75rem) clamp(0.65rem, 3vw, 1rem);
+    padding: clamp(0.4rem, 0.9vh, 0.65rem) clamp(0.6rem, 3vw, 0.9rem);
   }
 
   .calendar-header {
-    margin-bottom: 0.5rem;
-    font-size: clamp(1.05rem, 2.2vh, 1.3rem);
+    margin-bottom: 0.4rem;
+    font-size: clamp(1.15rem, 2.4vh, 1.5rem);
   }
 
   .calendar-grid {
@@ -546,18 +546,18 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 
   .countdown-title {
-    margin-bottom: 0.4rem;
-    font-size: clamp(0.95rem, 2vh, 1.15rem);
+    margin-bottom: 0.35rem;
+    font-size: clamp(0.9rem, 1.8vh, 1.05rem);
   }
 
   .countdown-blocks {
-    gap: 0.35rem;
-    margin-bottom: 0.35rem;
+    gap: 0.3rem;
+    margin-bottom: 0.3rem;
   }
 
   .digit {
-    padding: clamp(0.25rem, 0.8vh, 0.4rem) clamp(0.32rem, 1.5vw, 0.5rem);
-    font-size: clamp(1rem, 2.2vh, 1.2rem);
+    padding: clamp(0.22rem, 0.7vh, 0.35rem) clamp(0.3rem, 1.4vw, 0.45rem);
+    font-size: clamp(0.95rem, 2vh, 1.15rem);
   }
 
   .unit-label,

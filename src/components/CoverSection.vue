@@ -102,7 +102,7 @@ defineProps({
 .hero-title-top,
 .hero-title-bottom {
   margin: 0;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Allura', cursive;
   font-weight: 400;
 }
 
@@ -133,7 +133,7 @@ defineProps({
   padding: 0.75rem 2.5rem;
   color: #fff;
   cursor: pointer;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Allura', cursive;
   font-size: 1.8rem;
   line-height: 1.2;
   box-shadow: 0 4px 6px rgb(0 0 0 / 20%);

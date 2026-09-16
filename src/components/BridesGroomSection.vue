@@ -59,15 +59,14 @@ const people = [
 .brides-groom-page {
   position: relative;
   display: flex;
-  min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #667554;
-  padding: var(--page-pad-y) 0;
-  font-family: 'Marcellus', serif;
-  box-shadow: 0 -12px 24px rgb(0 0 0 / 18%), 0 12px 24px rgb(0 0 0 / 18%);
+  background: #7f8963;
+  padding: 0;
+  font-family: 'Blossom', 'Marcellus', serif;
 }
 
 .brides-groom-container {
@@ -87,8 +86,8 @@ const people = [
 .section-title {
   margin: 0 0 clamp(1.5rem, 4vh, 2.5rem);
   color: #fff;
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(3rem, 8vw, 4.5rem);
+  font-family: 'Allura', cursive;
+  font-size: clamp(2.75rem, 6vw, 4rem);
   font-weight: 400;
   text-shadow: 1px 1px 3px rgb(0 0 0 / 20%);
 }
@@ -191,7 +190,7 @@ const people = [
 
 .profile-role {
   display: block;
-  color: #667554;
+  color: #7f8963;
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
