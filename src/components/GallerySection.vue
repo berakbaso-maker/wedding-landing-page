@@ -1,9 +1,43 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { wedding } from '../data/wedding'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const root = ref(null)
+let ctx = null
+
+onMounted(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const isDesktop = window.matchMedia('(hover: hover) and (min-width: 1024px)').matches
+  if (reduce || !isDesktop || !root.value) return
+
+  ctx = gsap.context(() => {
+    gsap.to('.top-illustration', {
+      yPercent: 8,
+      ease: 'none',
+      scrollTrigger: { trigger: root.value, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+    })
+    gsap.to('.d-car', {
+      yPercent: 26,
+      ease: 'none',
+      scrollTrigger: { trigger: root.value, start: 'top bottom', end: 'bottom top', scrub: 1 },
+    })
+    gsap.to('.d-bouquet', {
+      yPercent: -20,
+      ease: 'none',
+      scrollTrigger: { trigger: root.value, start: 'top bottom', end: 'bottom top', scrub: 1 },
+    })
+  }, root.value)
+})
+
+onUnmounted(() => ctx?.revert())
 </script>
 
 <template>
-  <section id="gallery" class="gallery-page gallery-intro-page">
+  <section id="gallery" ref="root" class="gallery-page gallery-intro-page">
     <div class="gallery-container intro-container">
       <div class="top-section">
         <div class="top-left">
@@ -15,7 +49,7 @@ import { wedding } from '../data/wedding'
         </div>
 
         <div class="top-right">
-          <h2 class="title">
+          <h2 class="title" v-reveal="{ y: 18 }">
             {{ wedding.galleryPage.title }}
           </h2>
 
@@ -30,7 +64,7 @@ import { wedding } from '../data/wedding'
             class="doodle d-bouquet"
           />
 
-          <div class="polaroid-stack">
+          <div class="polaroid-stack" v-reveal="{ delay: 150, scale: 0.94 }">
             <div class="polaroid-tilt p-1">
               <img
                 src="/assets/gallery/gallery-13.jpeg"
@@ -47,7 +81,7 @@ import { wedding } from '../data/wedding'
             </div>
           </div>
 
-          <p class="subtitle">
+          <p class="subtitle" v-reveal="{ delay: 260 }">
             Together with our families, we invite you to share in our wedding.
             Your presence is the greatest gift.
           </p>

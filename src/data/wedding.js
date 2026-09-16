@@ -122,6 +122,9 @@ export const wedding = {
     // TODO: nama tamu bisa dibuat dinamis dari query ?to=Nama
   },
 
+  // TODO: backsound — letakkan file di public/music/backsound.mp3
+  music: '/music/backsound.mp3',
+
 }
 
 export default wedding

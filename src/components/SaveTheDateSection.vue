@@ -68,11 +68,11 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
           class="icon-doodle d-rose"
         />
 
-        <h2 class="title">
+        <h2 class="title" v-reveal="{ y: 20 }">
           {{ wedding.saveTheDate.title }}
         </h2>
 
-        <div class="calendar-container">
+        <div class="calendar-container" v-reveal="{ delay: 120 }">
           <div class="calendar-header">{{ wedding.saveTheDate.dateLabel }}</div>
           <div class="calendar-grid">
             <div
@@ -95,15 +95,19 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
           </div>
         </div>
 
-        <div class="countdown-section">
+        <div class="countdown-section" v-reveal="{ delay: 220 }">
           <h3 class="countdown-title">Menghitung Hari!</h3>
           <p v-if="isPast" class="countdown-past">Hari bahagia kami telah tiba.</p>
 
           <div v-else class="countdown-blocks">
             <div v-for="unit in countdown" :key="unit.label" class="time-unit">
               <div class="digits">
-                <span class="digit">{{ unit.value.charAt(0) }}</span>
-                <span class="digit">{{ unit.value.charAt(1) }}</span>
+                <span class="digit" :key="`${unit.label}-${unit.value.charAt(0)}`">{{
+                  unit.value.charAt(0)
+                }}</span>
+                <span class="digit" :key="`${unit.label}-${unit.value.charAt(1)}`">{{
+                  unit.value.charAt(1)
+                }}</span>
               </div>
               <span class="unit-label">{{ unit.label }}</span>
             </div>
@@ -288,6 +292,19 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   color: #fff;
   font-family: 'Marcellus', serif;
   font-size: clamp(1.8rem, 4vh, 2.8rem);
+  animation: digit-pop 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes digit-pop {
+  0% {
+    opacity: 0.35;
+    transform: translateY(-6px) scale(0.94);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .unit-label,

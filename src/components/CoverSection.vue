@@ -76,7 +76,7 @@ defineProps({
 .hero-section {
   position: relative;
   display: flex;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100svh - 90px);
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -292,7 +292,7 @@ defineProps({
 
 @media (max-width: 640px) {
   .hero-section {
-    min-height: calc(100vh - 90px);
+    min-height: calc(100svh - 90px);
   }
 
   .decorative-icon {

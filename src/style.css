@@ -26,29 +26,46 @@
 }
 
 html {
-  scroll-behavior: smooth;
-}
-
-html,
-body {
-  height: 100%;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
-  overflow-x: hidden;
-}
-
-#app {
-  height: 100svh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
+  overflow-x: clip;
 }
 
 #app > section {
   min-height: 100svh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   Dipicu oleh directive v-reveal (IntersectionObserver).
+   Memakai properti independen translate/scale agar tidak
+   menimpa transform lain (mis. translateX(-50%) untuk centering).
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  translate: 0 var(--reveal-y, 28px);
+  scale: var(--reveal-scale, 1);
+  transition:
+    opacity var(--reveal-duration, 800ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    translate var(--reveal-duration, 800ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    scale var(--reveal-duration, 800ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  will-change: opacity, translate, scale;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    translate: none;
+    scale: none;
+    transition: none;
+  }
 }

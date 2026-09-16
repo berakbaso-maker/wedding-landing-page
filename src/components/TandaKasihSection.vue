@@ -21,19 +21,20 @@ const copyAccount = async (number) => {
   <section id="tanda-kasih" class="tanda-kasih-page">
     <div class="tanda-kasih-container">
       <div class="top-section">
-        <h2 class="title">{{ wedding.giftPage.title }}</h2>
+        <h2 class="title" v-reveal="{ y: 18 }">{{ wedding.giftPage.title }}</h2>
 
         <img
           :src="wedding.giftPage.icon"
           alt=""
           class="icon-cake"
+          v-reveal="{ delay: 120, scale: 0.9 }"
         />
 
-        <p class="description">
+        <p class="description" v-reveal="{ delay: 180 }">
           {{ wedding.giftPage.description }} :
         </p>
 
-        <div class="bank-card">
+        <div class="bank-card" v-reveal="{ delay: 240, y: 30 }">
           <article
             v-for="account in wedding.giftPage.accounts"
             :key="account.number"
@@ -56,8 +57,10 @@ const copyAccount = async (number) => {
       </div>
 
       <div class="bottom-section">
-        <p class="quote">{{ wedding.giftPage.closingMessage }}</p>
-        <h3 class="couple-names">{{ wedding.giftPage.closingName }}</h3>
+        <p class="quote" v-reveal="{ y: 20 }">{{ wedding.giftPage.closingMessage }}</p>
+        <h3 class="couple-names" v-reveal="{ delay: 120, scale: 0.94 }">
+          {{ wedding.giftPage.closingName }}
+        </h3>
       </div>
     </div>
   </section>
@@ -249,5 +252,4 @@ const copyAccount = async (number) => {
     align-self: flex-end;
   }
 }
-
 </style>

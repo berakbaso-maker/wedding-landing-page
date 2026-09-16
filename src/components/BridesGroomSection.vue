@@ -20,7 +20,7 @@ const people = [
       />
 
       <div class="profiles-section">
-        <h2 class="section-title">
+        <h2 class="section-title" v-reveal="{ y: 18 }">
           Brides &amp; Groom
         </h2>
 
@@ -29,6 +29,7 @@ const people = [
             v-for="(person, index) in people"
             :key="person.role"
             class="profile-card-wrapper"
+            v-reveal="{ delay: index * 160, y: 34 }"
           >
             <img :src="person.frame" alt="" class="profile-frame" aria-hidden="true" />
 

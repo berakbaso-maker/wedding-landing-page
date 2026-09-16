@@ -1,21 +1,20 @@
 <script setup>
-import { wedding } from './data/wedding'
+import { useSmoothScroll } from './composables/useSmoothScroll'
 import CoverSection from './components/CoverSection.vue'
 import SaveTheDateSection from './components/SaveTheDateSection.vue'
 import GallerySection from './components/GallerySection.vue'
 import BridesGroomSection from './components/BridesGroomSection.vue'
 import GalleryGridSection from './components/GalleryGridSection.vue'
 import TandaKasihSection from './components/TandaKasihSection.vue'
+import MusicToggle from './components/MusicToggle.vue'
+import { wedding } from './data/wedding'
 
 // TODO: nama tamu otomatis dari query string, mis. ?to=Budi
 const guestName = new URLSearchParams(window.location.search).get('to') || ''
 
-const open = () => {
-  document.getElementById('save-the-date')?.scrollIntoView({
-    behavior: 'smooth',
-  })
-}
+const { scrollTo } = useSmoothScroll()
 
+const open = () => scrollTo('#save-the-date')
 </script>
 
 <template>
@@ -25,4 +24,6 @@ const open = () => {
   <BridesGroomSection />
   <GalleryGridSection />
   <TandaKasihSection />
+
+  <MusicToggle :src="wedding.music" />
 </template>
