@@ -40,7 +40,6 @@ defineExpose({ play, pause, isPlaying })
       @click="toggle"
     >
       <span class="note">{{ isPlaying ? '♪' : '♪' }}</span>
-      <span class="pulse"></span>
     </button>
   </div>
 </template>
@@ -81,39 +80,14 @@ defineExpose({ play, pause, isPlaying })
   animation: music-spin 3.2s linear infinite;
 }
 
-.pulse {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 2px solid rgb(255 255 255 / 60%);
-  opacity: 0;
-}
-
-.music-btn.is-playing .pulse {
-  animation: music-pulse 2s ease-out infinite;
-}
-
 @keyframes music-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes music-pulse {
-  0% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.6);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .music-btn .note,
-  .music-btn.is-playing .pulse {
+  .music-btn .note {
     animation: none;
   }
 }
