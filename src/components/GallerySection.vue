@@ -264,7 +264,7 @@ onUnmounted(() => ctx?.revert())
   }
 
   .polaroid-tilt {
-    width: clamp(180px, 32vw, 245px);
+    width: clamp(245px, 30vw, 320px);
   }
 }
 
