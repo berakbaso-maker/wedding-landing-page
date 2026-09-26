@@ -510,8 +510,8 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 
   .invitation-card {
-    height: 100%;
-    min-height: 0;
+    min-height: 100svh;
+    height: auto;
     flex-direction: column;
   }
 
@@ -520,7 +520,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
     max-width: 100%;
     height: 22svh;
     min-height: 0;
-    flex: 0 0 22svh;
+    flex: 0 0 auto;
     border-right: 0;
     border-bottom: 2px solid #5a6b4e;
   }
@@ -534,7 +534,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
     width: 100%;
     height: auto;
     min-height: 0;
-    flex: 1 1 0;
+    flex: 1 1 auto;
     gap: clamp(0.4rem, 0.9vh, 0.65rem);
     padding: 0.5rem 0.75rem;
   }
