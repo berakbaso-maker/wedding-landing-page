@@ -81,7 +81,7 @@ defineProps({
   justify-content: center;
   overflow: hidden;
   padding: var(--page-pad-y) var(--page-pad-x);
-  background: url('/assets/background.png') center / cover no-repeat;
+  background: url('/assets/background.webp') center / cover no-repeat;
 }
 
 .hero-overlay {

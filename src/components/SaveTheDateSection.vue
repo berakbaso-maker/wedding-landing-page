@@ -25,7 +25,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
     <div class="invitation-card">
       <div class="left-panel">
         <img
-          src="/assets/side-gallery.png"
+          src="/assets/side-gallery.webp"
           alt="Ibnu &amp; Dea"
           class="left-panel-image"
         />
