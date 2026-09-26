@@ -123,8 +123,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 <style scoped>
 .save-the-date-page {
   display: flex;
-  height: 100svh;
-  min-height: 0;
+  min-height: 100svh;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -137,8 +136,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   display: flex;
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
-  min-height: 0;
+  min-height: 100svh;
   align-items: stretch;
   margin: 0;
   overflow: hidden;
@@ -152,7 +150,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   box-sizing: border-box;
   flex: 0 0 min(45%, calc(100svh * 2475 / 3420));
   width: min(45%, calc(100svh * 2475 / 3420));
-  height: 100%;
+  min-height: 100svh;
   max-width: 45%;
   align-items: stretch;
   align-self: stretch;
@@ -176,7 +174,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   display: flex;
   box-sizing: border-box;
   flex: 1;
-  height: 100%;
+  min-height: 100svh;
   min-width: 0;
   flex-direction: column;
   align-items: center;
@@ -591,6 +589,33 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   .icon-doodle {
     width: clamp(2.5rem, 9vw, 3.5rem);
     height: clamp(2.5rem, 9vw, 3.5rem);
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .title {
+    font-size: clamp(1.8rem, 6vh, 2.4rem);
+  }
+
+  .calendar-container {
+    padding: 0.5rem 0.9rem;
+  }
+
+  .calendar-header {
+    font-size: 1.2rem;
+  }
+
+  .calendar-grid {
+    font-size: 0.8rem;
+  }
+
+  .day {
+    min-height: 18px;
+  }
+
+  .digit {
+    padding: 0.35rem 0.55rem;
+    font-size: 1.3rem;
   }
 }
 </style>

@@ -85,7 +85,7 @@ const copyAccount = async (number) => {
   box-sizing: border-box;
   width: 100%;
   max-width: none;
-  min-height: clamp(720px, 100vh, 980px);
+  min-height: 100svh;
   margin: 0;
   flex-direction: column;
   overflow: hidden;
