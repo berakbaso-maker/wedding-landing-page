@@ -20,8 +20,8 @@ const open = () => scrollTo('#save-the-date')
 <template>
   <CoverSection :guest-name="guestName" @open="open" />
   <SaveTheDateSection />
-  <GallerySection />
   <BridesGroomSection />
+  <GallerySection />
   <GalleryGridSection />
   <TandaKasihSection />
 

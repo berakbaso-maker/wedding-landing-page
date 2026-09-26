@@ -17,7 +17,7 @@ const getObserver = () => {
         observer.unobserve(entry.target)
       })
     },
-    { rootMargin: '0px 0px -12% 0px', threshold: 0.12 },
+    { rootMargin: '0px 0px -5% 0px', threshold: 0 },
   )
 
   return observer
@@ -48,9 +48,33 @@ export const reveal = {
 
     observed.set(el, true)
     getObserver().observe(el)
+
+    // Fallback: jika elemen sudah berada di viewport saat mount (mis. posisi
+    // dipulihkan browser atau smooth-scroll), langsung tampilkan agar tidak
+    // terjebak invisible sampai refresh.
+    const revealIfInView = () => {
+      if (el.classList.contains('is-visible')) return
+
+      const rect = el.getBoundingClientRect()
+      const vh = window.innerHeight || document.documentElement.clientHeight
+
+      if (rect.top < vh && rect.bottom > 0) {
+        el.classList.add('is-visible')
+        observer?.unobserve(el)
+        observed.delete(el)
+      }
+    }
+
+    requestAnimationFrame(revealIfInView)
+    el.__revealTimer = window.setTimeout(revealIfInView, 2500)
   },
 
   unmounted(el) {
+    if (el.__revealTimer) {
+      clearTimeout(el.__revealTimer)
+      el.__revealTimer = null
+    }
+
     if (observed.has(el)) {
       observer?.unobserve(el)
       observed.delete(el)

@@ -1,10 +1,14 @@
 <script setup>
 import { wedding } from '../data/wedding'
 
+const { groom, bride, logo, quote, quoteSource, tagline } = wedding.bridesGroom
+
 const people = [
-  { role: 'Groom', ...wedding.bridesGroom.groom },
-  { role: 'Bride', ...wedding.bridesGroom.bride },
+  { role: 'Groom', ...groom },
+  { role: 'Bride', ...bride },
 ]
+
+const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 </script>
 
 <template>
@@ -20,6 +24,21 @@ const people = [
       />
 
       <div class="profiles-section">
+        <div class="intro-card" v-reveal="{ y: 18 }">
+          <div class="intro-grid">
+            <div class="intro-left">
+              <p class="intro-tagline">{{ tagline }}</p>
+              <img :src="personIllustration" alt="" class="intro-person" />
+            </div>
+
+            <div class="intro-right">
+              <img :src="logo" alt="Logo" class="intro-monogram" />
+              <p class="intro-quote">{{ quote }}</p>
+              <p class="intro-source">{{ quoteSource }}</p>
+            </div>
+          </div>
+        </div>
+
         <h2 class="section-title" v-reveal="{ y: 18 }">
           Brides &amp; Groom
         </h2>
@@ -66,21 +85,21 @@ const people = [
   justify-content: center;
   overflow: hidden;
   background: #7f8963;
-  padding: 0;
+  padding: clamp(1.5rem, 4vh, 3rem) 0;
   font-family: 'Blossom', 'Marcellus', serif;
 }
 
 .brides-groom-container {
   position: relative;
-  width: min(100%, var(--content-max));
+  width: min(100%, 1200px);
   margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 3rem);
+  padding: clamp(1rem, 2.5vh, 2rem) clamp(1rem, 4vw, 2.5rem);
 }
 
 .profiles-section {
   position: relative;
   z-index: 2;
-  padding-bottom: clamp(1rem, 3vh, 2.5rem);
+  padding: clamp(1rem, 3vh, 2rem) 0 clamp(1rem, 3vh, 2.5rem);
   text-align: center;
 }
 
@@ -91,6 +110,104 @@ const people = [
   font-size: clamp(2.75rem, 6vw, 4rem);
   font-weight: 400;
   text-shadow: 1px 1px 3px rgb(0 0 0 / 20%);
+}
+
+.intro-card {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: min(100%, 1120px);
+  margin: clamp(1rem, 3vh, 1.75rem) auto;
+  border: 1px solid rgb(232 225 211 / 80%);
+  border-radius: 24px;
+  background: #faf6ed;
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 20px 40px -15px rgb(44 68 43 / 12%), 0 0 15px rgb(0 0 0 / 3%);
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 3.5vw, 3rem);
+}
+
+.intro-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2vh, 1.25rem);
+  text-align: center;
+}
+
+.intro-tagline {
+  margin: 0;
+  color: #2c442b;
+  font-family: 'Blossom', 'Marcellus', serif;
+  font-size: clamp(1.75rem, 3.6vw, 2.8rem);
+  line-height: 1.25;
+}
+
+.intro-person {
+  display: block;
+  width: min(100%, 460px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+.intro-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2vh, 1.25rem);
+}
+
+.intro-monogram {
+  display: block;
+  width: clamp(150px, 18vw, 220px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  margin: 0 0 clamp(1.25rem, 3vh, 2rem);
+}
+
+.intro-quote {
+  margin: 0;
+  color: #2c442b;
+  font-family: 'Marcellus', serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  line-height: 1.75;
+  text-align: justify;
+}
+
+.intro-source {
+  margin: 0;
+  color: #2c442b;
+  font-family: 'Marcellus', serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 768px) {
+  .intro-grid {
+    grid-template-columns: 1fr 1.15fr;
+  }
+
+  .intro-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .intro-monogram {
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .profiles-wrapper {

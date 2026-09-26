@@ -126,6 +126,7 @@ const copyAccount = async (number) => {
 .description {
   margin: 0 auto 1.875rem;
   width: min(100%, 620px);
+  font-family: 'Roboto', 'Montserrat', sans-serif;
   font-size: 0.8rem;
   line-height: 1.5;
   opacity: 0.9;
@@ -180,6 +181,7 @@ const copyAccount = async (number) => {
 }
 
 .acc-name {
+  font-family: 'Roboto', 'Montserrat', sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 0.9rem);
   font-weight: 600;
 }
@@ -224,17 +226,17 @@ const copyAccount = async (number) => {
 
 .quote {
   width: min(100%, 760px);
-  margin: 0 auto 1.25rem;
+  margin: 0 auto 1.75rem;
   font-family: 'Marcellus', serif;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  opacity: 0.9;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  opacity: 0.95;
 }
 
 .couple-names {
   margin: 0;
   font-family: 'Allura', cursive;
-  font-size: 3rem;
+  font-size: clamp(3rem, 10vw, 4.5rem);
   font-weight: 400;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
 }

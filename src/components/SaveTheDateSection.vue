@@ -516,7 +516,8 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 
   .left-panel-image {
-    object-position: left center;
+    object-fit: cover;
+    object-position: center;
   }
 
   .right-panel {

@@ -10,8 +10,8 @@ gsap.registerPlugin(ScrollTrigger)
 const allPhotos = wedding.gallery
 
 const pageDefs = [
-  { photos: allPhotos.slice(0, 6), featured: allPhotos[6], from: 1, to: 7 },
-  { photos: allPhotos.slice(7, 11), featured: allPhotos[11], from: 8, to: 12 },
+  { photos: allPhotos.slice(0, 6), featured: allPhotos[6] },
+  { photos: allPhotos.slice(7, 13), featured: allPhotos[13] },
 ]
 
 const pagePhotos = pageDefs.map((page) => [...page.photos, page.featured])
@@ -22,8 +22,6 @@ const openLightbox = (photos, index) => {
   lightboxPhotos.value = photos
   lightboxIndex.value = index
 }
-
-const pad = (n) => String(n).padStart(2, '0')
 
 let ctx = null
 
@@ -74,14 +72,7 @@ onUnmounted(() => ctx?.revert())
     class="gallery-page gallery-grid-page"
   >
     <div class="gallery-container grid-container">
-      <span class="album-tape tape-top" aria-hidden="true"></span>
-      <span class="album-tape tape-bottom" aria-hidden="true"></span>
-
       <div class="album-sheet">
-        <span class="photo-counter" aria-hidden="true">
-          {{ pad(page.from) }} – {{ pad(page.to) }} / {{ allPhotos.length }}
-        </span>
-
         <div class="bottom-section" :class="`gallery-grid-${pageIndex + 1}`">
           <button
             v-for="(photo, index) in page.photos"
@@ -147,7 +138,7 @@ onUnmounted(() => ctx?.revert())
 }
 
 .grid-container {
-  height: 100svh;
+  height: 130svh;
 }
 
 .album-sheet {
@@ -157,44 +148,12 @@ onUnmounted(() => ctx?.revert())
   transform-style: preserve-3d;
 }
 
-.album-tape {
-  position: absolute;
-  z-index: 3;
-  width: clamp(90px, 14vw, 150px);
-  height: 26px;
-  background: rgb(244 236 216 / 55%);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 12%);
-}
-
-.tape-top {
-  top: 1.1rem;
-  left: 50%;
-  transform: translateX(-50%) rotate(-3deg);
-}
-
-.tape-bottom {
-  bottom: 1.1rem;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-}
-
-.photo-counter {
-  position: absolute;
-  top: clamp(0.75rem, 2vw, 1.25rem);
-  right: clamp(0.75rem, 2vw, 1.5rem);
-  z-index: 3;
-  color: rgb(255 255 255 / 85%);
-  font-family: 'Marcellus', serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-}
-
 .bottom-section {
   display: grid;
   flex: 1;
-  grid-template-columns: repeat(2, minmax(120px, 1fr)) minmax(320px, 2.2fr);
+  grid-template-columns: repeat(2, minmax(120px, 0.65fr)) minmax(320px, 2.2fr);
   grid-auto-flow: row;
-  width: min(100%, 1240px);
+  width: min(100%, 1680px);
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
@@ -203,12 +162,9 @@ onUnmounted(() => ctx?.revert())
   padding: 20px;
 }
 
-.gallery-grid-1 {
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-}
-
+.gallery-grid-1,
 .gallery-grid-2 {
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
 }
 
 .polaroid-grid {
@@ -282,10 +238,7 @@ onUnmounted(() => ctx?.revert())
     padding: 12px;
   }
 
-  .gallery-grid-1 {
-    grid-template-rows: repeat(4, minmax(0, 1fr));
-  }
-
+  .gallery-grid-1,
   .gallery-grid-2 {
     grid-template-rows: repeat(3, minmax(0, 1fr));
   }
