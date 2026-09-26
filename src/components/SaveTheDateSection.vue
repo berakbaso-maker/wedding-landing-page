@@ -492,6 +492,18 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 }
 
+@media (max-width: 1023px) {
+  .left-panel {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .left-panel-image {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
 @media (max-width: 700px) {
   .save-the-date-page {
     padding: 0;
