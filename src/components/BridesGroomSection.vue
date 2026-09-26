@@ -390,7 +390,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 
   .profile-card-wrapper {
     width: min(100%, 440px);
-    padding: 32px;
+    padding: clamp(36px, 10vw, 65px);
   }
 
   .doodle {
