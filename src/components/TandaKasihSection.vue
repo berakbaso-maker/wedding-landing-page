@@ -212,23 +212,23 @@ const copyAccount = async (number) => {
 
 .bottom-section {
   display: flex;
-  min-height: clamp(200px, 28vh, 280px);
+  min-height: clamp(280px, 38vh, 400px);
   box-sizing: border-box;
   width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #dfc0c1;
-  padding: clamp(2rem, 6vh, 3.125rem) clamp(1rem, 5vw, 4rem);
+  padding: clamp(2.5rem, 7vh, 3.75rem) clamp(1rem, 5vw, 4rem);
   color: #fff;
   text-align: center;
 }
 
 .quote {
-  width: min(100%, 760px);
+  width: min(100%, 820px);
   margin: 0 auto 1.75rem;
   font-family: 'Marcellus', serif;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   line-height: 1.7;
   opacity: 0.95;
 }
@@ -236,7 +236,7 @@ const copyAccount = async (number) => {
 .couple-names {
   margin: 0;
   font-family: 'Allura', cursive;
-  font-size: clamp(3rem, 10vw, 4.5rem);
+  font-size: clamp(3.25rem, 11vw, 5rem);
   font-weight: 400;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
 }
