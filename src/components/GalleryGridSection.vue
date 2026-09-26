@@ -151,7 +151,7 @@ onUnmounted(() => ctx?.revert())
 .bottom-section {
   display: grid;
   flex: 1;
-  grid-template-columns: repeat(2, minmax(120px, 0.65fr)) minmax(320px, 2.2fr);
+  grid-template-columns: repeat(2, minmax(90px, 0.65fr)) minmax(200px, 2.2fr);
   grid-auto-flow: row;
   width: min(100%, 1680px);
   height: 100%;
@@ -230,7 +230,7 @@ onUnmounted(() => ctx?.revert())
   to { scale: 1.04; }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
   .bottom-section {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 10px;

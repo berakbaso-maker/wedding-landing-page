@@ -162,6 +162,9 @@ onUnmounted(() => ctx?.revert())
   top: clamp(1.25rem, 2.5vw, 1.75rem);
   left: 50%;
   z-index: 1;
+  box-sizing: border-box;
+  width: 96%;
+  max-width: 96%;
   margin: 0;
   color: #fff;
   font-family: 'Allura', cursive;
@@ -170,7 +173,7 @@ onUnmounted(() => ctx?.revert())
   text-align: center;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 20%);
   transform: translateX(-50%);
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .doodle {
@@ -201,8 +204,9 @@ onUnmounted(() => ctx?.revert())
   position: absolute;
   top: 54%;
   left: 50%;
-  width: clamp(440px, 48vw, 660px);
-  height: clamp(370px, 41vw, 530px);
+  width: clamp(280px, 46vw, 660px);
+  max-width: 96%;
+  height: clamp(240px, 40vw, 530px);
   transform: translate(-50%, -50%);
 }
 
@@ -252,6 +256,16 @@ onUnmounted(() => ctx?.revert())
   line-height: 1.5;
   text-align: center;
   opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .title {
+    font-size: clamp(2.5rem, 8vw, 3.25rem);
+  }
+
+  .polaroid-tilt {
+    width: clamp(180px, 32vw, 245px);
+  }
 }
 
 @media (max-width: 500px) {

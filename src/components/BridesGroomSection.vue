@@ -379,7 +379,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 767px) {
   .brides-groom-page {
     padding: 1rem;
   }
@@ -390,6 +390,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 
   .profile-card-wrapper {
     width: min(100%, 440px);
+    padding: 32px;
   }
 
   .doodle {
