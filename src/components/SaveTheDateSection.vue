@@ -259,7 +259,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 
 .countdown-title {
   margin: 0 0 clamp(0.6rem, 1.4vh, 1rem);
-  font-family: 'Marcellus', serif;
+  font-family: 'Blossom', cursive;
   font-size: clamp(1.4rem, 2.8vh, 2rem);
   font-weight: 400;
 }
@@ -288,7 +288,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   background: #2a4332;
   padding: clamp(0.5rem, 1.3vh, 0.9rem) clamp(0.7rem, 1.4vw, 1.2rem);
   color: #fff;
-  font-family: 'Marcellus', serif;
+  font-family: 'Blossom', cursive;
   font-size: clamp(1.8rem, 4vh, 2.8rem);
   animation: digit-pop 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -307,6 +307,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 
 .unit-label,
 .countdown-footer {
+  font-family: 'Blossom', cursive;
   font-size: clamp(0.85rem, 1.6vh, 1.15rem);
 }
 
