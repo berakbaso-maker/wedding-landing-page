@@ -212,7 +212,7 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 .calendar-header {
   margin-bottom: clamp(0.75rem, 1.4vh, 1.1rem);
   color: #4a4a4a;
-  font-family: 'Marcellus', serif;
+  font-family: 'Blossom', cursive;
   font-size: clamp(2rem, 4.2vh, 3rem);
 }
 
