@@ -210,6 +210,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 .profiles-wrapper {
   display: flex;
   width: 100%;
+  margin-top: clamp(1rem, 3vh, 2rem);
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
