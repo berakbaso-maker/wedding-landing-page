@@ -107,7 +107,7 @@ defineProps({
 }
 
 .hero-title-top {
-  font-size: clamp(3.25rem, 9vw, 5.25rem);
+  font-size: clamp(3.5rem, 10vw, 9rem);
 }
 
 .hero-title-bottom {
@@ -133,7 +133,7 @@ defineProps({
   padding: 0.75rem 2.5rem;
   color: #fff;
   cursor: pointer;
-  font-family: 'Allura', cursive;
+  font-family: 'Ephesis', cursive;
   font-size: 1.8rem;
   line-height: 1.2;
   box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
