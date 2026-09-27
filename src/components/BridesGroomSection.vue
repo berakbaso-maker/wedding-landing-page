@@ -96,7 +96,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 .profiles-section {
   position: relative;
   z-index: 2;
-  padding: clamp(1rem, 3vh, 2rem) 0 clamp(1rem, 3vh, 2.5rem);
+  padding: clamp(1rem, 3vh, 2rem) 0 clamp(0.5rem, 1.5vh, 1rem);
   text-align: center;
 }
 
@@ -289,24 +289,24 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 }
 
 .profile-name {
-  margin: 0 0 5px;
+  margin: 0 0 6px;
   color: #2c3e23;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 400;
 }
 
 .profile-parents {
-  min-height: 3.5rem;
-  padding-bottom: 10px;
+  min-height: 0;
+  padding-bottom: 8px;
   color: #666;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
 .profile-role {
   display: block;
   color: #7f8963;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
