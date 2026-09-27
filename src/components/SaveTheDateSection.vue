@@ -244,9 +244,8 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   height: clamp(32px, 5vh, 46px);
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: #dcb8b9;
-  color: #fff;
+  background: url('/assets/save-the-date/star3.png') center / contain no-repeat;
+  color: #2c442b;
   font-weight: 700;
 }
 
@@ -305,19 +304,17 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   }
 }
 
-.unit-label,
-.countdown-footer {
+.unit-label {
   font-family: 'Blossom', cursive;
   font-size: clamp(0.85rem, 1.6vh, 1.15rem);
-}
-
-.unit-label {
   letter-spacing: 1px;
 }
 
 .countdown-footer {
-  margin: clamp(0.6rem, 1.4vh, 1rem) auto 0;
+  margin: clamp(1rem, 2.2vh, 1.6rem) auto 0;
   max-width: 760px;
+  font-family: 'Blossom', cursive;
+  font-size: clamp(1.05rem, 2vh, 1.35rem);
   line-height: 1.65;
   opacity: 0.9;
 }
