@@ -61,10 +61,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
                 />
               </div>
               <h3 class="profile-name">{{ person.name }}</h3>
-              <p class="profile-parents">
-                {{ person.parents }}<br />
-                {{ person.address }}
-              </p>
+              <p class="profile-parents">{{ person.parents }}</p>
               <span v-if="index === 0" class="profile-role">Groom</span>
               <span v-else class="profile-role">Bride</span>
             </article>
@@ -223,7 +220,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
   position: relative;
   z-index: 2;
   box-sizing: border-box;
-  width: min(100%, 440px);
+  width: min(100%, 520px);
   margin: 0 auto;
   padding: 65px;
   isolation: isolate;
