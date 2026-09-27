@@ -2,7 +2,17 @@
 
 @font-face {
   font-family: 'Blossom';
-  src: url('/fonts/Blossom.ttf') format('truetype');
+  src: url('/fonts/BLOSSOM.woff2') format('woff2'),
+    url('/fonts/BLOSSOM.woff') format('woff'),
+    url('/fonts/BLOSSOM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Allura';
+  src: url('/fonts/Allura-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
