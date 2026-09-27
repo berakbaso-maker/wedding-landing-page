@@ -178,7 +178,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 .intro-quote {
   margin: 0;
   color: #2c442b;
-  font-family: 'Marcellus', serif;
+  font-family: 'Blossom', 'Marcellus', serif;
   font-size: clamp(1.05rem, 2.4vw, 1.3rem);
   line-height: 1.75;
   text-align: justify;
@@ -187,7 +187,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 .intro-source {
   margin: 0;
   color: #2c442b;
-  font-family: 'Marcellus', serif;
+  font-family: 'Blossom', 'Marcellus', serif;
   font-size: clamp(1.05rem, 2.2vw, 1.3rem);
   font-weight: 600;
   letter-spacing: 0.02em;
