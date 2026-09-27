@@ -126,7 +126,7 @@ defineProps({
 }
 
 .invite-btn {
-  margin-top: 1.75rem;
+  margin-top: 2.25rem;
   border: 0;
   border-radius: 8px;
   background-color: #275236;
@@ -134,7 +134,9 @@ defineProps({
   color: #fff;
   cursor: pointer;
   font-family: 'Ephesis', cursive;
-  font-size: 1.8rem;
+  font-weight: 400;
+  font-size: clamp(2rem, 8vw, 46px);
+  letter-spacing: 0.05em;
   line-height: 1.2;
   box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
   animation: invite-glow 3.5s ease-in-out infinite;
