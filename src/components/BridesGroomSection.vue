@@ -59,12 +59,10 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
                   :alt="`${person.role} - ${person.name}`"
                   class="profile-photo"
                 />
-              </div>
-              <h3 class="profile-name">{{ person.name }}</h3>
-              <p class="profile-parents">{{ person.parents }}</p>
-              <span v-if="index === 0" class="profile-role">Groom</span>
-              <span v-else class="profile-role">Bride</span>
-            </article>
+               </div>
+               <h3 class="profile-name">{{ person.name }}</h3>
+               <p class="profile-parents">{{ person.parents }}</p>
+             </article>
           </div>
         </div>
       </div>
@@ -223,7 +221,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
   box-sizing: border-box;
   width: min(100%, 520px);
   margin: 0 auto;
-  padding: 65px;
+  padding: 55px;
   isolation: isolate;
 }
 
@@ -244,7 +242,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  aspect-ratio: 767 / 1084;
+  aspect-ratio: 4 / 5;
   margin-bottom: 15px;
   overflow: hidden;
   border-radius: 5px;
@@ -269,8 +267,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 }
 
 .profile-name,
-.profile-parents,
-.profile-role {
+.profile-parents {
   position: relative;
   z-index: 2;
 }
@@ -286,13 +283,14 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 }
 
 .profile-card-wrapper .profile-frame {
-  transform: translateX(-3px);
+  transform: translateX(-3px) scale(1.06);
+  transform-origin: center;
 }
 
 .profile-name {
   margin: 0 0 6px;
   color: #2c3e23;
-  font-size: 1.8rem;
+  font-size: 2.15rem;
   font-weight: 400;
 }
 
@@ -300,16 +298,16 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
   min-height: 0;
   padding-bottom: 8px;
   color: #666;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   line-height: 1.5;
 }
 
-.profile-role {
-  display: block;
-  color: #7f8963;
-  font-size: 0.85rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+.profile-card-wrapper:nth-child(2) .profile-name {
+  font-size: 2.3rem;
+}
+
+.profile-card-wrapper:nth-child(2) .profile-parents {
+  font-size: 1.4rem;
 }
 
 .doodle {
@@ -388,7 +386,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 
   .profile-card-wrapper {
     width: min(100%, 440px);
-    padding: clamp(36px, 10vw, 65px);
+    padding: clamp(36px, 10vw, 55px);
   }
 
   .doodle {

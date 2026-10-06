@@ -81,7 +81,7 @@ defineProps({
   justify-content: center;
   overflow: hidden;
   padding: var(--page-pad-y) var(--page-pad-x);
-  background: url('/assets/background.webp') center / cover no-repeat;
+  background: url('../../page_1_cover.png') center / cover no-repeat;
 }
 
 .hero-overlay {
@@ -107,12 +107,12 @@ defineProps({
 }
 
 .hero-title-top {
-  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-size: clamp(3rem, 9vw, 8rem);
 }
 
 .hero-title-bottom {
   margin-top: 0.25rem;
-  font-size: clamp(4.25rem, 12vw, 6.5rem);
+  font-size: clamp(3.75rem, 10vw, 5.75rem);
   line-height: 1;
 }
 
@@ -135,7 +135,7 @@ defineProps({
   cursor: pointer;
   font-family: 'Ephesis', cursive;
   font-weight: 400;
-  font-size: clamp(2rem, 8vw, 46px);
+  font-size: clamp(1.75rem, 7vw, 40px);
   letter-spacing: 0.05em;
   line-height: 1.2;
   box-shadow: 0 4px 6px rgb(0 0 0 / 20%);

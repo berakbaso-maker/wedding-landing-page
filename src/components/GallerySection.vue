@@ -42,7 +42,7 @@ onUnmounted(() => ctx?.revert())
       <div class="top-section">
         <div class="top-left">
           <img
-            src="/assets/gallery/gallery-15.jpeg"
+            src="/assets/gallery/gallery_1_fix.png"
             alt="Foto pasangan"
             class="top-illustration"
           />
@@ -67,14 +67,14 @@ onUnmounted(() => ctx?.revert())
           <div class="polaroid-stack" v-reveal="{ delay: 150, scale: 0.94 }">
             <div class="polaroid-tilt p-1">
               <img
-                src="/assets/gallery/gallery-13.jpeg"
+                src="/assets/gallery/secondiry_kiri.png"
                 alt="Foto kenangan 1"
                 class="photo-inner"
               />
             </div>
             <div class="polaroid-tilt p-2">
               <img
-                src="/assets/gallery/gallery-14.jpeg"
+                src="/assets/gallery/secondory_kanan.png"
                 alt="Foto kenangan 2"
                 class="photo-inner"
               />
@@ -218,7 +218,7 @@ onUnmounted(() => ctx?.revert())
   aspect-ratio: 1 / 1.15;
   border-radius: 12px;
   background: #fff;
-  padding: 6px 6px 20px;
+  padding: 10px 10px 28px;
   box-shadow: 0 10px 20px rgb(0 0 0 / 22%);
 }
 
@@ -243,6 +243,7 @@ onUnmounted(() => ctx?.revert())
   right: 2%;
   left: auto;
   z-index: 1;
+  box-shadow: 0 16px 28px rgb(0 0 0 / 35%), 0 4px 8px rgb(0 0 0 / 20%);
   transform: rotate(13deg);
 }
 
@@ -252,7 +253,7 @@ onUnmounted(() => ctx?.revert())
   width: min(90%, 600px);
   margin: 0;
   color: #fff;
-  font-size: clamp(0.85rem, 1.35vw, 1.1rem);
+  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
   line-height: 1.5;
   text-align: center;
   opacity: 0.9;
@@ -328,7 +329,7 @@ onUnmounted(() => ctx?.revert())
 
   .subtitle {
     bottom: 0.75rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 </style>

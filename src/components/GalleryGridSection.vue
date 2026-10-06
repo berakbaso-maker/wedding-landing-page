@@ -10,8 +10,14 @@ gsap.registerPlugin(ScrollTrigger)
 const allPhotos = wedding.gallery
 
 const pageDefs = [
-  { photos: allPhotos.slice(0, 6), featured: allPhotos[6] },
-  { photos: allPhotos.slice(7, 13), featured: allPhotos[13] },
+  {
+    photos: [
+      '/assets/gallery/polaroid_1.png',
+      '/assets/gallery/polaroid_2.png',
+      '/assets/gallery/polaroid_3.png',
+    ],
+    featured: allPhotos[6],
+  },
 ]
 
 const pagePhotos = pageDefs.map((page) => [...page.photos, page.featured])
@@ -79,12 +85,12 @@ onUnmounted(() => ctx?.revert())
             :key="`${pageIndex}-${index}`"
             type="button"
             class="polaroid-grid"
-            :aria-label="`Perbesar foto ${pageIndex * 6 + index + 3}`"
+             :aria-label="`Perbesar foto ${pageIndex * 3 + index + 3}`"
             @click="openLightbox(pagePhotos[pageIndex], index)"
           >
             <img
               :src="photo"
-              :alt="`Foto galeri ${pageIndex * 6 + index + 3}`"
+               :alt="`Foto galeri ${pageIndex * 3 + index + 3}`"
               class="photo-inner"
               loading="lazy"
             />
@@ -151,7 +157,7 @@ onUnmounted(() => ctx?.revert())
 .bottom-section {
   display: grid;
   flex: 1;
-  grid-template-columns: repeat(2, minmax(90px, 0.65fr)) minmax(200px, 2.2fr);
+  grid-template-columns: minmax(90px, 0.65fr) minmax(200px, 2.2fr);
   grid-auto-flow: row;
   width: min(100%, 1680px);
   height: 100%;
@@ -165,6 +171,10 @@ onUnmounted(() => ctx?.revert())
 .gallery-grid-1,
 .gallery-grid-2 {
   grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+.gallery-grid-1 {
+  padding: clamp(28px, 4vw, 48px);
 }
 
 .polaroid-grid {
@@ -200,11 +210,11 @@ onUnmounted(() => ctx?.revert())
 }
 
 .large-card {
-  grid-column: 3;
+  grid-column: 2;
   grid-row: 1 / -1;
   min-height: 0;
   overflow: hidden;
-  border: 4px solid #fff;
+  border: 0;
   border-radius: 18px;
   background: #dcb8b9;
   cursor: zoom-in;
@@ -232,7 +242,7 @@ onUnmounted(() => ctx?.revert())
 
 @media (max-width: 640px) {
   .bottom-section {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     column-gap: 10px;
     row-gap: 10px;
     padding: 12px;
@@ -243,12 +253,12 @@ onUnmounted(() => ctx?.revert())
     grid-template-rows: repeat(3, minmax(0, 1fr));
   }
 
-  .large-card {
-    grid-column: 1 / -1;
-    grid-row: 3;
+  .gallery-grid-1 {
+    padding: 22px;
   }
 
-  .gallery-grid-1 .large-card {
+  .large-card {
+    grid-column: 1 / -1;
     grid-row: 4;
   }
 }
