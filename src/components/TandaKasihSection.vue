@@ -109,7 +109,7 @@ const copyAccount = async (number) => {
 .title {
   margin: 0 0 1.25rem;
   font-family: 'Allura', cursive;
-  font-size: clamp(3rem, 7vw, 4.5rem);
+  font-size: clamp(3.5rem, 8vw, 5.25rem);
   font-weight: 400;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
 }
@@ -127,26 +127,26 @@ const copyAccount = async (number) => {
   margin: 0 auto 1.875rem;
   width: min(100%, 620px);
   font-family: 'Roboto', 'Montserrat', sans-serif;
-  font-size: 0.8rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
   opacity: 0.9;
 }
 
 .bank-card {
   box-sizing: border-box;
-  width: min(100%, 680px);
+  width: min(100%, 820px);
   border-radius: 8px;
   background: #fff;
-  padding: clamp(1.25rem, 3vw, 2rem);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
   color: #333;
   text-align: left;
   box-shadow: 0 5px 15px rgb(0 0 0 / 10%);
 }
 
 .bank-item {
-  margin-bottom: clamp(1.25rem, 2vw, 1.5rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
   border-bottom: 1px solid rgb(0 0 0 / 10%);
-  padding-bottom: clamp(1.25rem, 2vw, 1.5rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
 }
 
 .bank-item:last-child {
@@ -173,7 +173,7 @@ const copyAccount = async (number) => {
 .bank-name,
 .acc-number {
   font-family: 'Marcellus', serif;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-size: clamp(1.15rem, 2.1vw, 1.5rem);
 }
 
 .bank-name {
@@ -182,13 +182,13 @@ const copyAccount = async (number) => {
 
 .acc-name {
   font-family: 'Roboto', 'Montserrat', sans-serif;
-  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   font-weight: 600;
 }
 
 .bank-logo {
-  width: clamp(110px, 13vw, 150px);
-  max-height: 60px;
+  width: clamp(150px, 18vw, 210px);
+  max-height: 80px;
   flex-shrink: 0;
   object-fit: contain;
 }
@@ -212,7 +212,7 @@ const copyAccount = async (number) => {
 
 .bottom-section {
   display: flex;
-  min-height: clamp(280px, 38vh, 400px);
+  min-height: clamp(480px, 72vh, 820px);
   box-sizing: border-box;
   width: 100%;
   flex-direction: column;
@@ -227,8 +227,8 @@ const copyAccount = async (number) => {
 .quote {
   width: min(100%, 820px);
   margin: 0 auto 1.75rem;
-  font-family: 'Marcellus', serif;
-  font-size: 1.15rem;
+  font-family: 'Blossom', 'Marcellus', serif;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
   line-height: 1.7;
   opacity: 0.95;
 }

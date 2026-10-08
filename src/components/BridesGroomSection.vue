@@ -99,10 +99,10 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 }
 
 .section-title {
-  margin: clamp(1.5rem, 4vh, 2.5rem) 0 clamp(1.5rem, 4vh, 2.5rem);
+  margin: clamp(2.25rem, 6vh, 3.75rem) 0 clamp(0.15rem, 0.5vh, 0.35rem);
   color: #fff;
   font-family: 'Allura', cursive;
-  font-size: clamp(2.75rem, 6vw, 4rem);
+  font-size: clamp(3.25rem, 7vw, 5rem);
   font-weight: 400;
   text-shadow: 1px 1px 3px rgb(0 0 0 / 20%);
 }

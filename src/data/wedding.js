@@ -89,6 +89,52 @@ export const wedding = {
     },
   },
 
+  // TODO: ganti link Google Maps & urutan foto detail acara
+  detailAcara: {
+    title: 'Detail Acara',
+    image: '/assets/detail-acara/main_detail_acara.png',
+    leftPhotos: ['/assets/detail-acara/gallery_1.png', '/assets/detail-acara/gallery_2.png'],
+    rightPhotos: ['/assets/detail-acara/gallery_3.png', '/assets/detail-acara/gallery_4.png'],
+    // dekorasi: posisi x/y dalam %, size dalam px, rotate derajat.
+    // bisa ditata via drag di halaman dengan menambahkan ?edit=1 pada URL.
+    decorations: [
+      { src: '/assets/detail-acara/camera_assets.png', x: 6.8, y: 6, size: 106, rotate: -12 },
+      { src: '/assets/detail-acara/merpati_asset.png', x: 92.6, y: 21, size: 117, rotate: 14 },
+      { src: '/assets/detail-acara/letter_asset.png', x: 8, y: 46, size: 126, rotate: 8 },
+      { src: '/assets/detail-acara/love_asset.png', x: 90, y: 62, size: 82, rotate: -10 },
+    ],
+    denahLabel: 'Denah Lokasi',
+    denahImage: '/assets/detail-acara/denah_lokasi.png',
+    // dekorasi area Detail Lokasi (posisi x/y %, size px, rotate deg)
+    denahDecorations: [
+      { src: '/assets/detail-acara/star_assets.png', x: 7, y: 14, size: 122, rotate: 12 },
+      { src: '/assets/detail-acara/love_assets.png', x: 6.6, y: 89.8, size: 117, rotate: -12 },
+      { src: '/assets/detail-acara/camera_assets.png', x: 71.3, y: 9.6, size: 131, rotate: -8 },
+      { src: '/assets/detail-acara/merpati_asset.png', x: 92.6, y: 95.8, size: 125, rotate: 14 },
+    ],
+    events: [
+      {
+        icon: '/assets/detail-acara/merpati.png',
+        name: 'Akad Nikah',
+        time: '10:00 – 12:00 WIB',
+        date: 'Kamis, 7 November 2026',
+        address:
+          'Jl. Alur Laut Blok NN No.1 5, RT.5/RW.10, Rawabadak Utara, Kec. Koja, Jakarta Utara, Daerah Khusus Ibukota Jakarta 14230',
+      },
+      {
+        icon: '/assets/detail-acara/cincin.png',
+        name: 'Resepsi',
+        time: '14:00 – 17.00 WIB',
+        date: 'Kamis, 7 November 2026',
+        address:
+          'Jl. Alur Laut Blok NN No.1 5, RT.5/RW.10, Rawabadak Utara, Kec. Koja, Jakarta Utara, Daerah Khusus Ibukota Jakarta 14230',
+      },
+    ],
+    mapsLabel: 'Click Here for Google Maps',
+    mapsUrl: 'https://maps.google.com/?q=',
+    closingMessage: 'You are my today and all of my tomorrows.',
+  },
+
   giftPage: {
     title: 'Tanda Kasih',
     description:

@@ -185,15 +185,15 @@ onUnmounted(() => ctx?.revert())
   border: 0;
   border-radius: 18px;
   background: #fff;
-  padding: 10px 10px 24px;
+  padding: 16px 16px 32px;
   cursor: zoom-in;
-  box-shadow: 1px 3px 8px rgb(0 0 0 / 20%);
+  box-shadow: 18px 18px 6px rgb(0 0 0 / 45%);
 }
 
 .polaroid-grid:hover,
 .large-card:hover {
   translate: 0 -6px;
-  box-shadow: 0 16px 28px rgb(0 0 0 / 28%);
+  box-shadow: 22px 22px 9px rgb(0 0 0 / 50%);
 }
 
 .polaroid-grid .photo-inner {

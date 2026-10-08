@@ -216,24 +216,36 @@ onUnmounted(() => ctx?.revert())
   box-sizing: border-box;
   width: clamp(245px, 25vw, 320px);
   aspect-ratio: 1 / 1.15;
-  border-radius: 12px;
+  overflow: hidden;
+  border-radius: 18px;
   background: #fff;
-  padding: 10px 10px 28px;
-  box-shadow: 0 10px 20px rgb(0 0 0 / 22%);
+  padding: 16px 16px 34px;
+  box-shadow: 18px 18px 6px rgb(0 0 0 / 45%);
+  transition: translate 350ms ease, box-shadow 350ms ease;
+}
+
+.polaroid-tilt:hover {
+  translate: 0 -10px;
+  box-shadow: 24px 24px 12px rgb(0 0 0 / 50%);
 }
 
 .polaroid-tilt .photo-inner {
   width: 100%;
   min-height: 0;
   flex: 1;
-  border-radius: 7px;
+  border-radius: 10px;
   object-fit: cover;
+  transition: transform 600ms ease;
+}
+
+.polaroid-tilt:hover .photo-inner {
+  transform: scale(1.05);
 }
 
 .p-1 {
   top: 0;
   left: 2%;
-  z-index: 2;
+  z-index: 1;
   margin-left: 0;
   transform: rotate(-9deg);
 }
@@ -242,8 +254,8 @@ onUnmounted(() => ctx?.revert())
   top: 30%;
   right: 2%;
   left: auto;
-  z-index: 1;
-  box-shadow: 0 16px 28px rgb(0 0 0 / 35%), 0 4px 8px rgb(0 0 0 / 20%);
+  z-index: 2;
+  box-shadow: 22px 22px 9px rgb(0 0 0 / 45%);
   transform: rotate(13deg);
 }
 
@@ -253,7 +265,7 @@ onUnmounted(() => ctx?.revert())
   width: min(90%, 600px);
   margin: 0;
   color: #fff;
-  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
   line-height: 1.5;
   text-align: center;
   opacity: 0.9;
@@ -314,6 +326,8 @@ onUnmounted(() => ctx?.revert())
   .polaroid-tilt {
     width: 126px;
     height: 150px;
+    border-radius: 12px;
+    padding: 8px 8px 20px;
   }
 
   .p-1 {
@@ -329,7 +343,7 @@ onUnmounted(() => ctx?.revert())
 
   .subtitle {
     bottom: 0.75rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 </style>
