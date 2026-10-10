@@ -536,20 +536,17 @@ const copyLayout = async () => {
   }
 
   .intro-left {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
-    text-align: left;
+    gap: clamp(0.75rem, 2vh, 1.25rem);
+    text-align: center;
   }
 
   .intro-tagline {
-    flex: 0 0 auto;
-    max-height: 280px;
     font-size: clamp(1.7rem, 7vw, 2.35rem);
-    line-height: 1.1;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
+    line-height: 1.25;
+    text-align: center;
   }
 
   .intro-person {
