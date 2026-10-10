@@ -502,6 +502,10 @@ const copyLayout = async () => {
     padding: 1rem 1rem 1.5rem;
   }
 
+  .title {
+    font-size: clamp(2.9rem, 9vw, 3.7rem);
+  }
+
   .top-left {
     order: 2;
     width: 100%;
