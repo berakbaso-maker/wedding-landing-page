@@ -259,6 +259,38 @@ onUnmounted(() => ctx?.revert())
   }
 }
 
+/* Stack the three polaroids before the featured image on phones and tablets. */
+@media (max-width: 900px) {
+  .grid-container {
+    height: auto;
+    min-height: 0;
+  }
+
+  .bottom-section {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(3, minmax(220px, auto)) auto;
+    width: 100%;
+    height: auto;
+    column-gap: 0;
+    row-gap: clamp(1rem, 3vw, 1.5rem);
+    padding: clamp(1rem, 4vw, 2rem);
+  }
+
+  .polaroid-grid {
+    grid-column: 1;
+    grid-row: auto;
+    min-height: 220px;
+  }
+
+  .large-card {
+    grid-column: 1;
+    grid-row: 4;
+    width: 100%;
+    min-height: 420px;
+    aspect-ratio: 1 / 1.2;
+  }
+}
+
 @media (hover: none) {
   .polaroid-grid:hover,
   .large-card:hover {
