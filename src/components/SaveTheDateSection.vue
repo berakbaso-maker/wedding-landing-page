@@ -736,16 +736,18 @@ const copyLayout = async () => {
   .left-panel {
     width: 100%;
     max-width: 100%;
-    height: 100svh;
-    min-height: 100svh;
-    flex: 0 0 100svh;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 2475 / 3420;
+    flex: 0 0 auto;
     border-right: 0;
     border-bottom: 2px solid #5a6b4e;
   }
 
   .left-panel-image {
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 2475 / 3420;
     object-fit: contain;
     object-position: center;
   }
