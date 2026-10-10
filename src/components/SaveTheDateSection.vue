@@ -726,7 +726,7 @@ const copyLayout = async () => {
 
 /* Portrait phones and tablets: show the full portrait artwork first, then
    continue naturally into the calendar and countdown content. */
-@media (max-width: 1200px) and (orientation: portrait) {
+@media (max-width: 1200px) {
   .invitation-card {
     min-height: 0;
     height: auto;
