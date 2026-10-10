@@ -6,3 +6,5 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .vercel
+allura-fix/
+blossom-fix/
