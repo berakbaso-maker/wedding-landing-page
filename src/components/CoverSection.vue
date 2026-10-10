@@ -459,4 +459,12 @@ const copyLayout = async () => {
   }
 
 }
+
+/* Portrait/tablet cover uses the vertical artwork so the subject stays visible. */
+@media (orientation: portrait) and (min-width: 641px) {
+  .hero-section {
+    background-image: url('/assets/main_cover_vertical.png');
+    background-position: center center;
+  }
+}
 </style>
