@@ -535,6 +535,41 @@ const copyLayout = async () => {
     padding: clamp(36px, 10vw, 55px);
   }
 
+  .intro-left {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    text-align: left;
+  }
+
+  .intro-tagline {
+    flex: 0 0 auto;
+    max-height: 280px;
+    font-size: clamp(1.7rem, 7vw, 2.35rem);
+    line-height: 1.1;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .intro-person {
+    width: min(82%, 320px);
+  }
+
+  .intro-right {
+    align-items: flex-start;
+  }
+
+  .intro-monogram {
+    width: clamp(180px, 48vw, 250px);
+    align-self: center;
+  }
+
+  .intro-source {
+    width: 100%;
+    text-align: left;
+  }
+
   .doodle-2 {
     left: 98.2%;
   }
