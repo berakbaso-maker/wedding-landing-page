@@ -724,6 +724,40 @@ const copyLayout = async () => {
   }
 }
 
+/* Portrait phones and tablets: show the full portrait artwork first, then
+   continue naturally into the calendar and countdown content. */
+@media (max-width: 1200px) and (orientation: portrait) {
+  .invitation-card {
+    min-height: 0;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .left-panel {
+    width: 100%;
+    max-width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+    flex: 0 0 100svh;
+    border-right: 0;
+    border-bottom: 2px solid #5a6b4e;
+  }
+
+  .left-panel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .right-panel {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    flex: 0 0 auto;
+  }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
   .title {
     font-size: clamp(1.8rem, 6vh, 2.4rem);
