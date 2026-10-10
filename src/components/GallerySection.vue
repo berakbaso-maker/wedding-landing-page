@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { wedding } from '../data/wedding'
@@ -7,12 +7,21 @@ import { wedding } from '../data/wedding'
 gsap.registerPlugin(ScrollTrigger)
 
 const root = ref(null)
+const topRightRef = ref(null)
+const layoutMode = new URLSearchParams(window.location.search).get('layout') === 'gallery'
+const selectedKey = ref('car')
+const decorations = ref([
+  { key: 'car', label: 'Car', src: '/assets/the-gallery/icon17-2-42.png', x: 64.7, y: 19.4, size: 10.9, rotate: 0 },
+  { key: 'bouquet', label: 'Bouquet', src: '/assets/the-gallery/icon14-1-17.png', x: 11.3, y: 71.4, size: 7.45, rotate: -15 },
+])
+const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
 let ctx = null
+let dragState = null
 
 onMounted(() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const isDesktop = window.matchMedia('(hover: hover) and (min-width: 1024px)').matches
-  if (reduce || !isDesktop || !root.value) return
+  if (reduce || !isDesktop || !root.value || layoutMode) return
 
   ctx = gsap.context(() => {
     gsap.to('.top-illustration', {
@@ -34,6 +43,49 @@ onMounted(() => {
 })
 
 onUnmounted(() => ctx?.revert())
+
+const decorationStyle = (decoration) => ({
+  left: `${decoration.x}%`,
+  top: `${decoration.y}%`,
+  right: 'auto',
+  bottom: 'auto',
+  width: `${decoration.size}rem`,
+  height: `${decoration.size}rem`,
+  transform: `rotate(${decoration.rotate}deg)`,
+})
+
+const startDrag = (event, decoration) => {
+  if (!layoutMode || !topRightRef.value) return
+  event.preventDefault()
+  selectedKey.value = decoration.key
+  const bounds = topRightRef.value.getBoundingClientRect()
+  dragState = { decoration, bounds, pointerId: event.pointerId }
+  event.currentTarget.setPointerCapture(event.pointerId)
+}
+
+const dragDecoration = (event) => {
+  if (!dragState || event.pointerId !== dragState.pointerId) return
+  const { decoration, bounds } = dragState
+  decoration.x = Math.max(-5, Math.min(105, ((event.clientX - bounds.left) / bounds.width) * 100))
+  decoration.y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100))
+}
+
+const stopDrag = () => {
+  dragState = null
+}
+
+const copyLayout = async () => {
+  const output = decorations.value.reduce((result, decoration) => {
+    result[decoration.key] = {
+      left: `${decoration.x.toFixed(1)}%`,
+      top: `${decoration.y.toFixed(1)}%`,
+      size: `${decoration.size.toFixed(2)}rem`,
+      rotate: `${decoration.rotate}deg`,
+    }
+    return result
+  }, {})
+  await navigator.clipboard?.writeText(JSON.stringify(output, null, 2))
+}
 </script>
 
 <template>
@@ -45,23 +97,26 @@ onUnmounted(() => ctx?.revert())
             src="/assets/gallery/gallery_1_fix.png"
             alt="Foto pasangan"
             class="top-illustration"
+            loading="lazy"
           />
         </div>
 
-        <div class="top-right">
+        <div ref="topRightRef" class="top-right" :class="{ 'layout-mode': layoutMode }" @pointermove="dragDecoration" @pointerup="stopDrag" @pointercancel="stopDrag">
           <h2 class="title" v-reveal="{ y: 18 }">
             {{ wedding.galleryPage.title }}
           </h2>
 
           <img
-            src="/assets/the-gallery/icon17-2-42.png"
-            alt=""
-            class="doodle d-car"
-          />
-          <img
-            src="/assets/the-gallery/icon14-1-17.png"
-            alt=""
-            class="doodle d-bouquet"
+            v-for="decoration in decorations"
+            :key="decoration.key"
+            :src="decoration.src"
+            :alt="decoration.label"
+            class="doodle"
+            loading="lazy"
+            :class="`d-${decoration.key}`"
+            :style="layoutMode ? decorationStyle(decoration) : undefined"
+            @pointerdown="startDrag($event, decoration)"
+            @click="selectedKey = decoration.key"
           />
 
           <div class="polaroid-stack" v-reveal="{ delay: 150, scale: 0.94 }">
@@ -85,6 +140,25 @@ onUnmounted(() => ctx?.revert())
             Together with our families, we invite you to share in our wedding.
             Your presence is the greatest gift.
           </p>
+
+          <aside v-if="layoutMode" class="layout-toolbar" @pointerdown.stop>
+            <strong>The Gallery editor</strong>
+            <small>Drag ikon untuk memindahkan</small>
+            <label>
+              Ikon
+              <select v-model="selectedKey">
+                <option v-for="decoration in decorations" :key="decoration.key" :value="decoration.key">
+                  {{ decoration.label }}
+                </option>
+              </select>
+            </label>
+            <label v-if="selectedDecoration">
+              Size: {{ selectedDecoration.size.toFixed(2) }}rem
+              <input v-model.number="selectedDecoration.size" type="range" min="2" max="12" step="0.05" />
+            </label>
+            <button type="button" @click="copyLayout">Copy layout JSON</button>
+            <code v-if="selectedDecoration">left: {{ selectedDecoration.x.toFixed(1) }}%; top: {{ selectedDecoration.y.toFixed(1) }}%</code>
+          </aside>
         </div>
       </div>
     </div>
@@ -113,7 +187,6 @@ onUnmounted(() => ctx?.revert())
   flex-direction: column;
   overflow: hidden;
   background: #7f8963;
-  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
 }
 
 .intro-container {
@@ -171,7 +244,6 @@ onUnmounted(() => ctx?.revert())
   font-size: clamp(3.25rem, 7vw, 4.75rem);
   font-weight: 400;
   text-align: center;
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 20%);
   transform: translateX(-50%);
   white-space: normal;
 }
@@ -185,18 +257,83 @@ onUnmounted(() => ctx?.revert())
   opacity: 0.85;
 }
 
+.layout-mode .doodle {
+  z-index: 4;
+  cursor: grab;
+  animation: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.layout-mode .doodle:active {
+  cursor: grabbing;
+}
+
+.layout-toolbar {
+  position: absolute;
+  z-index: 10;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: min(230px, calc(100% - 2rem));
+  gap: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 10px;
+  background: rgb(28 48 32 / 92%);
+  padding: 0.8rem;
+  color: #fff;
+  font: 0.8rem/1.3 system-ui, sans-serif;
+  text-align: left;
+}
+
+.layout-toolbar strong {
+  font-size: 0.95rem;
+}
+
+.layout-toolbar small {
+  color: rgb(255 255 255 / 75%);
+}
+
+.layout-toolbar label {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.layout-toolbar select,
+.layout-toolbar button {
+  border: 0;
+  border-radius: 5px;
+  padding: 0.4rem;
+  font: inherit;
+}
+
+.layout-toolbar button {
+  background: #dbe7c9;
+  color: #1c3020;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.layout-toolbar code {
+  overflow-wrap: anywhere;
+  color: #dbe7c9;
+  font-size: 0.7rem;
+}
+
 .d-car {
-  top: 8%;
-  right: 6%;
-  width: clamp(4.25rem, 6vw, 6rem);
-  height: clamp(4.25rem, 6vw, 6rem);
+  top: 19.4%;
+  left: 64.7%;
+  right: auto;
+  width: 10.9rem;
+  height: 10.9rem;
 }
 
 .d-bouquet {
-  bottom: 10%;
-  left: 6%;
-  width: clamp(4rem, 5.5vw, 5.5rem);
-  height: clamp(4rem, 5.5vw, 5.5rem);
+  top: 71.4%;
+  left: 11.3%;
+  bottom: auto;
+  width: 7.45rem;
+  height: 7.45rem;
   transform: rotate(-15deg);
 }
 
@@ -220,13 +357,11 @@ onUnmounted(() => ctx?.revert())
   border-radius: 18px;
   background: #fff;
   padding: 16px 16px 34px;
-  box-shadow: 18px 18px 6px rgb(0 0 0 / 45%);
-  transition: translate 350ms ease, box-shadow 350ms ease;
+  transition: translate 350ms ease;
 }
 
 .polaroid-tilt:hover {
   translate: 0 -10px;
-  box-shadow: 24px 24px 12px rgb(0 0 0 / 50%);
 }
 
 .polaroid-tilt .photo-inner {
@@ -255,7 +390,6 @@ onUnmounted(() => ctx?.revert())
   right: 2%;
   left: auto;
   z-index: 2;
-  box-shadow: 22px 22px 9px rgb(0 0 0 / 45%);
   transform: rotate(13deg);
 }
 

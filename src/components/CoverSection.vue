@@ -1,4 +1,5 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { wedding } from '../data/wedding'
 
 const emit = defineEmits(['open'])
@@ -6,24 +7,91 @@ const emit = defineEmits(['open'])
 defineProps({
   guestName: { type: String, default: '' },
 })
+
+// Add ?layout=1 to the URL while developing to enable the decoration editor.
+const layoutMode = new URLSearchParams(window.location.search).get('layout') === '1'
+
+const decorations = ref([
+  { key: 'dove', label: 'Dove', src: '/assets/svg/icon-01.svg', x: 5.3, y: 9.7, size: 6.75, scale: 1 },
+  { key: 'sparkle-1', label: 'Sparkle 1', src: '/assets/svg/icon-03a.svg', x: 12.5, y: 40.8, size: 5, scale: 1 },
+  { key: 'hearts-1', label: 'Hearts 1', src: '/assets/svg/icon-13a.svg', x: 55.1, y: 13.1, size: 3.5, scale: 1.4514 },
+  { key: 'hearts-2', label: 'Hearts 2', src: '/assets/svg/icon-13b.svg', x: 24.2, y: 81.3, size: 3.5, scale: 1.5 },
+  { key: 'sparkle-2', label: 'Sparkle 2', src: '/assets/svg/icon-03b.svg', x: 72.8, y: 15.4, size: 5, scale: 1 },
+  { key: 'cake', label: 'Cake', src: '/assets/svg/icon-06.svg', x: 84.7, y: 37.6, size: 6.25, scale: 1.2496 },
+  { key: 'champagne', label: 'Champagne', src: '/assets/svg/icon-12.svg', x: 4.7, y: 69.4, size: 6.25, scale: 1.6 },
+  { key: 'envelope', label: 'Envelope', src: '/assets/svg/icon-02.svg', x: 65.4, y: 68.9, size: 6.25, scale: 1 },
+  { key: 'hearts-3', label: 'Hearts 3', src: '/assets/svg/icon-03c.svg', x: 83.6, y: 82.7, size: 3.5, scale: 1.6486 },
+])
+
+const selectedKey = ref('cake')
+const heroRef = ref(null)
+const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
+let dragState = null
+
+const decorationStyle = (decoration) => ({
+  left: `${decoration.x}%`,
+  top: `${decoration.y}%`,
+  right: 'auto',
+  bottom: 'auto',
+  width: `${decoration.size * decoration.scale}rem`,
+  height: `${decoration.size * decoration.scale}rem`,
+})
+
+const selectDecoration = (decoration) => {
+  selectedKey.value = decoration.key
+}
+
+const startDrag = (event, decoration) => {
+  if (!layoutMode || !heroRef.value) return
+  event.preventDefault()
+  selectDecoration(decoration)
+  const bounds = heroRef.value.getBoundingClientRect()
+  dragState = { decoration, bounds, pointerId: event.pointerId }
+  event.currentTarget.setPointerCapture(event.pointerId)
+}
+
+const dragDecoration = (event) => {
+  if (!dragState || event.pointerId !== dragState.pointerId) return
+  const { decoration, bounds } = dragState
+  decoration.x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100))
+  decoration.y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100))
+}
+
+const stopDrag = () => {
+  dragState = null
+}
+
+const copyLayout = async () => {
+  const output = decorations.value.reduce((result, decoration) => {
+    result[decoration.key] = {
+      left: `${decoration.x.toFixed(1)}%`,
+      top: `${decoration.y.toFixed(1)}%`,
+      size: `${(decoration.size * decoration.scale).toFixed(2)}rem`,
+    }
+    return result
+  }, {})
+  await navigator.clipboard?.writeText(JSON.stringify(output, null, 2))
+}
 </script>
 
 <template>
   <section class="invitation-container">
     <header class="top-bar">
-      <img src="/logo-fix.png" alt="Wedding logo" class="logo" />
+      <img src="/assets/logo-fix.png" alt="Wedding logo" class="logo" />
     </header>
 
-    <main class="hero-section">
-      <img src="/assets/svg/icon-01.svg" alt="" class="decorative-icon icon-dove" />
-      <img src="/assets/svg/icon-03a.svg" alt="" class="decorative-icon icon-sparkle-1" />
-      <img src="/assets/svg/icon-13a.svg" alt="" class="decorative-icon icon-hearts-1" />
-      <img src="/assets/svg/icon-13b.svg" alt="" class="decorative-icon icon-hearts-2" />
-      <img src="/assets/svg/icon-03b.svg" alt="" class="decorative-icon icon-sparkle-2" />
-      <img src="/assets/svg/icon-06.svg" alt="" class="decorative-icon icon-cake" />
-      <img src="/assets/svg/icon-12.svg" alt="" class="decorative-icon icon-champagne" />
-      <img src="/assets/svg/icon-02.svg" alt="" class="decorative-icon icon-envelope" />
-      <img src="/assets/svg/icon-03c.svg" alt="" class="decorative-icon icon-hearts-3" />
+    <main ref="heroRef" class="hero-section" :class="{ 'layout-mode': layoutMode }" @pointermove="dragDecoration" @pointerup="stopDrag" @pointercancel="stopDrag">
+      <img
+        v-for="decoration in decorations"
+        :key="decoration.key"
+        :src="decoration.src"
+        :alt="decoration.label"
+        class="decorative-icon"
+        :class="`icon-${decoration.key}`"
+        :style="layoutMode ? decorationStyle(decoration) : undefined"
+        @pointerdown="startDrag($event, decoration)"
+        @click="selectDecoration(decoration)"
+      />
 
       <div class="hero-overlay"></div>
 
@@ -43,6 +111,25 @@ defineProps({
           {{ wedding.cover.subtitle }}
         </button>
       </div>
+
+      <aside v-if="layoutMode" class="layout-toolbar" @pointerdown.stop>
+        <strong>Layout editor</strong>
+        <small>Drag ikon untuk memindahkan</small>
+        <label>
+          Ikon
+          <select v-model="selectedKey">
+            <option v-for="decoration in decorations" :key="decoration.key" :value="decoration.key">
+              {{ decoration.label }}
+            </option>
+          </select>
+        </label>
+        <label v-if="selectedDecoration">
+          Scale: {{ selectedDecoration.scale.toFixed(2) }}x
+          <input v-model.number="selectedDecoration.scale" type="range" min="0.4" max="2.5" step="0.05" />
+        </label>
+        <button type="button" @click="copyLayout">Copy layout JSON</button>
+        <code v-if="selectedDecoration">left: {{ selectedDecoration.x.toFixed(1) }}%; top: {{ selectedDecoration.y.toFixed(1) }}%</code>
+      </aside>
 
     </main>
   </section>
@@ -81,7 +168,7 @@ defineProps({
   justify-content: center;
   overflow: hidden;
   padding: var(--page-pad-y) var(--page-pad-x);
-  background: url('../../page_1_cover.png') center / cover no-repeat;
+  background: url('/assets/page_1_cover.png') center / cover no-repeat;
 }
 
 .hero-overlay {
@@ -171,18 +258,82 @@ defineProps({
   will-change: transform, opacity;
 }
 
+.layout-mode .decorative-icon {
+  z-index: 4;
+  cursor: grab;
+  animation: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.layout-mode .decorative-icon:active {
+  cursor: grabbing;
+}
+
+.layout-toolbar {
+  position: absolute;
+  z-index: 10;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: min(230px, calc(100% - 2rem));
+  gap: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 10px;
+  background: rgb(28 48 32 / 92%);
+  padding: 0.8rem;
+  color: #fff;
+  font: 0.8rem/1.3 system-ui, sans-serif;
+  text-align: left;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 25%);
+}
+
+.layout-toolbar strong {
+  font-size: 0.95rem;
+}
+
+.layout-toolbar small {
+  color: rgb(255 255 255 / 75%);
+}
+
+.layout-toolbar label {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.layout-toolbar select,
+.layout-toolbar button {
+  border: 0;
+  border-radius: 5px;
+  padding: 0.4rem;
+  font: inherit;
+}
+
+.layout-toolbar button {
+  background: #dbe7c9;
+  color: #1c3020;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.layout-toolbar code {
+  overflow-wrap: anywhere;
+  color: #dbe7c9;
+  font-size: 0.7rem;
+}
+
 .icon-dove {
   --icon-rotation: -15deg;
-  top: 8%;
-  left: 8%;
+  top: 9.7%;
+  left: 5.3%;
   width: 6.75rem;
   height: 6.75rem;
   animation-delay: -1.2s;
 }
 
 .icon-sparkle-1 {
-  top: 50%;
-  left: 15%;
+  top: 40.8%;
+  left: 12.5%;
   width: 5rem;
   height: 5rem;
   animation: icon-twinkle 3.2s ease-in-out infinite;
@@ -190,26 +341,27 @@ defineProps({
 }
 
 .icon-hearts-1 {
-  top: 20%;
-  left: 45%;
-  width: 3.5rem;
-  height: 3.5rem;
+  top: 13.1%;
+  left: 55.1%;
+  width: 5.08rem;
+  height: 5.08rem;
   animation: icon-pulse 4s ease-in-out infinite;
   animation-delay: -1.5s;
 }
 
 .icon-hearts-2 {
-  bottom: 15%;
-  left: 28%;
-  width: 3.5rem;
-  height: 3.5rem;
+  top: 81.3%;
+  left: 24.2%;
+  width: 5.25rem;
+  height: 5.25rem;
   animation: icon-pulse 4.5s ease-in-out infinite;
   animation-delay: -2.2s;
 }
 
 .icon-sparkle-2 {
-  top: 20%;
-  right: 20%;
+  top: 15.4%;
+  left: 72.8%;
+  right: auto;
   width: 5rem;
   height: 5rem;
   animation: icon-twinkle 3.5s ease-in-out infinite;
@@ -217,35 +369,40 @@ defineProps({
 }
 
 .icon-cake {
-  top: 40%;
-  right: 10%;
-  width: 6.25rem;
-  height: 6.25rem;
+  top: 37.6%;
+  left: 84.7%;
+  right: auto;
+  width: 7.81rem;
+  height: 7.81rem;
   animation-delay: -2.6s;
 }
 
 .icon-champagne {
-  bottom: 10%;
-  left: 8%;
-  width: 6.25rem;
-  height: 6.25rem;
+  top: 69.4%;
+  left: 4.7%;
+  width: 10rem;
+  height: 10rem;
   animation-delay: -0.4s;
 }
 
 .icon-envelope {
   --icon-rotation: -10deg;
-  right: 25%;
-  bottom: 15%;
+  top: 68.9%;
+  left: 65.4%;
+  right: auto;
+  bottom: auto;
   width: 6.25rem;
   height: 6.25rem;
   animation-delay: -1.9s;
 }
 
 .icon-hearts-3 {
-  right: 10%;
-  bottom: 15%;
-  width: 3.5rem;
-  height: 3.5rem;
+  top: 82.7%;
+  left: 83.6%;
+  right: auto;
+  bottom: auto;
+  width: 5.77rem;
+  height: 5.77rem;
   animation: icon-pulse 4.2s ease-in-out infinite;
   animation-delay: -2.8s;
 }
@@ -297,24 +454,9 @@ defineProps({
     min-height: calc(100svh - 90px);
   }
 
-  .decorative-icon {
-    transform: scale(0.85);
-  }
-
   .logo {
     width: 64px;
   }
 
-  .icon-dove {
-    left: 2%;
-  }
-
-  .icon-cake {
-    right: 2%;
-  }
-
-  .icon-envelope {
-    right: 16%;
-  }
 }
 </style>

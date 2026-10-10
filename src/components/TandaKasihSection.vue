@@ -27,6 +27,7 @@ const copyAccount = async (number) => {
           :src="wedding.giftPage.icon"
           alt=""
           class="icon-cake"
+          loading="lazy"
           v-reveal="{ delay: 120, scale: 0.9 }"
         />
 
@@ -46,7 +47,7 @@ const copyAccount = async (number) => {
                 <div class="acc-number">No. Rekening {{ account.number }}</div>
                 <div class="acc-name">a.n. {{ account.holder }}</div>
               </div>
-              <img :src="account.logo" :alt="account.bank" class="bank-logo" />
+              <img :src="account.logo" :alt="account.bank" class="bank-logo" loading="lazy" />
             </div>
 
             <button type="button" class="copy-btn" @click="copyAccount(account.number)">
@@ -77,7 +78,6 @@ const copyAccount = async (number) => {
   background: #dfc0c1;
   padding: 0;
   font-family: 'Blossom', 'Montserrat', sans-serif;
-  box-shadow: 0 -12px 24px rgb(0 0 0 / 18%), 0 12px 24px rgb(0 0 0 / 18%);
 }
 
 .tanda-kasih-container {
@@ -90,7 +90,6 @@ const copyAccount = async (number) => {
   flex-direction: column;
   overflow: hidden;
   background: #7f8963;
-  box-shadow: 0 4px 15px rgb(255 255 255 / 10%);
 }
 
 .top-section {

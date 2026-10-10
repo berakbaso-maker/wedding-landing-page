@@ -102,7 +102,7 @@ onUnmounted(() => ctx?.revert())
             :aria-label="`Perbesar foto utama ${pageIndex + 1}`"
             @click="openLightbox(pagePhotos[pageIndex], pagePhotos[pageIndex].length - 1)"
           >
-            <img :src="page.featured" :alt="`Foto galeri utama ${pageIndex + 1}`" />
+            <img :src="page.featured" :alt="`Foto galeri utama ${pageIndex + 1}`" loading="lazy" />
           </button>
         </div>
       </div>
@@ -140,7 +140,6 @@ onUnmounted(() => ctx?.revert())
   flex-direction: column;
   overflow: hidden;
   background: #7f8963;
-  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
 }
 
 .grid-container {
@@ -187,13 +186,11 @@ onUnmounted(() => ctx?.revert())
   background: #fff;
   padding: 16px 16px 32px;
   cursor: zoom-in;
-  box-shadow: 18px 18px 6px rgb(0 0 0 / 45%);
 }
 
 .polaroid-grid:hover,
 .large-card:hover {
   translate: 0 -6px;
-  box-shadow: 22px 22px 9px rgb(0 0 0 / 50%);
 }
 
 .polaroid-grid .photo-inner {
@@ -219,7 +216,6 @@ onUnmounted(() => ctx?.revert())
   background: #dcb8b9;
   cursor: zoom-in;
   padding: 0;
-  box-shadow: 0 12px 24px rgb(0 0 0 / 22%);
 }
 
 .large-card img {

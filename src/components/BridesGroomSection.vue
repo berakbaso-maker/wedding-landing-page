@@ -1,4 +1,5 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { wedding } from '../data/wedding'
 
 const { groom, bride, logo, quote, quoteSource, tagline } = wedding.bridesGroom
@@ -9,18 +10,79 @@ const people = [
 ]
 
 const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
+
+// Add ?layout=brides-groom while developing to position these decorations.
+const layoutMode = new URLSearchParams(window.location.search).get('layout') === 'brides-groom'
+const containerRef = ref(null)
+const selectedKey = ref('doodle-8')
+const decorations = ref(wedding.bridesGroom.decorations.map((src, index) => ({
+  key: `doodle-${index + 1}`,
+  label: `Doodle ${index + 1}`,
+  src,
+  x: [-5, 98.2, 99.5, 1.3, 90.2, 43.6, 99.4, -5, -5, 97.6, -5, -5][index],
+  y: [1.1, 5.8, 64.7, 91, 53.5, 90.4, 36, 18.9, 51.1, 86.8, 39.4, 70][index],
+  size: [9.05, 9.2, 9.25, 7.65, 5, 8.95, 7.85, 8.1, 6.65, 7.95, 7.6, 5][index],
+})))
+
+const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
+let dragState = null
+
+const decorationStyle = (decoration) => ({
+  left: `${decoration.x}%`,
+  top: `${decoration.y}%`,
+  right: 'auto',
+  bottom: 'auto',
+  width: `${decoration.size}rem`,
+  height: `${decoration.size}rem`,
+})
+
+const startDrag = (event, decoration) => {
+  if (!layoutMode || !containerRef.value) return
+  event.preventDefault()
+  selectedKey.value = decoration.key
+  const bounds = containerRef.value.getBoundingClientRect()
+  dragState = { decoration, bounds, pointerId: event.pointerId }
+  event.currentTarget.setPointerCapture(event.pointerId)
+}
+
+const dragDecoration = (event) => {
+  if (!dragState || event.pointerId !== dragState.pointerId) return
+  const { decoration, bounds } = dragState
+  decoration.x = Math.max(-5, Math.min(105, ((event.clientX - bounds.left) / bounds.width) * 100))
+  decoration.y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100))
+}
+
+const stopDrag = () => {
+  dragState = null
+}
+
+const copyLayout = async () => {
+  const output = decorations.value.reduce((result, decoration) => {
+    result[decoration.key] = {
+      left: `${decoration.x.toFixed(1)}%`,
+      top: `${decoration.y.toFixed(1)}%`,
+      size: `${decoration.size.toFixed(2)}rem`,
+    }
+    return result
+  }, {})
+  await navigator.clipboard?.writeText(JSON.stringify(output, null, 2))
+}
 </script>
 
 <template>
   <section id="brides-groom" class="brides-groom-page">
-    <div class="brides-groom-container">
+    <div ref="containerRef" class="brides-groom-container" :class="{ 'layout-mode': layoutMode }" @pointermove="dragDecoration" @pointerup="stopDrag" @pointercancel="stopDrag">
       <img
-        v-for="(decoration, index) in wedding.bridesGroom.decorations"
-        :key="decoration"
-        :src="decoration"
+        v-for="decoration in decorations"
+        :key="decoration.key"
+        :src="decoration.src"
         alt=""
         class="doodle"
-        :class="`doodle-${index + 1}`"
+        loading="lazy"
+        :class="decoration.key"
+        :style="layoutMode ? decorationStyle(decoration) : undefined"
+        @pointerdown="startDrag($event, decoration)"
+        @click="selectedKey = decoration.key"
       />
 
       <div class="profiles-section">
@@ -28,11 +90,11 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
           <div class="intro-grid">
             <div class="intro-left">
               <p class="intro-tagline">{{ tagline }}</p>
-              <img :src="personIllustration" alt="" class="intro-person" />
+              <img :src="personIllustration" alt="" class="intro-person" loading="lazy" />
             </div>
 
             <div class="intro-right">
-              <img :src="logo" alt="Logo" class="intro-monogram" />
+              <img :src="logo" alt="Logo" class="intro-monogram" loading="lazy" />
               <p class="intro-quote">{{ quote }}</p>
               <p class="intro-source">{{ quoteSource }}</p>
             </div>
@@ -58,6 +120,7 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
                   :src="person.image"
                   :alt="`${person.role} - ${person.name}`"
                   class="profile-photo"
+                  loading="lazy"
                 />
                </div>
                <h3 class="profile-name">{{ person.name }}</h3>
@@ -65,6 +128,25 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
              </article>
           </div>
         </div>
+
+        <aside v-if="layoutMode" class="layout-toolbar" @pointerdown.stop>
+          <strong>Brides &amp; Groom editor</strong>
+          <small>Drag doodle untuk memindahkan</small>
+          <label>
+            Doodle
+            <select v-model="selectedKey">
+              <option v-for="decoration in decorations" :key="decoration.key" :value="decoration.key">
+                {{ decoration.label }}
+              </option>
+            </select>
+          </label>
+          <label v-if="selectedDecoration">
+            Size: {{ selectedDecoration.size.toFixed(2) }}rem
+            <input v-model.number="selectedDecoration.size" type="range" min="2" max="12" step="0.05" />
+          </label>
+          <button type="button" @click="copyLayout">Copy layout JSON</button>
+          <code v-if="selectedDecoration">left: {{ selectedDecoration.x.toFixed(1) }}%; top: {{ selectedDecoration.y.toFixed(1) }}%</code>
+        </aside>
       </div>
     </div>
   </section>
@@ -321,18 +403,82 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
   will-change: transform, opacity;
 }
 
-.doodle-1 { top: 3%; left: 3%; animation-delay: -0.6s; }
-.doodle-2 { top: 29%; left: -1%; animation: bride-doodle-pulse 4.2s ease-in-out infinite; animation-delay: -1.4s; }
-.doodle-3 { top: 56%; left: 2%; animation-delay: -2.3s; }
-.doodle-4 { bottom: 5%; left: 4%; animation: bride-doodle-twinkle 3.4s ease-in-out infinite; animation-delay: -0.9s; }
-.doodle-5 { top: 18%; left: 16%; animation: bride-doodle-twinkle 3.6s ease-in-out infinite; animation-delay: -2.1s; }
-.doodle-6 { bottom: 7%; left: 42%; animation: bride-doodle-pulse 4.4s ease-in-out infinite; animation-delay: -3s; }
-.doodle-7 { top: 3%; right: 3%; animation-delay: -1.8s; }
-.doodle-8 { top: 29%; right: -1%; animation: bride-doodle-pulse 4s ease-in-out infinite; animation-delay: -2.6s; }
-.doodle-9 { top: 56%; right: 2%; animation-delay: -0.3s; }
-.doodle-10 { bottom: 5%; right: 4%; animation: bride-doodle-twinkle 3.3s ease-in-out infinite; animation-delay: -1.7s; }
-.doodle-11 { top: 18%; right: 16%; animation: bride-doodle-pulse 4.5s ease-in-out infinite; animation-delay: -2.9s; }
-.doodle-12 { bottom: 7%; right: 42%; animation: bride-doodle-twinkle 3.7s ease-in-out infinite; animation-delay: -1.2s; }
+.layout-mode .doodle {
+  z-index: 4;
+  cursor: grab;
+  animation: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.layout-mode .doodle:active {
+  cursor: grabbing;
+}
+
+.layout-toolbar {
+  position: fixed;
+  z-index: 20;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: min(230px, calc(100% - 2rem));
+  gap: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 10px;
+  background: rgb(28 48 32 / 92%);
+  padding: 0.8rem;
+  color: #fff;
+  font: 0.8rem/1.3 system-ui, sans-serif;
+  text-align: left;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 25%);
+}
+
+.layout-toolbar strong {
+  font-size: 0.95rem;
+}
+
+.layout-toolbar small {
+  color: rgb(255 255 255 / 75%);
+}
+
+.layout-toolbar label {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.layout-toolbar select,
+.layout-toolbar button {
+  border: 0;
+  border-radius: 5px;
+  padding: 0.4rem;
+  font: inherit;
+}
+
+.layout-toolbar button {
+  background: #dbe7c9;
+  color: #1c3020;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.layout-toolbar code {
+  overflow-wrap: anywhere;
+  color: #dbe7c9;
+  font-size: 0.7rem;
+}
+
+.doodle-1 { top: 1.1%; left: -5%; width: 9.05rem; height: 9.05rem; animation-delay: -0.6s; }
+.doodle-2 { top: 5.8%; left: 98.2%; width: 9.2rem; height: 9.2rem; animation: bride-doodle-pulse 4.2s ease-in-out infinite; animation-delay: -1.4s; }
+.doodle-3 { top: 64.7%; left: 99.5%; width: 9.25rem; height: 9.25rem; animation-delay: -2.3s; }
+.doodle-4 { top: 91%; left: 1.3%; width: 7.65rem; height: 7.65rem; animation: bride-doodle-twinkle 3.4s ease-in-out infinite; animation-delay: -0.9s; }
+.doodle-5 { top: 53.5%; left: 90.2%; animation: bride-doodle-twinkle 3.6s ease-in-out infinite; animation-delay: -2.1s; }
+.doodle-6 { top: 90.4%; left: 43.6%; width: 8.95rem; height: 8.95rem; animation: bride-doodle-pulse 4.4s ease-in-out infinite; animation-delay: -3s; }
+.doodle-7 { top: 36%; left: 99.4%; right: auto; width: 7.85rem; height: 7.85rem; animation-delay: -1.8s; }
+.doodle-8 { top: 18.9%; left: -5%; right: auto; width: 8.1rem; height: 8.1rem; animation: bride-doodle-pulse 4s ease-in-out infinite; animation-delay: -2.6s; }
+.doodle-9 { top: 51.1%; left: -5%; right: auto; width: 6.65rem; height: 6.65rem; animation-delay: -0.3s; }
+.doodle-10 { top: 86.8%; left: 97.6%; right: auto; width: 7.95rem; height: 7.95rem; animation: bride-doodle-twinkle 3.3s ease-in-out infinite; animation-delay: -1.7s; }
+.doodle-11 { top: 39.4%; left: -5%; right: auto; width: 7.6rem; height: 7.6rem; animation: bride-doodle-pulse 4.5s ease-in-out infinite; animation-delay: -2.9s; }
+.doodle-12 { top: 70%; left: -5%; animation: bride-doodle-twinkle 3.7s ease-in-out infinite; animation-delay: -1.2s; }
 
 @keyframes bride-doodle-float {
   0%,
@@ -389,17 +535,12 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
     padding: clamp(36px, 10vw, 55px);
   }
 
-  .doodle {
-    width: 3.5rem;
-    height: 3.5rem;
-  }
-
   .doodle-2 {
-    left: -0.75rem;
+    left: 98.2%;
   }
 
   .doodle-8 {
-    right: -0.75rem;
+    left: -5%;
   }
 }
 </style>

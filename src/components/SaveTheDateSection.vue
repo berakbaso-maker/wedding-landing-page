@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { wedding } from '../data/wedding'
 import { useCountdown } from '../composables/useCountdown'
 
@@ -18,6 +18,64 @@ const calendarDays = Array.from({ length: 30 }, (_, index) => index + 1)
 const leadingEmptyDays = 6
 
 const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
+
+// Add ?layout=save-date while developing to position the right-panel decorations.
+const layoutMode = new URLSearchParams(window.location.search).get('layout') === 'save-date'
+const rightPanelRef = ref(null)
+const selectedKey = ref('cake')
+const decorations = ref([
+  { key: 'sparkle-top', label: 'Sparkle top', src: '/assets/svg/icon-03a.svg', x: 85.1, y: 7.3, size: 6.25 },
+  { key: 'hearts-left', label: 'Hearts left', src: '/assets/svg/icon-13a.svg', x: 1.7, y: 15.5, size: 6.65 },
+  { key: 'cake', label: 'Cake', src: '/assets/svg/icon-06.svg', x: 88, y: 33, size: 7 },
+  { key: 'champagne', label: 'Champagne', src: '/assets/svg/icon-12.svg', x: 0.4, y: 48.6, size: 6.5 },
+  { key: 'hearts-right', label: 'Hearts right', src: '/assets/svg/icon-13b.svg', x: 87.3, y: 66.2, size: 6.45 },
+  { key: 'sparkle-bottom', label: 'Sparkle bottom', src: '/assets/svg/icon-03b.svg', x: 6, y: 78.3, size: 5.8 },
+  { key: 'rose', label: 'Rose', src: '/assets/save-the-date/icon8-1-57.png', x: 77.8, y: 84.4, size: 6.75 },
+])
+
+const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
+let dragState = null
+
+const decorationStyle = (decoration) => ({
+  left: `${decoration.x}%`,
+  top: `${decoration.y}%`,
+  right: 'auto',
+  bottom: 'auto',
+  width: `${decoration.size}rem`,
+  height: `${decoration.size}rem`,
+})
+
+const startDrag = (event, decoration) => {
+  if (!layoutMode || !rightPanelRef.value) return
+  event.preventDefault()
+  selectedKey.value = decoration.key
+  const bounds = rightPanelRef.value.getBoundingClientRect()
+  dragState = { decoration, bounds, pointerId: event.pointerId }
+  event.currentTarget.setPointerCapture(event.pointerId)
+}
+
+const dragDecoration = (event) => {
+  if (!dragState || event.pointerId !== dragState.pointerId) return
+  const { decoration, bounds } = dragState
+  decoration.x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100))
+  decoration.y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100))
+}
+
+const stopDrag = () => {
+  dragState = null
+}
+
+const copyLayout = async () => {
+  const output = decorations.value.reduce((result, decoration) => {
+    result[decoration.key] = {
+      left: `${decoration.x.toFixed(1)}%`,
+      top: `${decoration.y.toFixed(1)}%`,
+      size: `${decoration.size.toFixed(2)}rem`,
+    }
+    return result
+  }, {})
+  await navigator.clipboard?.writeText(JSON.stringify(output, null, 2))
+}
 </script>
 
 <template>
@@ -31,41 +89,17 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
         />
       </div>
 
-      <div class="right-panel">
+      <div ref="rightPanelRef" class="right-panel" :class="{ 'layout-mode': layoutMode }" @pointermove="dragDecoration" @pointerup="stopDrag" @pointercancel="stopDrag">
         <img
-          src="/assets/svg/icon-03a.svg"
-          alt=""
-          class="icon-doodle d-sparkle-top"
-        />
-        <img
-          src="/assets/svg/icon-13a.svg"
-          alt=""
-          class="icon-doodle d-hearts-left"
-        />
-        <img
-          src="/assets/svg/icon-06.svg"
-          alt=""
-          class="icon-doodle d-cake"
-        />
-        <img
-          src="/assets/svg/icon-12.svg"
-          alt=""
-          class="icon-doodle d-champagne"
-        />
-        <img
-          src="/assets/svg/icon-13b.svg"
-          alt=""
-          class="icon-doodle d-hearts-right"
-        />
-        <img
-          src="/assets/svg/icon-03b.svg"
-          alt=""
-          class="icon-doodle d-sparkle-bottom"
-        />
-        <img
-          src="/assets/save-the-date/icon8-1-57.png"
-          alt=""
-          class="icon-doodle d-rose"
+          v-for="decoration in decorations"
+          :key="decoration.key"
+          :src="decoration.src"
+          :alt="decoration.label"
+          class="icon-doodle"
+          :class="`d-${decoration.key}`"
+          :style="layoutMode ? decorationStyle(decoration) : undefined"
+          @pointerdown="startDrag($event, decoration)"
+          @click="selectedKey = decoration.key"
         />
 
         <h2 class="title" v-reveal="{ y: 20 }">
@@ -115,6 +149,25 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
 
           <p class="countdown-footer">{{ wedding.saveTheDate.countdownLabel }}</p>
         </div>
+
+        <aside v-if="layoutMode" class="layout-toolbar" @pointerdown.stop>
+          <strong>Save the date editor</strong>
+          <small>Drag ikon untuk memindahkan</small>
+          <label>
+            Ikon
+            <select v-model="selectedKey">
+              <option v-for="decoration in decorations" :key="decoration.key" :value="decoration.key">
+                {{ decoration.label }}
+              </option>
+            </select>
+          </label>
+          <label v-if="selectedDecoration">
+            Size: {{ selectedDecoration.size.toFixed(2) }}rem
+            <input v-model.number="selectedDecoration.size" type="range" min="2" max="12" step="0.05" />
+          </label>
+          <button type="button" @click="copyLayout">Copy layout JSON</button>
+          <code v-if="selectedDecoration">left: {{ selectedDecoration.x.toFixed(1) }}%; top: {{ selectedDecoration.y.toFixed(1) }}%</code>
+        </aside>
       </div>
     </div>
   </section>
@@ -334,63 +387,132 @@ const isAccentDay = (day) => wedding.saveTheDate.accentDays.includes(day)
   will-change: transform, opacity;
 }
 
+.layout-mode .icon-doodle {
+  z-index: 4;
+  cursor: grab;
+  animation: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.layout-mode .icon-doodle:active {
+  cursor: grabbing;
+}
+
+.layout-toolbar {
+  position: absolute;
+  z-index: 10;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: min(230px, calc(100% - 2rem));
+  gap: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 10px;
+  background: rgb(28 48 32 / 92%);
+  padding: 0.8rem;
+  color: #fff;
+  font: 0.8rem/1.3 system-ui, sans-serif;
+  text-align: left;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 25%);
+}
+
+.layout-toolbar strong {
+  font-size: 0.95rem;
+}
+
+.layout-toolbar small {
+  color: rgb(255 255 255 / 75%);
+}
+
+.layout-toolbar label {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.layout-toolbar select,
+.layout-toolbar button {
+  border: 0;
+  border-radius: 5px;
+  padding: 0.4rem;
+  font: inherit;
+}
+
+.layout-toolbar button {
+  background: #dbe7c9;
+  color: #1c3020;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.layout-toolbar code {
+  overflow-wrap: anywhere;
+  color: #dbe7c9;
+  font-size: 0.7rem;
+}
+
 .d-sparkle-top {
-  top: 6%;
-  right: 3%;
-  width: clamp(4rem, 5.5vw, 5.5rem);
-  height: clamp(4rem, 5.5vw, 5.5rem);
+  top: 7.3%;
+  left: 85.1%;
+  right: auto;
+  width: 6.25rem;
+  height: 6.25rem;
   animation: date-icon-twinkle 3.2s ease-in-out infinite;
 }
 
 .d-hearts-left {
-  top: 20%;
-  left: 3%;
-  width: clamp(3.75rem, 4.5vw, 4.75rem);
-  height: clamp(3.75rem, 4.5vw, 4.75rem);
+  top: 15.5%;
+  left: 1.7%;
+  width: 6.65rem;
+  height: 6.65rem;
   animation: date-icon-pulse 4s ease-in-out infinite;
   animation-delay: -1.2s;
 }
 
 .d-cake {
-  top: 31%;
-  right: 2%;
-  width: clamp(5.5rem, 7vw, 7rem);
-  height: clamp(5.5rem, 7vw, 7rem);
+  top: 33%;
+  left: 88%;
+  right: auto;
+  width: 7rem;
+  height: 7rem;
   animation-delay: -2s;
 }
 
 .d-champagne {
-  top: 47%;
-  left: 2%;
-  width: clamp(5rem, 6.5vw, 6.5rem);
-  height: clamp(5rem, 6.5vw, 6.5rem);
+  top: 48.6%;
+  left: 0.4%;
+  width: 6.5rem;
+  height: 6.5rem;
   animation-delay: -0.6s;
 }
 
 .d-hearts-right {
-  right: 3%;
-  bottom: 32%;
-  width: clamp(3.75rem, 4.5vw, 4.75rem);
-  height: clamp(3.75rem, 4.5vw, 4.75rem);
+  top: 66.2%;
+  left: 87.3%;
+  right: auto;
+  bottom: auto;
+  width: 6.45rem;
+  height: 6.45rem;
   animation: date-icon-pulse 4.4s ease-in-out infinite;
   animation-delay: -2.4s;
 }
 
 .d-sparkle-bottom {
-  bottom: auto;
-  top: 73%;
-  left: 3%;
-  width: clamp(4rem, 5vw, 5rem);
-  height: clamp(4rem, 5vw, 5rem);
+  top: 78.3%;
+  left: 6%;
+  width: 5.8rem;
+  height: 5.8rem;
   animation: date-icon-twinkle 3.6s ease-in-out infinite;
   animation-delay: -1.8s;
 }
 
 .d-rose {
-  right: 2%;
-  bottom: 5%;
-  width: clamp(5.25rem, 6.5vw, 6.75rem);
-  height: clamp(5.25rem, 6.5vw, 6.75rem);
+  top: 84.4%;
+  left: 77.8%;
+  right: auto;
+  bottom: auto;
+  width: 6.75rem;
+  height: 6.75rem;
   animation-delay: -3s;
 }
 

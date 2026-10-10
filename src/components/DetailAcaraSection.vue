@@ -178,10 +178,11 @@ const styleFor = (deco) => ({
           <img :src="photo" :alt="`Foto detail acara ${index + 1}`" class="photo-inner" loading="lazy" />
         </div>
 
-        <img
-          :src="wedding.detailAcara.image"
-          alt="Detail acara"
-          class="main-image"
+           <img
+             :src="wedding.detailAcara.image"
+             alt="Detail acara"
+             class="main-image"
+             loading="lazy"
           v-reveal="{ delay: 160 }"
         />
 
@@ -203,7 +204,7 @@ const styleFor = (deco) => ({
           class="event-col"
           v-reveal="{ delay: 120 + index * 100, y: 28 }"
         >
-          <img :src="event.icon" :alt="event.name" class="event-icon" />
+          <img :src="event.icon" :alt="event.name" class="event-icon" loading="lazy" />
           <h3 class="event-name">{{ event.name }}</h3>
           <p class="event-time">{{ event.time }}</p>
           <p class="event-date">{{ event.date }}</p>
@@ -247,6 +248,7 @@ const styleFor = (deco) => ({
           :src="wedding.detailAcara.denahImage"
           alt="Denah lokasi"
           class="denah-image"
+          loading="lazy"
           v-reveal="{ delay: 80 }"
         />
 
@@ -312,7 +314,6 @@ const styleFor = (deco) => ({
   position: absolute;
   transform-origin: center center;
   opacity: 0.9;
-  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 20%));
 }
 
 .deco-img {
@@ -354,7 +355,6 @@ const styleFor = (deco) => ({
   background: #476d4d;
   cursor: nwse-resize;
   pointer-events: auto;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
 }
 
 .deco-toolbar {
@@ -372,7 +372,6 @@ const styleFor = (deco) => ({
   font-family: 'Roboto', 'Montserrat', sans-serif;
   font-size: 0.85rem;
   transform: translateX(-50%);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
 }
 
 .deco-toolbar__hint {
@@ -409,7 +408,6 @@ const styleFor = (deco) => ({
   font-family: 'Allura', cursive;
   font-size: clamp(3.5rem, 8vw, 5.25rem);
   font-weight: 400;
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
 }
 
 .polaroid-stage {
@@ -424,7 +422,6 @@ const styleFor = (deco) => ({
   width: min(52%, 420px);
   margin: 0 auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 24px rgb(0 0 0 / 25%));
 }
 
 .polaroid-card {
@@ -437,13 +434,11 @@ const styleFor = (deco) => ({
   border-radius: 12px;
   background: #fff;
   padding: 12px 12px 26px;
-  box-shadow: 18px 18px 6px rgb(0 0 0 / 45%);
-  transition: translate 350ms ease, box-shadow 350ms ease, transform 350ms ease;
+  transition: translate 350ms ease, transform 350ms ease;
 }
 
 .polaroid-card:hover {
   translate: 0 -8px;
-  box-shadow: 22px 22px 9px rgb(0 0 0 / 50%);
 }
 
 .polaroid-card .photo-inner {
@@ -522,7 +517,6 @@ const styleFor = (deco) => ({
   font-family: 'Allura', cursive;
   font-size: clamp(2.25rem, 4.5vw, 3.25rem);
   font-weight: 400;
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
 }
 
 .event-time,
@@ -544,7 +538,7 @@ const styleFor = (deco) => ({
   margin: 0.75rem 0 0;
   width: min(100%, 380px);
   font-family: 'Blossom', 'Montserrat', sans-serif;
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-size: clamp(0.95rem, 1.45vw, 1.1rem);
   line-height: 1.5;
   opacity: 0.9;
 }
@@ -554,7 +548,6 @@ const styleFor = (deco) => ({
   font-family: 'Allura', cursive;
   font-size: clamp(3.5rem, 8vw, 5.25rem);
   font-weight: 400;
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 10%);
 }
 
 .denah-image {
@@ -578,7 +571,6 @@ const styleFor = (deco) => ({
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  box-shadow: 0 8px 18px rgb(0 0 0 / 20%);
   transition: transform 300ms ease, opacity 300ms ease;
 }
 

@@ -131,7 +131,7 @@ export const wedding = {
       },
     ],
     mapsLabel: 'Click Here for Google Maps',
-    mapsUrl: 'https://maps.google.com/?q=',
+    mapsUrl: 'https://maps.app.goo.gl/XPRjcqMWeGNqpRgG6',
     closingMessage: 'You are my today and all of my tomorrows.',
   },
 
