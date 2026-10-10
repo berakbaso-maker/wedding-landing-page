@@ -760,6 +760,73 @@ const copyLayout = async () => {
   }
 }
 
+/* Wider phones and compact tablets need a roomier calendar than the
+   condensed phone layout above. */
+@media (min-width: 560px) and (max-width: 700px) {
+  .right-panel {
+    gap: 1.1rem;
+    padding: 3rem 1.5rem 2.5rem;
+  }
+
+  .title {
+    margin-bottom: 0.5rem;
+    font-size: 4rem;
+  }
+
+  .calendar-container {
+    width: min(100%, 540px);
+    padding: 1rem 1.4rem;
+  }
+
+  .calendar-header {
+    margin-bottom: 0.65rem;
+    font-size: 2rem;
+  }
+
+  .calendar-grid {
+    gap: 0.4rem 0.75rem;
+    font-size: 1rem;
+  }
+
+  .day-name {
+    margin-bottom: 0.35rem;
+    font-size: 0.75rem;
+  }
+
+  .day {
+    min-height: 28px;
+  }
+
+  .highlight-day span {
+    width: 30px;
+    height: 30px;
+  }
+
+  .countdown-title {
+    margin-bottom: 0.55rem;
+    font-size: 1.3rem;
+  }
+
+  .countdown-blocks {
+    gap: 0.75rem;
+  }
+
+  .digit {
+    padding: 0.5rem 0.7rem;
+    font-size: 1.7rem;
+  }
+
+  .unit-label,
+  .countdown-footer {
+    font-size: 0.8rem;
+  }
+
+  .icon-doodle {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
   .title {
     font-size: clamp(1.8rem, 6vh, 2.4rem);
