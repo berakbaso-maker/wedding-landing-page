@@ -543,8 +543,9 @@ const copyLayout = async () => {
   }
 
   .p-2 {
-    top: 48%;
+    top: 44%;
     right: 5%;
+    margin-bottom: 1.25rem;
   }
 
   .subtitle {

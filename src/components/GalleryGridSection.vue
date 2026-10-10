@@ -285,9 +285,11 @@ onUnmounted(() => ctx?.revert())
   .large-card {
     grid-column: 1;
     grid-row: 4;
-    width: 100%;
+    width: calc(100% + clamp(2rem, 8vw, 4rem));
+    margin-inline: calc(-1 * clamp(1rem, 4vw, 2rem));
     min-height: 420px;
     aspect-ratio: 1 / 1.2;
+    border-radius: 0;
   }
 }
 
