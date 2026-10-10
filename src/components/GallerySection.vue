@@ -480,4 +480,39 @@ const copyLayout = async () => {
     font-size: 1rem;
   }
 }
+
+/* On smaller screens, show the gallery message and polaroids first, followed
+   by the couple illustration. This keeps the visual flow readable without
+   changing the desktop two-column composition. */
+@media (max-width: 900px) {
+  .intro-container {
+    height: auto;
+  }
+
+  .top-section {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .top-right {
+    order: 1;
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+  }
+
+  .top-left {
+    order: 2;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1808 / 2212;
+  }
+
+  .top-illustration {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+}
 </style>
