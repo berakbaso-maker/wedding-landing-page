@@ -523,11 +523,11 @@ const copyLayout = async () => {
   .polaroid-stack {
     top: 50%;
     width: min(92%, 520px);
-    height: clamp(300px, 52vw, 380px);
+    height: clamp(340px, 58vw, 420px);
   }
 
   .polaroid-tilt {
-    width: clamp(132px, 30vw, 220px);
+    width: clamp(155px, 36vw, 245px);
     height: auto;
     aspect-ratio: 1 / 1.15;
     padding: clamp(8px, 1.5vw, 14px) clamp(8px, 1.5vw, 14px) clamp(20px, 3vw, 30px);
@@ -544,8 +544,9 @@ const copyLayout = async () => {
   }
 
   .subtitle {
-    bottom: 1rem;
+    bottom: 2rem;
     width: min(92%, 680px);
+    margin-bottom: 0.5rem;
     font-size: clamp(1.2rem, 2.8vw, 1.6rem);
     line-height: 1.45;
   }
