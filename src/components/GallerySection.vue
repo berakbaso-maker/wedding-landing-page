@@ -503,7 +503,7 @@ const copyLayout = async () => {
   }
 
   .title {
-    font-size: clamp(2.9rem, 9vw, 3.7rem);
+    font-size: clamp(3.15rem, 10vw, 4.1rem);
   }
 
   .top-left {
@@ -518,6 +518,10 @@ const copyLayout = async () => {
     height: 100%;
     object-fit: contain;
     object-position: center;
+  }
+
+  .d-bouquet {
+    top: 64%;
   }
 
   .polaroid-stack {
@@ -544,7 +548,7 @@ const copyLayout = async () => {
   }
 
   .subtitle {
-    bottom: 2rem;
+    bottom: 3rem;
     width: min(92%, 680px);
     margin-bottom: 0.5rem;
     font-size: clamp(1.2rem, 2.8vw, 1.6rem);
