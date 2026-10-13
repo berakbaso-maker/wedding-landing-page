@@ -642,7 +642,8 @@ const styleFor = (deco) => ({
   .polaroid-stage {
     overflow: visible;
     gap: 2rem 1.25rem;
-    padding: 0.75rem 0.5rem 1.5rem;
+    padding: 0.75rem 0.5rem 2.5rem;
+    margin-bottom: 3rem;
   }
 
   .polaroid-card {
