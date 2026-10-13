@@ -15,7 +15,6 @@ const guestName = new URLSearchParams(window.location.search).get('to') || ''
 const { scrollTo } = useSmoothScroll()
 
 const backgroundAudio = ref(null)
-const MUSIC_STORAGE_KEY = 'wedding-music-enabled'
 let musicStarted = false
 
 const startBackgroundMusic = () => {
@@ -25,7 +24,6 @@ const startBackgroundMusic = () => {
   audio.play()
     .then(() => {
       musicStarted = true
-      localStorage.setItem(MUSIC_STORAGE_KEY, 'true')
     })
     .catch(() => {
       // Browsers may still block autoplay despite the saved preference.
@@ -33,11 +31,7 @@ const startBackgroundMusic = () => {
 }
 
 onMounted(() => {
-  const musicWasEnabled = localStorage.getItem(MUSIC_STORAGE_KEY) === 'true'
-
-  if (musicWasEnabled) {
-    startBackgroundMusic()
-  }
+  startBackgroundMusic()
 
   window.addEventListener('pointerdown', startBackgroundMusic, { once: true })
   window.addEventListener('keydown', startBackgroundMusic, { once: true })

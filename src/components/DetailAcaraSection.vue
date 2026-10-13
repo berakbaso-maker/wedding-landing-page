@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import { wedding } from '../data/wedding'
 
-const STORAGE_KEY = 'detail-acara-deco'
 const isEdit =
   typeof window !== 'undefined' &&
   new URLSearchParams(window.location.search).get('edit') === '1'
@@ -14,35 +13,6 @@ const decoDefaults = [
 ]
 
 const decoItems = ref(decoDefaults.map((d) => ({ ...d })))
-
-// muat posisi tersimpan dari localStorage (kalau ada)
-onMounted(() => {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null')
-    if (Array.isArray(saved) && saved.length === decoItems.value.length) {
-      decoItems.value = decoItems.value.map((item, i) => ({ ...item, ...saved[i] }))
-    }
-
-    const cameraIndex = decoItems.value.findIndex(
-      (item) => item.group === 'denah' && item.src.includes('camera_assets.png'),
-    )
-    if (cameraIndex !== -1 && decoItems.value[cameraIndex].x !== 71.3) {
-      decoItems.value[cameraIndex].x = 71.3
-      save()
-    }
-  } catch {
-    /* ignore */
-  }
-})
-
-const save = () => {
-  try {
-    const data = decoItems.value.map(({ x, y, size, rotate }) => ({ x, y, size, rotate }))
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  } catch {
-    /* ignore */
-  }
-}
 
 // --- drag pindah ---
 let dragState = null
@@ -73,7 +43,6 @@ const onPointerMove = (event) => {
 const onPointerUp = (event) => {
   if (!dragState || dragState.pointerId !== event.pointerId) return
   dragState = null
-  save()
 }
 
 // --- resize ---
@@ -102,12 +71,10 @@ const onResizeMove = (event) => {
 const onResizeUp = (event) => {
   if (!resizeState || resizeState.pointerId !== event.pointerId) return
   resizeState = null
-  save()
 }
 
 const resetDeco = () => {
   decoItems.value = decoDefaults.map((d) => ({ ...d }))
-  save()
 }
 
 const copyJson = async () => {
