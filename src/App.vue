@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useSmoothScroll } from './composables/useSmoothScroll'
 import CoverSection from './components/CoverSection.vue'
 import SaveTheDateSection from './components/SaveTheDateSection.vue'
@@ -13,10 +14,49 @@ const guestName = new URLSearchParams(window.location.search).get('to') || ''
 
 const { scrollTo } = useSmoothScroll()
 
+const backgroundAudio = ref(null)
+const MUSIC_STORAGE_KEY = 'wedding-music-enabled'
+let musicStarted = false
+
+const startBackgroundMusic = () => {
+  const audio = backgroundAudio.value
+  if (!audio || musicStarted) return
+
+  audio.play()
+    .then(() => {
+      musicStarted = true
+      localStorage.setItem(MUSIC_STORAGE_KEY, 'true')
+    })
+    .catch(() => {
+      // Browsers may still block autoplay despite the saved preference.
+    })
+}
+
+onMounted(() => {
+  const musicWasEnabled = localStorage.getItem(MUSIC_STORAGE_KEY) === 'true'
+
+  if (musicWasEnabled) {
+    startBackgroundMusic()
+  }
+
+  window.addEventListener('pointerdown', startBackgroundMusic, { once: true })
+  window.addEventListener('keydown', startBackgroundMusic, { once: true })
+  window.addEventListener('touchstart', startBackgroundMusic, { once: true })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('pointerdown', startBackgroundMusic)
+  window.removeEventListener('keydown', startBackgroundMusic)
+  window.removeEventListener('touchstart', startBackgroundMusic)
+})
+
 const open = () => scrollTo('#save-the-date')
 </script>
 
 <template>
+  <audio ref="backgroundAudio" autoplay loop preload="auto" aria-hidden="true">
+    <source src="/assets/music/daylight_fix.mp3" type="audio/mpeg" />
+  </audio>
   <CoverSection :guest-name="guestName" @open="open" />
   <SaveTheDateSection />
   <BridesGroomSection />

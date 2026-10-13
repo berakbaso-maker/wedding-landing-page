@@ -22,6 +22,14 @@ onMounted(() => {
     if (Array.isArray(saved) && saved.length === decoItems.value.length) {
       decoItems.value = decoItems.value.map((item, i) => ({ ...item, ...saved[i] }))
     }
+
+    const cameraIndex = decoItems.value.findIndex(
+      (item) => item.group === 'denah' && item.src.includes('camera_assets.png'),
+    )
+    if (cameraIndex !== -1 && decoItems.value[cameraIndex].x !== 71.3) {
+      decoItems.value[cameraIndex].x = 71.3
+      save()
+    }
   } catch {
     /* ignore */
   }
@@ -583,7 +591,7 @@ const styleFor = (deco) => ({
 .closing-message {
   position: relative;
   z-index: 2;
-  margin: clamp(2rem, 5vh, 3.5rem) 0 0;
+  margin: 0.75rem 0 0;
   width: min(100%, 620px);
   font-family: 'Blossom', 'Montserrat', sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.35rem);
