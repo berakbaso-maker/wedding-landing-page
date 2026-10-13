@@ -635,8 +635,14 @@ const styleFor = (deco) => ({
 }
 
 @media (max-width: 581px) {
+  .detail-acara-container {
+    overflow: visible;
+  }
+
   .polaroid-stage {
-    gap: 1.75rem 1.25rem;
+    overflow: visible;
+    gap: 2rem 1.25rem;
+    padding: 0.75rem 0.5rem 1.5rem;
   }
 
   .polaroid-card {
