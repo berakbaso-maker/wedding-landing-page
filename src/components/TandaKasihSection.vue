@@ -246,11 +246,21 @@ const copyAccount = async (number) => {
   }
 
   .bank-header {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .bank-details {
+    flex: 1;
+    min-width: 0;
   }
 
   .bank-logo {
-    align-self: flex-end;
+    width: clamp(90px, 25vw, 125px);
+    max-height: 55px;
+    align-self: center;
   }
 }
 </style>

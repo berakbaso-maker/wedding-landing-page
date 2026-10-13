@@ -428,12 +428,13 @@ const styleFor = (deco) => ({
   position: absolute;
   display: flex;
   box-sizing: border-box;
-  width: clamp(150px, 16vw, 230px);
+  width: clamp(155px, 15vw, 225px);
   aspect-ratio: 1 / 1.1;
   overflow: hidden;
   border-radius: 12px;
   background: #fff;
   padding: 12px 12px 26px;
+  box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
   transition: translate 350ms ease, transform 350ms ease;
 }
 
@@ -455,31 +456,31 @@ const styleFor = (deco) => ({
 
 /* posisi: 2 card di kiri, 2 card di kanan */
 .left-1 {
-  top: -4%;
-  left: 4%;
+  top: -6%;
+  left: 3%;
   z-index: 2;
-  transform: rotate(-6deg);
+  transform: rotate(-9deg);
 }
 
 .left-2 {
-  bottom: -14%;
-  left: 4%;
+  bottom: -11%;
+  left: 7%;
   z-index: 1;
-  transform: rotate(6deg);
+  transform: rotate(5deg);
 }
 
 .right-1 {
-  top: -18%;
-  right: 4%;
+  top: -15%;
+  right: 7%;
   z-index: 2;
-  transform: rotate(9deg);
+  transform: rotate(12deg);
 }
 
 .right-2 {
-  bottom: -12%;
-  right: 4%;
+  bottom: -15%;
+  right: 2%;
   z-index: 1;
-  transform: rotate(-7deg);
+  transform: rotate(-10deg);
 }
 
 .events-section {
@@ -622,6 +623,37 @@ const styleFor = (deco) => ({
 
   .deco-layer--edit {
     display: block;
+  }
+}
+
+@media (max-width: 581px) {
+  .polaroid-stage {
+    gap: 1.75rem 1.25rem;
+  }
+
+  .polaroid-card {
+    width: calc(100% - 0.75rem);
+  }
+
+  .polaroid-card.left-1 {
+    transform: rotate(-7deg) translate(-4px, 2px);
+  }
+
+  .polaroid-card.left-2 {
+    transform: rotate(5deg) translate(3px, -2px);
+  }
+
+  .polaroid-card.right-1 {
+    transform: rotate(8deg) translate(-3px, 3px);
+  }
+
+  .polaroid-card.right-2 {
+    transform: rotate(-6deg) translate(4px, -3px);
+  }
+
+  .event-col:first-child .event-icon {
+    width: clamp(165px, 42vw, 210px);
+    height: clamp(165px, 42vw, 210px);
   }
 }
 

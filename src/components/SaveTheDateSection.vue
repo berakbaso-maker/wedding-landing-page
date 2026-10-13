@@ -853,4 +853,32 @@ const copyLayout = async () => {
     font-size: 1.3rem;
   }
 }
+
+@media (max-width: 375px) {
+  .title {
+    margin-top: 0.75rem;
+    font-size: clamp(2.2rem, 10vw, 3rem);
+  }
+}
+
+@media (min-width: 375px) and (max-width: 547px) {
+  .right-panel {
+    margin-top: 0;
+  }
+
+  .title {
+    margin-top: 1rem;
+    font-size: clamp(2.4rem, 9vw, 3.2rem);
+  }
+}
+
+/* Keep the artwork centered and cropped on very narrow screens. */
+@media (max-width: 308px) {
+  .left-panel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+}
 </style>

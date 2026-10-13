@@ -452,6 +452,9 @@ const copyLayout = async () => {
 @media (max-width: 640px) {
   .hero-section {
     min-height: calc(100svh - 90px);
+    background-image: url('/assets/main_cover_vertical.png');
+    background-position: center center;
+    background-size: cover;
   }
 
   .logo {

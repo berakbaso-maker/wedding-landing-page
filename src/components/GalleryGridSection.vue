@@ -39,7 +39,7 @@ onMounted(() => {
     gsap.utils.toArray('.album-sheet').forEach((sheet) => {
       gsap.fromTo(
         sheet,
-        { rotateY: -14, opacity: 0.25, transformOrigin: 'left center' },
+        { rotateY: -14, opacity: 1, transformOrigin: 'left center' },
         {
           rotateY: 0,
           opacity: 1,
@@ -173,6 +173,8 @@ onUnmounted(() => ctx?.revert())
 }
 
 .gallery-grid-1 {
+  column-gap: clamp(2.75rem, 5vw, 4.5rem);
+  row-gap: clamp(2.75rem, 5vw, 4.5rem);
   padding: clamp(28px, 4vw, 48px);
 }
 
@@ -184,7 +186,8 @@ onUnmounted(() => ctx?.revert())
   border: 0;
   border-radius: 18px;
   background: #fff;
-  padding: 16px 16px 32px;
+  padding: 20px 20px 40px;
+  box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
   cursor: zoom-in;
 }
 
@@ -214,6 +217,7 @@ onUnmounted(() => ctx?.revert())
   border: 0;
   border-radius: 18px;
   background: #dcb8b9;
+  box-shadow: none;
   cursor: zoom-in;
   padding: 0;
 }
@@ -290,6 +294,10 @@ onUnmounted(() => ctx?.revert())
     min-height: 420px;
     aspect-ratio: 1 / 1.2;
     border-radius: 0;
+  }
+
+  .gallery-grid-1 {
+    row-gap: clamp(2rem, 6vw, 3rem);
   }
 }
 

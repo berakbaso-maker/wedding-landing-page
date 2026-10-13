@@ -357,6 +357,7 @@ const copyLayout = async () => {
   border-radius: 18px;
   background: #fff;
   padding: 16px 16px 34px;
+  box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
   transition: translate 350ms ease;
 }
 
@@ -554,6 +555,32 @@ const copyLayout = async () => {
     margin-bottom: 0.5rem;
     font-size: clamp(1.2rem, 2.8vw, 1.6rem);
     line-height: 1.45;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 547px) {
+  .d-car,
+  .d-bouquet {
+    width: 7.45rem;
+    height: 7.45rem;
+  }
+
+  .polaroid-tilt {
+    width: 165px;
+    height: 195px;
+    padding: 11px 11px 27px;
+    box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
+  }
+
+  .p-2 {
+    top: 34%;
+  }
+}
+
+@media (max-width: 681px) {
+  .subtitle {
+    margin-top: 1rem;
+    bottom: 1.5rem;
   }
 }
 </style>
