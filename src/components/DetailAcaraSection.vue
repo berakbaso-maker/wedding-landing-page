@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { wedding } from '../data/wedding'
 
 const isEdit =
@@ -8,8 +8,7 @@ const isEdit =
 
 // posisi default dari wedding.js, di-clone supaya bisa diubah
 const decoDefaults = [
-  ...wedding.detailAcara.decorations.map((d) => ({ ...d, group: 'acara' })),
-  ...wedding.detailAcara.denahDecorations.map((d) => ({ ...d, group: 'denah' })),
+  ...wedding.detailAcara.decorations.map((d) => ({ ...d })),
 ]
 
 const decoItems = ref(decoDefaults.map((d) => ({ ...d })))
@@ -49,7 +48,7 @@ const onPointerUp = (event) => {
 let resizeState = null
 
 const onResizeDown = (event, index) => {
-  if (!isEdit) return
+  event.stopPropagation()
   resizeState = {
     index,
     startX: event.clientX,
@@ -57,15 +56,14 @@ const onResizeDown = (event, index) => {
     pointerId: event.pointerId,
   }
   event.currentTarget.setPointerCapture(event.pointerId)
-  event.stopPropagation()
   event.preventDefault()
 }
 
 const onResizeMove = (event) => {
   if (!resizeState || resizeState.pointerId !== event.pointerId) return
   const delta = event.clientX - resizeState.startX
-  const next = Math.max(24, Math.min(400, Math.round(resizeState.startSize + delta)))
-  decoItems.value[resizeState.index].size = next
+  const newSize = Math.max(30, Math.min(300, Math.round(resizeState.startSize + delta)))
+  decoItems.value[resizeState.index].size = newSize
 }
 
 const onResizeUp = (event) => {
@@ -78,39 +76,33 @@ const resetDeco = () => {
 }
 
 const copyJson = async () => {
-  const acara = decoItems.value
-    .filter((d) => d.group === 'acara')
-    .map((d) => ({ src: d.src, x: d.x, y: d.y, size: d.size, rotate: d.rotate }))
-  const denah = decoItems.value
-    .filter((d) => d.group === 'denah')
-    .map((d) => ({ src: d.src, x: d.x, y: d.y, size: d.size, rotate: d.rotate }))
-  const json = JSON.stringify({ decorations: acara, denahDecorations: denah }, null, 2)
+  const json = JSON.stringify(
+    decoItems.value.map(({ src, x, y, size, rotate }) => ({ src, x, y, size, rotate })),
+    null,
+    2,
+  )
   try {
     await navigator.clipboard.writeText(json)
-    alert('JSON posisi dekorasi sudah dicopy ke clipboard.')
+    alert('JSON konfigurasi dekorasi tersalin ke clipboard!')
   } catch {
     console.log(json)
-    alert('Gagal akses clipboard — JSON ditampilkan di console.')
+    alert('Lihat console untuk melihat JSON dekorasi.')
   }
 }
-
-onUnmounted(() => {
-  dragState = null
-  resizeState = null
-})
 
 const styleFor = (deco) => ({
   left: `${deco.x}%`,
   top: `${deco.y}%`,
   width: `${deco.size}px`,
   height: `${deco.size}px`,
-  transform: `translate(-50%, -50%) rotate(${deco.rotate}deg)`,
+  transform: `translate(-50%, -50%) rotate(${deco.rotate || 0}deg)`,
 })
 </script>
 
 <template>
   <section id="detail-acara" class="detail-acara-page">
     <div class="detail-acara-container">
+      <!-- Layer Doodles / Dekorasi Keseluruhan -->
       <div
         class="deco-layer"
         :class="{ 'deco-layer--edit': isEdit }"
@@ -118,68 +110,55 @@ const styleFor = (deco) => ({
         @pointermove="isEdit ? onPointerMove($event) : null"
         @pointerup="isEdit ? onPointerUp($event) : null"
       >
-        <template
+        <div
           v-for="(deco, index) in decoItems"
           :key="`deco-${index}`"
+          class="deco"
+          :class="{ 'deco--edit': isEdit }"
+          :style="styleFor(deco)"
         >
-          <div v-if="deco.group === 'acara'" class="deco" :class="{ 'deco--edit': isEdit }" :style="styleFor(deco)">
-            <img
-              :src="deco.src"
-              alt=""
-              class="deco-img"
-              @pointerdown="isEdit ? onPointerDown($event, index) : null"
-            />
-            <span
-              v-if="isEdit"
-              class="resize-handle"
-              @pointerdown="onResizeDown($event, index)"
-              @pointermove="onResizeMove($event)"
-              @pointerup="onResizeUp($event)"
-            ></span>
-          </div>
-        </template>
+          <img
+            :src="deco.src"
+            alt=""
+            class="deco-img"
+            @pointerdown="isEdit ? onPointerDown($event, index) : null"
+          />
+          <span
+            v-if="isEdit"
+            class="resize-handle"
+            @pointerdown="onResizeDown($event, index)"
+            @pointermove="onResizeMove($event)"
+            @pointerup="onResizeUp($event)"
+          ></span>
+        </div>
       </div>
 
-      <h2 class="title" v-reveal="{ y: 18 }">{{ wedding.detailAcara.title }}</h2>
+      <!-- Judul Bagian -->
+      <h2 class="title reveal" v-reveal="{ y: 18 }">
+        {{ wedding.detailAcara.title }}
+      </h2>
 
-      <div class="polaroid-stage">
-        <div
-          v-for="(photo, index) in wedding.detailAcara.leftPhotos"
-          :key="`left-${index}`"
-          class="polaroid-card"
-          :class="`left-${index + 1}`"
-          v-reveal="{ delay: 120 + index * 80, scale: 0.94 }"
-        >
-          <img :src="photo" :alt="`Foto detail acara ${index + 1}`" class="photo-inner" loading="lazy" />
-        </div>
-
-           <img
-             :src="wedding.detailAcara.image"
-             alt="Detail acara"
-             class="main-image"
-             loading="lazy"
-          v-reveal="{ delay: 160 }"
+      <!-- Ilustrasi Lengkungan Pernikahan Utama (Sesuai Desain Figma) -->
+      <div class="main-illustration-wrapper reveal" v-reveal="{ delay: 140 }">
+        <img
+          :src="wedding.detailAcara.image"
+          alt="Detail Acara & Alamat"
+          class="main-image"
+          loading="lazy"
         />
-
-        <div
-          v-for="(photo, index) in wedding.detailAcara.rightPhotos"
-          :key="`right-${index}`"
-          class="polaroid-card"
-          :class="`right-${index + 1}`"
-          v-reveal="{ delay: 200 + index * 80, scale: 0.94 }"
-        >
-          <img :src="photo" :alt="`Foto detail acara ${index + 3}`" class="photo-inner" loading="lazy" />
-        </div>
       </div>
 
+      <!-- Sesi Acara: Akad Nikah & Resepsi -->
       <div class="events-section">
         <div
           v-for="(event, index) in wedding.detailAcara.events"
           :key="event.name"
-          class="event-col"
+          class="event-col reveal"
           v-reveal="{ delay: 120 + index * 100, y: 28 }"
         >
-          <img :src="event.icon" :alt="event.name" class="event-icon" loading="lazy" />
+          <div class="event-icon-box">
+            <img :src="event.icon" :alt="event.name" class="event-icon" loading="lazy" />
+          </div>
           <h3 class="event-name">{{ event.name }}</h3>
           <p class="event-time">{{ event.time }}</p>
           <p class="event-date">{{ event.date }}</p>
@@ -187,42 +166,16 @@ const styleFor = (deco) => ({
         </div>
       </div>
 
+      <!-- Sesi Denah Lokasi & Maps -->
       <div class="denah-section">
-        <div
-          class="deco-layer"
-          :class="{ 'deco-layer--edit': isEdit }"
-          aria-hidden="true"
-          @pointermove="isEdit ? onPointerMove($event) : null"
-          @pointerup="isEdit ? onPointerUp($event) : null"
-        >
-          <template
-            v-for="(deco, index) in decoItems"
-            :key="`denah-deco-${index}`"
-          >
-            <div v-if="deco.group === 'denah'" class="deco" :class="{ 'deco--edit': isEdit }" :style="styleFor(deco)">
-              <img
-                :src="deco.src"
-                alt=""
-                class="deco-img"
-                @pointerdown="isEdit ? onPointerDown($event, index) : null"
-              />
-              <span
-                v-if="isEdit"
-                class="resize-handle"
-                @pointerdown="onResizeDown($event, index)"
-                @pointermove="onResizeMove($event)"
-                @pointerup="onResizeUp($event)"
-              ></span>
-            </div>
-          </template>
-        </div>
-
-        <p class="denah-label" v-reveal="{ y: 16 }">{{ wedding.detailAcara.denahLabel }}</p>
+        <h2 class="denah-label reveal" v-reveal="{ y: 16 }">
+          {{ wedding.detailAcara.denahLabel }}
+        </h2>
 
         <img
           :src="wedding.detailAcara.denahImage"
-          alt="Denah lokasi"
-          class="denah-image"
+          alt="Denah Lokasi"
+          class="denah-image reveal"
           loading="lazy"
           v-reveal="{ delay: 80 }"
         />
@@ -231,20 +184,22 @@ const styleFor = (deco) => ({
           :href="wedding.detailAcara.mapsUrl"
           target="_blank"
           rel="noopener"
-          class="maps-btn"
+          class="maps-btn reveal"
           v-reveal="{ delay: 160 }"
         >
           {{ wedding.detailAcara.mapsLabel }}
         </a>
       </div>
 
-      <p class="closing-message" v-reveal="{ delay: 220 }">
+      <!-- Pesan Penutup Acara -->
+      <p class="closing-message reveal" v-reveal="{ delay: 220 }">
         {{ wedding.detailAcara.closingMessage }}
       </p>
     </div>
 
+    <!-- Toolbar Drag & Edit Posisi (?edit=1) -->
     <div v-if="isEdit" class="deco-toolbar">
-      <span class="deco-toolbar__hint">Mode Tata Letak — drag untuk pindah, tarik kotak untuk ukuran</span>
+      <span class="deco-toolbar__hint">Mode Tata Letak — drag untuk pindah, tarik titik untuk ukuran</span>
       <button type="button" class="deco-btn" @click="resetDeco">Reset</button>
       <button type="button" class="deco-btn deco-btn--primary" @click="copyJson">Copy JSON</button>
     </div>
@@ -268,27 +223,27 @@ const styleFor = (deco) => ({
   display: flex;
   box-sizing: border-box;
   width: 100%;
-  max-width: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 5vw, 4rem);
+  padding: clamp(3.5rem, 7vh, 6rem) clamp(1rem, 4vw, 3.5rem);
   color: #fff;
   text-align: center;
 }
 
+/* LAYER DOODLES / DEKORASI */
 .deco-layer {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
 .deco {
   position: absolute;
   transform-origin: center center;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .deco-img {
@@ -297,9 +252,10 @@ const styleFor = (deco) => ({
   height: 100%;
   object-fit: contain;
   pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 10%));
 }
 
-/* mode edit: dekorasi bisa di-drag & di-resize */
+/* Mode edit dekorasi */
 .deco-layer--edit {
   pointer-events: none;
 }
@@ -329,14 +285,13 @@ const styleFor = (deco) => ({
   border-radius: 50%;
   background: #476d4d;
   cursor: nwse-resize;
-  pointer-events: auto;
 }
 
 .deco-toolbar {
   position: fixed;
-  z-index: 9999;
+  bottom: 1.5rem;
   left: 50%;
-  bottom: 1.25rem;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -369,103 +324,46 @@ const styleFor = (deco) => ({
   color: #fff;
 }
 
-.denah-section {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: clamp(2rem, 5vw, 3rem) 0;
-}
-
+/* JUDUL UTAMA DETAIL ACARA */
 .title {
   position: relative;
   z-index: 2;
   margin: 0 0 clamp(2rem, 5vh, 3.5rem);
   font-family: 'Allura', cursive;
-  font-size: clamp(3.5rem, 8vw, 5.25rem);
+  font-size: clamp(4.5rem, 9.5vw, 6.85rem);
   font-weight: 400;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 1px 1px 4px rgb(0 0 0 / 14%);
 }
 
-.polaroid-stage {
+/* ILUSTRASI UTAMA (ARCH LENGKUNGAN PENGANTIN) */
+.main-illustration-wrapper {
   position: relative;
   z-index: 2;
-  width: min(100%, 1320px);
-  margin: 0 auto clamp(2.5rem, 6vh, 4rem);
+  width: min(92%, 680px);
+  margin: 0 auto clamp(3rem, 6vh, 5rem);
 }
 
 .main-image {
   display: block;
-  width: min(52%, 420px);
+  width: 100%;
+  height: auto;
   margin: 0 auto;
   object-fit: contain;
 }
 
-.polaroid-card {
-  position: absolute;
-  display: flex;
-  box-sizing: border-box;
-  width: clamp(155px, 15vw, 225px);
-  aspect-ratio: 1 / 1.1;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #fff;
-  padding: 12px 12px 26px;
-  box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
-  transition: translate 350ms ease, transform 350ms ease;
-}
-
-.polaroid-card:hover {
-  translate: 0 -8px;
-}
-
-.polaroid-card .photo-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 7px;
-  object-fit: cover;
-  transition: transform 600ms ease;
-}
-
-.polaroid-card:hover .photo-inner {
-  transform: scale(1.05);
-}
-
-/* posisi: 2 card di kiri, 2 card di kanan */
-.left-1 {
-  top: -6%;
-  left: 3%;
-  z-index: 2;
-  transform: rotate(-9deg);
-}
-
-.left-2 {
-  bottom: -11%;
-  left: 7%;
-  z-index: 1;
-  transform: rotate(5deg);
-}
-
-.right-1 {
-  top: -15%;
-  right: 7%;
-  z-index: 2;
-  transform: rotate(12deg);
-}
-
-.right-2 {
-  bottom: -15%;
-  right: 2%;
-  z-index: 1;
-  transform: rotate(-10deg);
-}
-
+/* DAFTAR ACARA (AKAD NIKAH & RESEPSI) */
 .events-section {
   position: relative;
   z-index: 2;
   display: grid;
-  width: min(100%, 1100px);
+  width: min(100%, 1280px);
   grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1.5rem, 4vw, 3rem);
-  margin: clamp(2.5rem, 6vh, 4rem) auto clamp(2.5rem, 6vh, 4rem);
+  gap: clamp(4rem, 10vw, 10rem);
+  margin: 0 auto clamp(3.5rem, 7vh, 5.5rem);
+  align-items: start;
+  box-sizing: border-box;
 }
 
 .event-col {
@@ -476,176 +374,197 @@ const styleFor = (deco) => ({
   color: #fff;
 }
 
+/* WADAH IKON DENGAN TINGGI SERAGAM SUPAYA TEKS DI KEDUA KOLOM SEJAJAR SEMPURNA */
+.event-icon-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: clamp(190px, 23vw, 270px);
+}
+
 .event-icon {
-  width: clamp(150px, 17vw, 230px);
-  height: clamp(150px, 17vw, 230px);
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
-/* area ikon sama tinggi agar teks tiap kolom tetap sejajar */
-.event-col:nth-child(2) .event-icon {
-  width: clamp(100px, 11vw, 150px);
-  height: clamp(150px, 17vw, 230px);
+/* Logo merpati diperbesar sesuai permintaan */
+.event-col:first-child .event-icon,
+.event-icon[src*="merpati"] {
+  width: clamp(230px, 27vw, 340px);
+  max-height: clamp(180px, 21vw, 260px);
+}
+
+/* Logo cincin proporsional dan sejajar */
+.event-col:nth-child(2) .event-icon,
+.event-icon[src*="cincin"] {
+  width: clamp(200px, 24vw, 300px);
+  max-height: clamp(155px, 19vw, 225px);
 }
 
 .event-name {
-  margin: 0 0 0.75rem;
+  margin: 1.25rem 0 0.75rem;
   font-family: 'Allura', cursive;
-  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  font-size: clamp(3.25rem, 6.5vw, 4.85rem);
   font-weight: 400;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px rgb(0 0 0 / 12%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.25em;
 }
 
 .event-time,
 .event-date {
   margin: 0;
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-family: 'Marcellus', serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.95rem);
   line-height: 1.5;
+  color: #ffffff;
 }
 
 .event-time {
-  font-family: 'Marcellus', serif;
+  margin-bottom: 0.35rem;
 }
 
 .event-date {
-  font-family: 'Blossom', 'Montserrat', sans-serif;
+  margin-bottom: 1.25rem;
 }
 
 .event-address {
-  margin: 0.75rem 0 0;
-  width: min(100%, 380px);
-  font-family: 'Blossom', 'Montserrat', sans-serif;
-  font-size: clamp(0.95rem, 1.45vw, 1.1rem);
-  line-height: 1.5;
-  opacity: 0.9;
+  margin: 0;
+  width: min(100%, 460px);
+  font-family: 'Marcellus', serif;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.65;
+  white-space: pre-line;
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+/* DENAH LOKASI & MAPS */
+.denah-section {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
 }
 
 .denah-label {
-  margin: 0;
+  margin: 0 0 clamp(1.75rem, 4vh, 2.75rem);
   font-family: 'Allura', cursive;
-  font-size: clamp(3.5rem, 8vw, 5.25rem);
+  font-size: clamp(4.5rem, 9.5vw, 6.85rem);
   font-weight: 400;
+  color: #ffffff;
+  line-height: 1.15;
+  text-shadow: 1px 1px 3px rgb(0 0 0 / 12%);
 }
 
 .denah-image {
   display: block;
-  width: min(100%, 1200px);
+  width: min(94%, 880px);
   margin: 0 auto;
+  border-radius: clamp(16px, 2vw, 24px);
+  box-shadow: 0 14px 40px rgb(0 0 0 / 18%);
   object-fit: contain;
 }
 
 .maps-btn {
   display: block;
   box-sizing: border-box;
-  width: min(100%, 600px);
-  margin: clamp(1.5rem, 4vh, 2.5rem) auto clamp(0.75rem, 2vh, 1.25rem);
-  border-radius: 6px;
-  background: #476d4d;
-  padding: 1rem 2rem;
+  width: min(94%, 880px);
+  margin: clamp(1.75rem, 3.5vh, 2.5rem) auto 1.5rem;
+  border-radius: 12px;
+  background: #3d5e42;
+  padding: clamp(1rem, 2vh, 1.35rem) 2rem;
   color: #fff;
-  font-family: 'Blossom', 'Montserrat', sans-serif;
-  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
-  font-weight: 600;
+  font-family: 'Marcellus', serif;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 400;
   text-align: center;
   text-decoration: none;
-  transition: transform 300ms ease, opacity 300ms ease;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 22%);
+  transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease;
 }
 
 .maps-btn:hover {
+  background: #355339;
   transform: translateY(-3px);
-  opacity: 0.92;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 28%);
 }
 
 .closing-message {
   position: relative;
   z-index: 2;
-  margin: 0.75rem 0 0;
-  width: min(100%, 620px);
-  font-family: 'Blossom', 'Montserrat', sans-serif;
-  font-size: clamp(1rem, 1.8vw, 1.35rem);
-  line-height: 1.4;
-  opacity: 0.95;
+  margin: 1.5rem auto clamp(2rem, 5vh, 4rem);
+  width: min(100%, 640px);
+  font-family: 'Marcellus', serif;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.5;
+  color: #ffffff;
+  opacity: 0.92;
+  text-align: center;
 }
 
-@media (max-width: 720px) {
-  .polaroid-stage {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .main-image {
-    grid-column: 1 / -1;
-    order: -1;
-    width: min(80%, 320px);
-    margin-bottom: 1rem;
-  }
-
-  .polaroid-card {
-    position: static;
-    width: 100%;
-    transform: none;
-  }
-
+/* RESPONSIVE MOBILE & TABLET */
+@media (max-width: 860px) {
   .events-section {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 3.5rem;
   }
 
-  .deco-layer {
+  .main-illustration-wrapper {
+    width: 95%;
+  }
+
+  .title,
+  .denah-label {
+    font-size: clamp(3.8rem, 16vw, 5rem);
+  }
+
+  .event-name {
+    font-size: clamp(3rem, 13vw, 4rem);
+  }
+
+  .event-time,
+  .event-date {
+    font-size: 1.35rem;
+  }
+
+  .event-address {
+    font-size: 1.05rem;
+    width: 100%;
+  }
+
+  .denah-image,
+  .maps-btn {
+    width: 96%;
+  }
+
+  /* Di layar mobile, perkecil dekorasi background agar tidak menabrak teks acara */
+  .deco {
+    transform: translate(-50%, -50%) scale(0.65) !important;
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 385px) {
+  .deco {
+    transform: translate(-50%, -50%) scale(0.42) !important;
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 340px) {
+  .deco {
     display: none;
-  }
-
-  .deco-layer--edit {
-    display: block;
-  }
-}
-
-@media (max-width: 581px) {
-  .detail-acara-container {
-    overflow: visible;
-  }
-
-  .polaroid-stage {
-    overflow: visible;
-    gap: 2rem 1.25rem;
-    padding: 0.75rem 0.5rem 2.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .polaroid-card {
-    width: calc(100% - 0.75rem);
-  }
-
-  .polaroid-card.left-1 {
-    transform: rotate(-7deg) translate(-4px, 2px);
-  }
-
-  .polaroid-card.left-2 {
-    transform: rotate(5deg) translate(3px, -2px);
-  }
-
-  .polaroid-card.right-1 {
-    transform: rotate(8deg) translate(-3px, 3px);
-  }
-
-  .polaroid-card.right-2 {
-    transform: rotate(-6deg) translate(4px, -3px);
-  }
-
-  .event-col:first-child .event-icon {
-    width: clamp(165px, 42vw, 210px);
-    height: clamp(165px, 42vw, 210px);
-  }
-}
-
-@media (hover: none) {
-  .polaroid-card:hover {
-    translate: 0 0;
-  }
-
-  .polaroid-card:hover .photo-inner {
-    transform: none;
   }
 }
 </style>

@@ -120,6 +120,7 @@ const copyLayout = async () => {
                   :src="person.image"
                   :alt="`${person.role} - ${person.name}`"
                   class="profile-photo"
+                  :class="`photo-${person.role.toLowerCase()}`"
                   loading="lazy"
                 />
                </div>
@@ -181,10 +182,10 @@ const copyLayout = async () => {
 }
 
 .section-title {
-  margin: clamp(2.25rem, 6vh, 3.75rem) 0 clamp(0.15rem, 0.5vh, 0.35rem);
+  margin: clamp(5.5rem, 13vh, 9.5rem) 0 clamp(0.5rem, 1.5vh, 1.25rem);
   color: #fff;
   font-family: 'Allura', cursive;
-  font-size: clamp(3.25rem, 7vw, 5rem);
+  font-size: clamp(3.75rem, 8.5vw, 5.85rem);
   font-weight: 400;
   text-shadow: 1px 1px 3px rgb(0 0 0 / 20%);
 }
@@ -289,22 +290,26 @@ const copyLayout = async () => {
 
 .profiles-wrapper {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   width: 100%;
-  margin-top: clamp(1rem, 3vh, 2rem);
-  align-items: center;
+  margin-top: 0;
+  align-items: stretch;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 1.875rem;
+  gap: clamp(0.5rem, 2vw, 1.875rem);
 }
 
 .profile-card-wrapper {
   position: relative;
   z-index: 2;
   box-sizing: border-box;
-  width: min(100%, 520px);
-  margin: 0 auto;
-  padding: 55px;
+  flex: 1 1 0;
+  max-width: 550px;
+  min-width: 0;
+  margin: 0;
+  padding: clamp(28px, 4.8vw, 55px) clamp(16px, 3.8vw, 42px);
   isolation: isolate;
+  display: flex;
 }
 
 .profile-card {
@@ -312,12 +317,15 @@ const copyLayout = async () => {
   z-index: 1;
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
   margin: 0;
   border: 0;
   border-radius: 10px;
   background: #fff;
-  padding: 15px;
+  padding: clamp(10px, 1.6vw, 16px) clamp(10px, 1.8vw, 18px) clamp(12px, 2vw, 22px);
   box-shadow: 0 10px 20px rgb(0 0 0 / 20%);
+  display: flex;
+  flex-direction: column;
 }
 
 .photo-container {
@@ -332,20 +340,14 @@ const copyLayout = async () => {
 }
 
 .profile-photo {
-  position: absolute;
-  inset: 0;
+  z-index: 1;
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
-}
-
-.profile-photo {
-  z-index: 1;
-  position: relative;
-  inset: auto;
-  width: 100%;
-  height: 100%;
   object-fit: cover;
+  transform: scale(1.32);
+  transform-origin: 50% 24%;
 }
 
 .profile-name,
@@ -365,31 +367,31 @@ const copyLayout = async () => {
 }
 
 .profile-card-wrapper .profile-frame {
-  transform: translateX(-3px) scale(1.06);
+  transform: scale(1.14, 1.05);
   transform-origin: center;
 }
 
 .profile-name {
-  margin: 0 0 6px;
-  color: #2c3e23;
-  font-size: 2.15rem;
-  font-weight: 400;
+  margin: 0 0 clamp(6px, 1.2vh, 10px);
+  color: #1e331b;
+  font-size: clamp(1.45rem, 2.2vw, 2.65rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
 }
 
 .profile-parents {
-  min-height: 0;
+  min-height: 3.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding-bottom: 8px;
-  color: #666;
-  font-size: 1.3rem;
-  line-height: 1.5;
-}
-
-.profile-card-wrapper:nth-child(2) .profile-name {
-  font-size: 2.3rem;
-}
-
-.profile-card-wrapper:nth-child(2) .profile-parents {
-  font-size: 1.4rem;
+  color: #384535;
+  font-size: clamp(0.95rem, 1.35vw, 1.5rem);
+  font-weight: 450;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  white-space: pre-line;
 }
 
 .doodle {
@@ -521,18 +523,40 @@ const copyLayout = async () => {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 860px) {
   .brides-groom-page {
-    padding: 1rem;
+    padding: 1.5rem 0.75rem;
   }
 
   .profiles-wrapper {
     flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    width: 100%;
   }
 
   .profile-card-wrapper {
-    width: min(100%, 440px);
-    padding: clamp(36px, 10vw, 55px);
+    flex: none;
+    width: 100%;
+    max-width: min(100%, 440px);
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 48px) clamp(18px, 4vw, 36px);
+  }
+
+  .profile-name {
+    font-size: clamp(1.65rem, 5vw, 2.35rem);
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .profile-parents {
+    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+    font-weight: 450;
+    color: #384535;
+    line-height: 1.55;
+    min-height: auto;
+    padding-bottom: 8px;
   }
 
   .intro-left {
@@ -573,6 +597,51 @@ const copyLayout = async () => {
 
   .doodle-8 {
     left: -5%;
+  }
+
+  .doodle {
+    width: clamp(2.5rem, 6.5vw, 3.2rem);
+    height: clamp(2.5rem, 6.5vw, 3.2rem);
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card-wrapper {
+    max-width: 100%;
+    padding: clamp(26px, 7vw, 38px) clamp(16px, 4.5vw, 26px);
+  }
+
+  .profile-name {
+    font-size: clamp(1.5rem, 5.8vw, 1.95rem);
+    margin-bottom: 6px;
+  }
+
+  .profile-parents {
+    font-size: clamp(1rem, 3.8vw, 1.2rem);
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 385px) {
+  .profile-name {
+    font-size: clamp(1.38rem, 5.2vw, 1.65rem);
+  }
+
+  .profile-parents {
+    font-size: clamp(0.92rem, 3.5vw, 1.05rem);
+  }
+
+  .doodle {
+    width: 2.1rem;
+    height: 2.1rem;
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 340px) {
+  .doodle {
+    display: none;
   }
 }
 </style>

@@ -12,15 +12,15 @@ defineProps({
 const layoutMode = new URLSearchParams(window.location.search).get('layout') === '1'
 
 const decorations = ref([
-  { key: 'dove', label: 'Dove', src: '/assets/svg/icon-01.svg', x: 5.3, y: 9.7, size: 6.75, scale: 1 },
-  { key: 'sparkle-1', label: 'Sparkle 1', src: '/assets/svg/icon-03a.svg', x: 12.5, y: 40.8, size: 5, scale: 1 },
-  { key: 'hearts-1', label: 'Hearts 1', src: '/assets/svg/icon-13a.svg', x: 55.1, y: 13.1, size: 3.5, scale: 1.4514 },
-  { key: 'hearts-2', label: 'Hearts 2', src: '/assets/svg/icon-13b.svg', x: 24.2, y: 81.3, size: 3.5, scale: 1.5 },
-  { key: 'sparkle-2', label: 'Sparkle 2', src: '/assets/svg/icon-03b.svg', x: 72.8, y: 15.4, size: 5, scale: 1 },
-  { key: 'cake', label: 'Cake', src: '/assets/svg/icon-06.svg', x: 84.7, y: 37.6, size: 6.25, scale: 1.2496 },
-  { key: 'champagne', label: 'Champagne', src: '/assets/svg/icon-12.svg', x: 4.7, y: 69.4, size: 6.25, scale: 1.6 },
-  { key: 'envelope', label: 'Envelope', src: '/assets/svg/icon-02.svg', x: 65.4, y: 68.9, size: 6.25, scale: 1 },
-  { key: 'hearts-3', label: 'Hearts 3', src: '/assets/svg/icon-03c.svg', x: 83.6, y: 82.7, size: 3.5, scale: 1.6486 },
+  { key: 'dove', label: 'Dove', src: '/assets/svg/icon-01.svg', x: 6.0, y: 18.0, size: 7.2, scale: 1 },
+  { key: 'sparkle-1', label: 'Sparkle 1', src: '/assets/svg/icon-03a.svg', x: 14.0, y: 50.0, size: 4.6, scale: 1 },
+  { key: 'hearts-1', label: 'Hearts 1', src: '/assets/svg/icon-13a.svg', x: 49.0, y: 14.0, size: 4.8, scale: 1 },
+  { key: 'sparkle-2', label: 'Sparkle 2', src: '/assets/svg/icon-03b.svg', x: 76.0, y: 17.0, size: 4.8, scale: 1 },
+  { key: 'cake', label: 'Cake', src: '/assets/svg/icon-06.svg', x: 83.0, y: 45.0, size: 7.6, scale: 1 },
+  { key: 'champagne', label: 'Champagne', src: '/assets/svg/icon-12.svg', x: 8.0, y: 68.0, size: 9.6, scale: 1 },
+  { key: 'hearts-2', label: 'Hearts 2', src: '/assets/svg/icon-13b.svg', x: 26.0, y: 78.0, size: 4.5, scale: 1 },
+  { key: 'envelope', label: 'Envelope', src: '/assets/svg/icon-02.svg', x: 68.0, y: 74.0, size: 7.0, scale: 1 },
+  { key: 'hearts-3', label: 'Hearts 3', src: '/assets/svg/icon-03c.svg', x: 86.0, y: 78.0, size: 4.5, scale: 1 },
 ])
 
 const selectedKey = ref('cake')
@@ -28,13 +28,26 @@ const heroRef = ref(null)
 const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
 let dragState = null
 
+const titleParts = computed(() => {
+  if (wedding.cover?.titleTop && wedding.cover?.titleBottom) {
+    return { top: wedding.cover.titleTop, bottom: wedding.cover.titleBottom }
+  }
+  const title = wedding.cover?.title || 'The Wedding of Ibnu & Dea'
+  const words = title.split(' ')
+  if (words.length <= 2) return { top: words[0] || '', bottom: words[1] || '' }
+  return {
+    top: words.slice(0, -2).join(' '),
+    bottom: words.slice(-2).join(' '),
+  }
+})
+
 const decorationStyle = (decoration) => ({
   left: `${decoration.x}%`,
   top: `${decoration.y}%`,
   right: 'auto',
   bottom: 'auto',
-  width: `${decoration.size * decoration.scale}rem`,
-  height: `${decoration.size * decoration.scale}rem`,
+  width: `${(decoration.size * decoration.scale).toFixed(2)}rem`,
+  height: `${(decoration.size * decoration.scale).toFixed(2)}rem`,
 })
 
 const selectDecoration = (decoration) => {
@@ -96,8 +109,8 @@ const copyLayout = async () => {
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
-        <p class="hero-title-top">This Kids are</p>
-        <h1 class="hero-title-bottom">Getting Married</h1>
+        <p class="hero-title-top">{{ titleParts.top }}</p>
+        <h1 class="hero-title-bottom">{{ titleParts.bottom }}</h1>
 
         <p v-if="guestName" class="guest-name">
           Kepada: <span>{{ guestName }}</span>
@@ -146,35 +159,36 @@ const copyLayout = async () => {
 
 .top-bar {
   display: flex;
-  min-height: 90px;
+  height: 96px;
+  min-height: 96px;
   align-items: center;
   justify-content: center;
-  background-color: #8c9b74;
+  background-color: #7f8963;
 }
 
 .logo {
   display: block;
-  width: 72px;
-  height: auto;
-  max-height: 82px;
+  height: 68px;
+  width: auto;
+  max-height: 74px;
   object-fit: contain;
 }
 
 .hero-section {
   position: relative;
   display: flex;
-  min-height: calc(100svh - 90px);
+  min-height: calc(100svh - 96px);
   align-items: center;
   justify-content: center;
   overflow: hidden;
   padding: var(--page-pad-y) var(--page-pad-x);
-  background: url('/assets/page_1_cover.png') center / cover no-repeat;
+  background: url('/assets/page_1_cover.png') center center / cover no-repeat;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgb(140 155 116 / 30%);
+  background: rgb(95 110 75 / 36%);
 }
 
 .hero-content {
@@ -183,24 +197,25 @@ const copyLayout = async () => {
   padding: 1rem;
   color: #fff;
   text-align: center;
-  text-shadow: 1px 1px 4px rgb(0 0 0 / 30%);
-}
-
-.hero-title-top,
-.hero-title-bottom {
-  margin: 0;
-  font-family: 'Allura', cursive;
-  font-weight: 400;
+  margin-top: clamp(-3.5rem, -5vh, -2rem);
 }
 
 .hero-title-top {
-  font-size: clamp(3rem, 9vw, 8rem);
+  margin: 0;
+  font-family: 'Allura', cursive;
+  font-weight: 400;
+  font-size: clamp(4.8rem, 11vw, 8rem);
+  line-height: 1.02;
+  text-shadow: 0 2px 14px rgb(0 0 0 / 38%);
 }
 
 .hero-title-bottom {
-  margin-top: 0.25rem;
-  font-size: clamp(3.75rem, 10vw, 5.75rem);
-  line-height: 1;
+  margin: 0.15rem 0 0;
+  font-family: 'Allura', cursive;
+  font-weight: 400;
+  font-size: clamp(5.8rem, 13.5vw, 10rem);
+  line-height: 1.02;
+  text-shadow: 0 2px 14px rgb(0 0 0 / 38%);
 }
 
 .guest-name {
@@ -213,49 +228,37 @@ const copyLayout = async () => {
 }
 
 .invite-btn {
-  margin-top: 2.25rem;
+  margin-top: clamp(2.8rem, 5.5vh, 4.5rem);
   border: 0;
   border-radius: 8px;
-  background-color: #275236;
-  padding: 0.75rem 2.5rem;
+  background-color: #244228;
+  padding: 0.75rem 2.8rem;
   color: #fff;
   cursor: pointer;
-  font-family: 'Ephesis', cursive;
+  font-family: 'Allura', cursive !important;
   font-weight: 400;
-  font-size: clamp(1.75rem, 7vw, 40px);
-  letter-spacing: 0.05em;
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  letter-spacing: 0.02em;
   line-height: 1.2;
-  box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
-  animation: invite-glow 3.5s ease-in-out infinite;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 5px 16px rgb(0 0 0 / 25%);
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 .invite-btn:hover {
-  background-color: #1e3f29;
-  box-shadow: 0 8px 18px rgb(0 0 0 / 28%);
-}
-
-@keyframes invite-glow {
-  0%,
-  100% {
-    box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
-  }
-
-  50% {
-    box-shadow: 0 6px 20px rgb(255 255 255 / 28%);
-  }
+  background-color: #1a331d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgb(0 0 0 / 35%);
 }
 
 .decorative-icon {
   position: absolute;
   z-index: 1;
-  width: 4.25rem;
-  height: 4.25rem;
   object-fit: contain;
-  opacity: 0.9;
-  filter: drop-shadow(1px 1px 2px rgb(0 0 0 / 20%));
+  opacity: 0.95;
+  filter: drop-shadow(1px 2px 4px rgb(0 0 0 / 22%));
   animation: icon-float 5s ease-in-out infinite;
   will-change: transform, opacity;
+  pointer-events: none;
 }
 
 .layout-mode .decorative-icon {
@@ -264,6 +267,7 @@ const copyLayout = async () => {
   animation: none;
   touch-action: none;
   user-select: none;
+  pointer-events: auto;
 }
 
 .layout-mode .decorative-icon:active {
@@ -323,86 +327,82 @@ const copyLayout = async () => {
 }
 
 .icon-dove {
-  --icon-rotation: -15deg;
-  top: 9.7%;
-  left: 5.3%;
-  width: 6.75rem;
-  height: 6.75rem;
+  --icon-rotation: -12deg;
+  top: 18%;
+  left: 6%;
+  width: 7.2rem;
+  height: 7.2rem;
   animation-delay: -1.2s;
 }
 
 .icon-sparkle-1 {
-  top: 40.8%;
-  left: 12.5%;
-  width: 5rem;
-  height: 5rem;
+  top: 50%;
+  left: 14%;
+  width: 4.6rem;
+  height: 4.6rem;
   animation: icon-twinkle 3.2s ease-in-out infinite;
   animation-delay: -0.8s;
 }
 
 .icon-hearts-1 {
-  top: 13.1%;
-  left: 55.1%;
-  width: 5.08rem;
-  height: 5.08rem;
+  --icon-rotation: 4deg;
+  top: 14%;
+  left: 49%;
+  width: 4.8rem;
+  height: 4.8rem;
   animation: icon-pulse 4s ease-in-out infinite;
   animation-delay: -1.5s;
 }
 
-.icon-hearts-2 {
-  top: 81.3%;
-  left: 24.2%;
-  width: 5.25rem;
-  height: 5.25rem;
-  animation: icon-pulse 4.5s ease-in-out infinite;
-  animation-delay: -2.2s;
-}
-
 .icon-sparkle-2 {
-  top: 15.4%;
-  left: 72.8%;
-  right: auto;
-  width: 5rem;
-  height: 5rem;
+  top: 17%;
+  left: 76%;
+  width: 4.8rem;
+  height: 4.8rem;
   animation: icon-twinkle 3.5s ease-in-out infinite;
   animation-delay: -1.8s;
 }
 
 .icon-cake {
-  top: 37.6%;
-  left: 84.7%;
-  right: auto;
-  width: 7.81rem;
-  height: 7.81rem;
+  top: 45%;
+  left: 83%;
+  width: 7.6rem;
+  height: 7.6rem;
   animation-delay: -2.6s;
 }
 
 .icon-champagne {
-  top: 69.4%;
-  left: 4.7%;
-  width: 10rem;
-  height: 10rem;
+  top: 68%;
+  left: 8%;
+  width: 9.6rem;
+  height: 9.6rem;
   animation-delay: -0.4s;
 }
 
+.icon-hearts-2 {
+  --icon-rotation: -4deg;
+  top: 78%;
+  left: 26%;
+  width: 4.5rem;
+  height: 4.5rem;
+  animation: icon-pulse 4.5s ease-in-out infinite;
+  animation-delay: -2.2s;
+}
+
 .icon-envelope {
-  --icon-rotation: -10deg;
-  top: 68.9%;
-  left: 65.4%;
-  right: auto;
-  bottom: auto;
-  width: 6.25rem;
-  height: 6.25rem;
+  --icon-rotation: -12deg;
+  top: 74%;
+  left: 68%;
+  width: 7rem;
+  height: 7rem;
   animation-delay: -1.9s;
 }
 
 .icon-hearts-3 {
-  top: 82.7%;
-  left: 83.6%;
-  right: auto;
-  bottom: auto;
-  width: 5.77rem;
-  height: 5.77rem;
+  top: 78%;
+  left: 86%;
+  width: 4.5rem;
+  height: 4.5rem;
   animation: icon-pulse 4.2s ease-in-out infinite;
   animation-delay: -2.8s;
 }
@@ -414,15 +414,15 @@ const copyLayout = async () => {
   }
 
   50% {
-    transform: translateY(-10px) rotate(var(--icon-rotation, 0deg));
+    transform: translateY(-8px) rotate(var(--icon-rotation, 0deg));
   }
 }
 
 @keyframes icon-twinkle {
   0%,
   100% {
-    opacity: 0.5;
-    transform: scale(0.9) rotate(var(--icon-rotation, 0deg));
+    opacity: 0.6;
+    transform: scale(0.92) rotate(var(--icon-rotation, 0deg));
   }
 
   50% {
@@ -438,7 +438,7 @@ const copyLayout = async () => {
   }
 
   50% {
-    transform: scale(1.12) rotate(var(--icon-rotation, 0deg));
+    transform: scale(1.1) rotate(var(--icon-rotation, 0deg));
   }
 }
 
@@ -449,18 +449,164 @@ const copyLayout = async () => {
   }
 }
 
+/* Responsive Tablet & Mobile */
+@media (max-width: 900px) {
+  /* Kurangi jumlah ikon: sembunyikan ikon bagian tengah/dalam yang menabrak teks */
+  .icon-hearts-1,
+  .icon-sparkle-1,
+  .icon-sparkle-2,
+  .icon-hearts-2,
+  .icon-envelope {
+    display: none;
+  }
+
+  /* Sisakan 4 ikon di 4 sudut luar dengan ukuran yang ramping */
+  .icon-dove {
+    top: 10%;
+    left: 6%;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.75;
+  }
+
+  .icon-cake {
+    top: 12%;
+    left: auto;
+    right: 6%;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.75;
+  }
+
+  .icon-champagne {
+    top: auto;
+    bottom: 8%;
+    left: 6%;
+    width: 4.8rem;
+    height: 4.8rem;
+    opacity: 0.75;
+  }
+
+  .icon-hearts-3 {
+    top: auto;
+    bottom: 8%;
+    left: auto;
+    right: 6%;
+    width: 3rem;
+    height: 3rem;
+    opacity: 0.75;
+  }
+}
+
 @media (max-width: 640px) {
   .hero-section {
-    min-height: calc(100svh - 90px);
+    min-height: calc(100svh - 80px);
     background-image: url('/assets/main_cover_vertical.png');
     background-position: center center;
     background-size: cover;
   }
 
-  .logo {
-    width: 64px;
+  .top-bar {
+    height: 80px;
+    min-height: 80px;
   }
 
+  .logo {
+    height: 54px;
+  }
+
+  .hero-content {
+    margin-top: -2rem;
+  }
+
+  .hero-title-top {
+    font-size: clamp(3.6rem, 15vw, 5rem);
+  }
+
+  .hero-title-bottom {
+    font-size: clamp(4.4rem, 18vw, 6.4rem);
+  }
+
+  .invite-btn {
+    margin-top: 2.4rem;
+    font-size: 2.1rem;
+    padding: 0.65rem 2.4rem;
+  }
+
+  /* Ukuran ikon di mobile dibuat lebih kecil agar aman dari teks */
+  .icon-dove {
+    top: 8%;
+    left: 5%;
+    width: 3.2rem;
+    height: 3.2rem;
+    opacity: 0.7;
+  }
+
+  .icon-cake {
+    top: 10%;
+    right: 5%;
+    width: 3.2rem;
+    height: 3.2rem;
+    opacity: 0.7;
+  }
+
+  .icon-champagne {
+    bottom: 6%;
+    left: 5%;
+    width: 3.8rem;
+    height: 3.8rem;
+    opacity: 0.7;
+  }
+
+  .icon-hearts-3 {
+    bottom: 6%;
+    right: 5%;
+    width: 2.5rem;
+    height: 2.5rem;
+    opacity: 0.7;
+  }
+}
+
+/* Penyesuaian khusus layar kecil (<= 385px seperti iPhone 375px) */
+@media (max-width: 385px) {
+  .icon-dove {
+    top: 6%;
+    left: 4%;
+    width: 2.6rem;
+    height: 2.6rem;
+    opacity: 0.6;
+  }
+
+  .icon-cake {
+    top: 8%;
+    right: 4%;
+    width: 2.6rem;
+    height: 2.6rem;
+    opacity: 0.6;
+  }
+
+  .icon-champagne {
+    bottom: 5%;
+    left: 4%;
+    width: 3.2rem;
+    height: 3.2rem;
+    opacity: 0.6;
+  }
+
+  .icon-hearts-3 {
+    bottom: 5%;
+    right: 4%;
+    width: 2.2rem;
+    height: 2.2rem;
+    opacity: 0.6;
+  }
+}
+
+/* Jika layar sangat sempit (<= 340px), sembunyikan semua ikon dekorasi */
+@media (max-width: 340px) {
+  .decorative-icon {
+    display: none;
+  }
 }
 
 /* Portrait/tablet cover uses the vertical artwork so the subject stays visible. */

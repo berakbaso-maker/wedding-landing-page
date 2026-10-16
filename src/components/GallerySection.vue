@@ -11,8 +11,8 @@ const topRightRef = ref(null)
 const layoutMode = new URLSearchParams(window.location.search).get('layout') === 'gallery'
 const selectedKey = ref('car')
 const decorations = ref([
-  { key: 'car', label: 'Car', src: '/assets/the-gallery/icon17-2-42.png', x: 64.7, y: 19.4, size: 10.9, rotate: 0 },
-  { key: 'bouquet', label: 'Bouquet', src: '/assets/the-gallery/icon14-1-17.png', x: 11.3, y: 71.4, size: 7.45, rotate: -15 },
+  { key: 'car', label: 'Car', src: '/assets/the-gallery/icon14-1-17.png', x: 68, y: 18, size: 11, rotate: 0 },
+  { key: 'bouquet', label: 'Bouquet', src: '/assets/the-gallery/icon17-2-42.png', x: 10, y: 70, size: 8, rotate: -15 },
 ])
 const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
 let ctx = null
@@ -92,15 +92,6 @@ const copyLayout = async () => {
   <section id="gallery" ref="root" class="gallery-page gallery-intro-page">
     <div class="gallery-container intro-container">
       <div class="top-section">
-        <div class="top-left">
-          <img
-            src="/assets/gallery/gallery_1_fix.png"
-            alt="Foto pasangan"
-            class="top-illustration"
-            loading="lazy"
-          />
-        </div>
-
         <div ref="topRightRef" class="top-right" :class="{ 'layout-mode': layoutMode }" @pointermove="dragDecoration" @pointerup="stopDrag" @pointercancel="stopDrag">
           <h2 class="title" v-reveal="{ y: 18 }">
             {{ wedding.galleryPage.title }}
@@ -137,8 +128,7 @@ const copyLayout = async () => {
           </div>
 
           <p class="subtitle" v-reveal="{ delay: 260 }">
-            Together with our families, we invite you to share in our wedding.
-            Your presence is the greatest gift.
+            {{ wedding.galleryPage.message }}
           </p>
 
           <aside v-if="layoutMode" class="layout-toolbar" @pointerdown.stop>
@@ -159,6 +149,15 @@ const copyLayout = async () => {
             <button type="button" @click="copyLayout">Copy layout JSON</button>
             <code v-if="selectedDecoration">left: {{ selectedDecoration.x.toFixed(1) }}%; top: {{ selectedDecoration.y.toFixed(1) }}%</code>
           </aside>
+        </div>
+
+        <div class="top-left">
+          <img
+            src="/assets/gallery/gallery_1_fix.png"
+            alt="Foto pasangan"
+            class="top-illustration"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>
@@ -202,9 +201,11 @@ const copyLayout = async () => {
 }
 
 .top-left {
+  position: relative;
   display: flex;
   min-width: 0;
   width: 50%;
+  height: 100%;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -212,9 +213,14 @@ const copyLayout = async () => {
 }
 
 .top-illustration {
+  position: absolute;
+  top: -8%;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 116%;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .top-right {
@@ -232,16 +238,16 @@ const copyLayout = async () => {
 
 .title {
   position: absolute;
-  top: clamp(1.25rem, 2.5vw, 1.75rem);
+  top: clamp(1rem, 2vw, 1.5rem);
   left: 50%;
-  z-index: 1;
+  z-index: 8;
   box-sizing: border-box;
   width: 96%;
   max-width: 96%;
   margin: 0;
   color: #fff;
   font-family: 'Allura', cursive;
-  font-size: clamp(3.25rem, 7vw, 4.75rem);
+  font-size: clamp(3.2rem, 6.5vw, 4.8rem);
   font-weight: 400;
   text-align: center;
   transform: translateX(-50%);
@@ -250,7 +256,7 @@ const copyLayout = async () => {
 
 .doodle {
   position: absolute;
-  z-index: 1;
+  z-index: 1; /* Pastikan selalu berada di bawah kartu foto */
   width: 3rem;
   height: 3rem;
   object-fit: contain;
@@ -258,7 +264,7 @@ const copyLayout = async () => {
 }
 
 .layout-mode .doodle {
-  z-index: 4;
+  z-index: 10;
   cursor: grab;
   animation: none;
   touch-action: none;
@@ -271,7 +277,7 @@ const copyLayout = async () => {
 
 .layout-toolbar {
   position: absolute;
-  z-index: 10;
+  z-index: 20;
   top: 1rem;
   right: 1rem;
   display: grid;
@@ -321,29 +327,32 @@ const copyLayout = async () => {
 }
 
 .d-car {
-  top: 19.4%;
-  left: 64.7%;
+  top: 18%;
+  left: 66%;
   right: auto;
-  width: 10.9rem;
-  height: 10.9rem;
+  z-index: 1;
+  width: 11rem;
+  height: 11rem;
 }
 
 .d-bouquet {
-  top: 71.4%;
-  left: 11.3%;
+  top: 70%;
+  left: 10%;
   bottom: auto;
-  width: 7.45rem;
-  height: 7.45rem;
+  z-index: 1;
+  width: 8rem;
+  height: 8rem;
   transform: rotate(-15deg);
 }
 
 .polaroid-stack {
   position: absolute;
-  top: 54%;
+  top: 48%;
   left: 50%;
-  width: clamp(280px, 46vw, 660px);
+  z-index: 5; /* Gambar di atas ikon asset */
+  width: clamp(310px, 45vw, 590px);
   max-width: 96%;
-  height: clamp(240px, 40vw, 530px);
+  height: clamp(240px, 37vw, 450px);
   transform: translate(-50%, -50%);
 }
 
@@ -351,14 +360,15 @@ const copyLayout = async () => {
   position: absolute;
   display: flex;
   box-sizing: border-box;
-  width: clamp(245px, 25vw, 320px);
+  width: clamp(215px, 22.5vw, 295px);
   aspect-ratio: 1 / 1.15;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 16px;
   background: #fff;
-  padding: 16px 16px 34px;
-  box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
+  padding: 16px 16px 36px;
+  box-shadow: 8px 8px 0 rgb(0 0 0 / 30%);
   transition: translate 350ms ease;
+  z-index: 6; /* Gambar di atas icon asset */
 }
 
 .polaroid-tilt:hover {
@@ -380,111 +390,35 @@ const copyLayout = async () => {
 
 .p-1 {
   top: 0;
-  left: 2%;
-  z-index: 1;
+  left: 3%;
+  z-index: 6;
   margin-left: 0;
-  transform: rotate(-9deg);
+  transform: rotate(-8.5deg);
 }
 
 .p-2 {
-  top: 30%;
-  right: 2%;
+  top: 27%;
+  right: 3%;
   left: auto;
-  z-index: 2;
-  transform: rotate(13deg);
+  z-index: 7;
+  transform: rotate(12deg);
 }
 
 .subtitle {
   position: absolute;
-  bottom: clamp(1rem, 2vw, 1.5rem);
-  width: min(90%, 600px);
+  bottom: clamp(1.75rem, 3.5vw, 3.25rem);
+  z-index: 8;
+  width: min(92%, 520px);
   margin: 0;
   color: #fff;
-  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
   line-height: 1.5;
   text-align: center;
-  opacity: 0.9;
-}
-
-@media (max-width: 900px) {
-  .title {
-    font-size: clamp(2.5rem, 8vw, 3.25rem);
-  }
-
-  .polaroid-tilt {
-    width: clamp(245px, 30vw, 320px);
-  }
-}
-
-@media (max-width: 500px) {
-  .gallery-page {
-    align-items: center;
-    padding: 0;
-  }
-
-  .top-section {
-    flex-direction: column;
-  }
-
-  .top-left {
-    width: 100%;
-    height: 34%;
-  }
-
-  .top-illustration {
-    width: 100%;
-    height: 100%;
-  }
-
-  .top-right {
-    width: 100%;
-    min-height: 0;
-    height: 66%;
-  }
-
-  .title {
-    top: 0.75rem;
-    font-size: clamp(2.75rem, 13vw, 3.5rem);
-  }
-
-  .doodle {
-    width: 3.25rem;
-    height: 3.25rem;
-  }
-
-  .polaroid-stack {
-    top: 53%;
-    width: min(96%, 400px);
-    height: 275px;
-  }
-
-  .polaroid-tilt {
-    width: 126px;
-    height: 150px;
-    border-radius: 12px;
-    padding: 8px 8px 20px;
-  }
-
-  .p-1 {
-    top: 0;
-    left: 0;
-  }
-
-  .p-2 {
-    top: 28%;
-    right: 0;
-    left: auto;
-  }
-
-  .subtitle {
-    bottom: 0.75rem;
-    font-size: 1rem;
-  }
+  opacity: 0.95;
 }
 
 /* On smaller screens, show the gallery message and polaroids first, followed
-   by the couple illustration. This keeps the visual flow readable without
-   changing the desktop two-column composition. */
+   by the couple illustration. */
 @media (max-width: 900px) {
   .intro-container {
     height: auto;
@@ -498,13 +432,19 @@ const copyLayout = async () => {
   .top-right {
     order: 1;
     width: 100%;
-    min-height: clamp(620px, 82svh, 800px);
-    height: clamp(620px, 82svh, 800px);
-    padding: 1rem 1rem 1.5rem;
+    min-height: clamp(620px, 86svh, 780px);
+    height: clamp(620px, 86svh, 780px);
+    padding: 1.5rem 1rem 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .title {
-    font-size: clamp(3.15rem, 10vw, 4.1rem);
+    top: clamp(1rem, 3.5vw, 2.2rem);
+    font-size: clamp(3.2rem, 11vw, 4.4rem);
   }
 
   .top-left {
@@ -515,72 +455,198 @@ const copyLayout = async () => {
   }
 
   .top-illustration {
+    position: relative;
+    top: auto;
+    left: auto;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
   }
 
+  /* Mobile version: Car di kanan atas */
+  .d-car {
+    top: clamp(18%, 21vw, 24%);
+    left: auto;
+    right: clamp(5%, 7vw, 10%);
+    width: clamp(6.5rem, 18vw, 8.5rem);
+    height: clamp(6.5rem, 18vw, 8.5rem);
+    transform: rotate(0deg);
+  }
+
+  /* Mobile version: Bouquet di kiri bawah */
   .d-bouquet {
-    top: 64%;
+    top: clamp(66%, 69vw, 73%);
+    left: clamp(5%, 7vw, 10%);
+    right: auto;
+    bottom: auto;
+    width: clamp(6rem, 17vw, 8rem);
+    height: clamp(6rem, 17vw, 8rem);
+    transform: rotate(-15deg);
   }
 
   .polaroid-stack {
-    top: 50%;
-    width: min(92%, 520px);
-    height: clamp(340px, 58vw, 420px);
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(94%, 480px);
+    height: clamp(300px, 58vw, 380px);
   }
 
   .polaroid-tilt {
-    width: clamp(155px, 36vw, 245px);
+    width: clamp(185px, 42vw, 240px);
     height: auto;
     aspect-ratio: 1 / 1.15;
-    padding: clamp(8px, 1.5vw, 14px) clamp(8px, 1.5vw, 14px) clamp(20px, 3vw, 30px);
+    border-radius: 16px;
+    padding: clamp(12px, 2.4vw, 16px) clamp(12px, 2.4vw, 16px) clamp(28px, 5.5vw, 40px);
+    box-shadow: 8px 10px 0 rgb(0 0 0 / 28%);
   }
 
   .p-1 {
     top: 0;
-    left: 5%;
+    left: 3%;
+    transform: rotate(-7.5deg);
   }
 
   .p-2 {
-    top: 44%;
-    right: 5%;
-    margin-bottom: 1.25rem;
+    top: 30%;
+    right: 3%;
+    left: auto;
+    margin-bottom: 0;
+    transform: rotate(10.5deg);
   }
 
   .subtitle {
-    bottom: 3rem;
-    width: min(92%, 680px);
-    margin-bottom: 0.5rem;
-    font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+    bottom: clamp(1.75rem, 4vw, 3rem);
+    width: min(88%, 460px);
+    margin: 0 auto;
+    font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+    line-height: 1.55;
+    text-align: center;
+  }
+}
+
+@media (max-width: 440px) {
+  .top-right {
+    min-height: clamp(580px, 88svh, 680px);
+    height: clamp(580px, 88svh, 680px);
+    padding: 1.25rem 0.75rem 1.75rem;
+  }
+
+  .title {
+    top: 1rem;
+    font-size: clamp(2.9rem, 12vw, 3.6rem);
+  }
+
+  .d-car {
+    top: 19%;
+    right: 5%;
+    width: 6.2rem;
+    height: 6.2rem;
+  }
+
+  .d-bouquet {
+    top: 68%;
+    left: 5%;
+    width: 5.8rem;
+    height: 5.8rem;
+  }
+
+  .polaroid-stack {
+    top: 47%;
+    width: 95%;
+    height: 290px;
+  }
+
+  .polaroid-tilt {
+    width: 175px;
+    border-radius: 14px;
+    padding: 11px 11px 28px;
+    box-shadow: 7px 9px 0 rgb(0 0 0 / 28%);
+  }
+
+  .p-1 {
+    top: 0;
+    left: 2%;
+    transform: rotate(-7deg);
+  }
+
+  .p-2 {
+    top: 29%;
+    right: 2%;
+    transform: rotate(10deg);
+  }
+
+  .subtitle {
+    bottom: 1.5rem;
+    width: 90%;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+}
+
+/* Penyesuaian khusus layar 375px kebawah agar ikon tidak menabrak kartu/teks */
+@media (max-width: 385px) {
+  .title {
+    top: 0.75rem;
+    font-size: 2.85rem;
+  }
+
+  .d-car {
+    top: 15%;
+    right: 3%;
+    width: 3.8rem;
+    height: 3.8rem;
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  .d-bouquet {
+    top: 74%;
+    left: 3%;
+    width: 3.6rem;
+    height: 3.6rem;
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  .polaroid-stack {
+    top: 47%;
+    width: 96%;
+    height: 270px;
+  }
+
+  .polaroid-tilt {
+    width: 154px;
+    border-radius: 12px;
+    padding: 9px 9px 24px;
+    box-shadow: 5px 7px 0 rgb(0 0 0 / 26%);
+  }
+
+  .p-1 {
+    top: 0;
+    left: 1%;
+    transform: rotate(-6deg);
+  }
+
+  .p-2 {
+    top: 28%;
+    right: 1%;
+    transform: rotate(9deg);
+  }
+
+  .subtitle {
+    bottom: 1.25rem;
+    font-size: 0.92rem;
     line-height: 1.45;
   }
 }
 
-@media (min-width: 375px) and (max-width: 547px) {
+/* Jika layar sangat sempit (<= 340px), sembunyikan doodle agar konten utama tetap rapi */
+@media (max-width: 340px) {
   .d-car,
   .d-bouquet {
-    width: 7.45rem;
-    height: 7.45rem;
-  }
-
-  .polaroid-tilt {
-    width: 165px;
-    height: 195px;
-    padding: 11px 11px 27px;
-    box-shadow: 10px 10px 0 rgb(0 0 0 / 35%);
-  }
-
-  .p-2 {
-    top: 34%;
-  }
-}
-
-@media (max-width: 681px) {
-  .subtitle {
-    margin-top: 1rem;
-    bottom: 1.5rem;
+    display: none;
   }
 }
 </style>

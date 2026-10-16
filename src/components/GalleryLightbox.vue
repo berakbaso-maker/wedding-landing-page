@@ -27,6 +27,31 @@ const onKey = (event) => {
   if (event.key === 'ArrowLeft') go(-1)
 }
 
+// Touch swipe gestures untuk mobile
+let touchStartX = 0
+let touchStartY = 0
+
+const onTouchStart = (e) => {
+  if (e.touches && e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX
+    touchStartY = e.touches[0].clientY
+  }
+}
+
+const onTouchEnd = (e) => {
+  if (e.changedTouches && e.changedTouches.length === 1) {
+    const diffX = e.changedTouches[0].clientX - touchStartX
+    const diffY = e.changedTouches[0].clientY - touchStartY
+    if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
+      if (diffX < 0) {
+        go(1) // swipe kiri -> foto berikutnya
+      } else {
+        go(-1) // swipe kanan -> foto sebelumnya
+      }
+    }
+  }
+}
+
 watch(isOpen, (value) => {
   if (typeof document === 'undefined') return
 
@@ -53,7 +78,15 @@ onUnmounted(() => {
 <template>
   <Teleport to="body">
     <Transition name="lightbox">
-      <div v-if="isOpen" class="lightbox" role="dialog" aria-modal="true" @click.self="close">
+      <div
+        v-if="isOpen"
+        class="lightbox"
+        role="dialog"
+        aria-modal="true"
+        @click.self="close"
+        @touchstart.passive="onTouchStart"
+        @touchend.passive="onTouchEnd"
+      >
         <button type="button" class="lb-close" aria-label="Tutup" @click="close">×</button>
         <button type="button" class="lb-nav is-prev" aria-label="Sebelumnya" @click="go(-1)">
           ‹
