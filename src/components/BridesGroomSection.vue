@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { wedding } from '../data/wedding'
 
-const { groom, bride, logo, quote, quoteSource, tagline } = wedding.bridesGroom
+const { groom, bride, logo, quote, quoteSource } = wedding.bridesGroom
 
 const people = [
   { role: 'Groom', ...groom },
@@ -89,7 +89,6 @@ const copyLayout = async () => {
         <div class="intro-card" v-reveal="{ y: 18 }">
           <div class="intro-grid">
             <div class="intro-left">
-              <p class="intro-tagline">{{ tagline }}</p>
               <img :src="personIllustration" alt="" class="intro-person" loading="lazy" />
             </div>
 
@@ -216,14 +215,6 @@ const copyLayout = async () => {
   align-items: center;
   gap: clamp(0.75rem, 2vh, 1.25rem);
   text-align: center;
-}
-
-.intro-tagline {
-  margin: 0;
-  color: #2c442b;
-  font-family: 'Blossom', 'Marcellus', serif;
-  font-size: clamp(1.75rem, 3.6vw, 2.8rem);
-  line-height: 1.25;
 }
 
 .intro-person {
@@ -564,12 +555,6 @@ const copyLayout = async () => {
     align-items: center;
     justify-content: center;
     gap: clamp(0.75rem, 2vh, 1.25rem);
-    text-align: center;
-  }
-
-  .intro-tagline {
-    font-size: clamp(1.7rem, 7vw, 2.35rem);
-    line-height: 1.25;
     text-align: center;
   }
 

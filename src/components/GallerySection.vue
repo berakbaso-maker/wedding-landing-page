@@ -153,7 +153,7 @@ const copyLayout = async () => {
 
         <div class="top-left">
           <img
-            src="/assets/gallery/gallery_1_fix.png"
+            src="/assets/the-gallery/fix_gallery.png"
             alt="Foto pasangan"
             class="top-illustration"
             loading="lazy"

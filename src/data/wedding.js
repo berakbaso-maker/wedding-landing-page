@@ -14,13 +14,13 @@ export const wedding = {
     groom: {
       name: 'Ibnu Anggun Priyono',
       parents: 'Putra pertama dari Bpk. Bayu\nPurnama & Ibu Sri Sutari',
-      image: '/assets/cowok kiri.png',
+      image: '/assets/the-gallery/cowok_kiri_fix.png',
       frame: '/assets/brides-groom/frame_rectangle_2-1-32.png',
     },
     bride: {
       name: 'Dea Maharani',
       parents: 'Putri kedua dari Bpk. Suryadi\n& Ibu Tri Diantinii (Yanti)',
-      image: '/assets/cewek kanan.png',
+      image: '/assets/the-gallery/cewek_kanan_fix.png',
       frame: '/assets/brides-groom/frame_rectangle_2-1-38.png',
     },
     logo: '/assets/brides-groom/logo_2.png',
