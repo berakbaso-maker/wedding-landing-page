@@ -377,11 +377,11 @@ const copyLayout = async () => {
   align-items: center;
   justify-content: center;
   padding-bottom: 8px;
-  color: #384535;
-  font-size: clamp(0.95rem, 1.35vw, 1.5rem);
-  font-weight: 450;
-  line-height: 1.55;
-  letter-spacing: 0.02em;
+  color: #1f301d;
+  font-size: clamp(1.2rem, 1.8vw, 1.65rem);
+  font-weight: 550;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
   white-space: pre-line;
 }
 
@@ -530,24 +530,39 @@ const copyLayout = async () => {
   .profile-card-wrapper {
     flex: none;
     width: 100%;
-    max-width: min(100%, 440px);
+    max-width: min(100%, 420px);
     margin: 0 auto;
-    padding: clamp(28px, 6vw, 48px) clamp(18px, 4vw, 36px);
+    padding: clamp(28px, 6vw, 42px) clamp(18px, 4vw, 32px) clamp(46px, 9vw, 64px);
+  }
+
+  .profile-card {
+    padding: clamp(12px, 2.5vw, 16px) clamp(12px, 2.5vw, 16px) clamp(18px, 3.5vw, 24px);
+  }
+
+  .photo-container {
+    aspect-ratio: 1 / 1;
+    margin-bottom: clamp(10px, 2vh, 14px);
+  }
+
+  .profile-photo {
+    transform: scale(1.18);
+    transform-origin: 50% 26%;
   }
 
   .profile-name {
-    font-size: clamp(1.65rem, 5vw, 2.35rem);
+    font-size: clamp(1.75rem, 5.5vw, 2.4rem);
     font-weight: 600;
-    margin: 0 0 8px;
+    margin: 0 0 clamp(6px, 1.2vh, 10px);
   }
 
   .profile-parents {
-    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
-    font-weight: 450;
-    color: #384535;
-    line-height: 1.55;
+    font-size: clamp(1.25rem, 4vw, 1.6rem);
+    font-weight: 550;
+    color: #1c2b1a;
+    line-height: 1.6;
+    letter-spacing: 0.025em;
     min-height: auto;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
 
   .intro-left {
@@ -594,27 +609,57 @@ const copyLayout = async () => {
 @media (max-width: 480px) {
   .profile-card-wrapper {
     max-width: 100%;
-    padding: clamp(26px, 7vw, 38px) clamp(16px, 4.5vw, 26px);
+    padding: clamp(24px, 6vw, 36px) clamp(14px, 4vw, 24px) clamp(46px, 12vw, 68px);
+  }
+
+  .profile-card {
+    padding: 12px 12px 22px;
+  }
+
+  .photo-container {
+    aspect-ratio: 1 / 1;
+    margin-bottom: 10px;
+  }
+
+  .profile-photo {
+    transform: scale(1.18);
+    transform-origin: 50% 26%;
   }
 
   .profile-name {
-    font-size: clamp(1.5rem, 5.8vw, 1.95rem);
+    font-size: clamp(1.75rem, 6.2vw, 2.2rem);
+    font-weight: 600;
     margin-bottom: 6px;
   }
 
   .profile-parents {
-    font-size: clamp(1rem, 3.8vw, 1.2rem);
-    line-height: 1.5;
+    font-size: clamp(1.22rem, 4.6vw, 1.48rem);
+    font-weight: 550;
+    color: #1c2b1a;
+    line-height: 1.6;
+    letter-spacing: 0.025em;
+    padding-bottom: 6px;
   }
 }
 
 @media (max-width: 385px) {
+  .profile-card-wrapper {
+    padding: 22px 12px 46px;
+  }
+
+  .profile-card {
+    padding: 10px 10px 20px;
+  }
+
   .profile-name {
-    font-size: clamp(1.38rem, 5.2vw, 1.65rem);
+    font-size: clamp(1.55rem, 5.5vw, 1.85rem);
+    font-weight: 600;
   }
 
   .profile-parents {
-    font-size: clamp(0.92rem, 3.5vw, 1.05rem);
+    font-size: clamp(1.12rem, 4.2vw, 1.32rem);
+    font-weight: 550;
+    line-height: 1.55;
   }
 
   .doodle {
