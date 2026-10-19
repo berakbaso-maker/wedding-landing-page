@@ -337,8 +337,18 @@ const copyLayout = async () => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.32);
-  transform-origin: 50% 24%;
+  transform: scale(2.4);
+  transform-origin: 50% 51%;
+}
+
+.profile-photo.photo-groom {
+  transform: scale(2.4);
+  transform-origin: 50% 51%;
+}
+
+.profile-photo.photo-bride {
+  transform: scale(2.4);
+  transform-origin: 53% 51%;
 }
 
 .profile-name,
@@ -545,8 +555,18 @@ const copyLayout = async () => {
   }
 
   .profile-photo {
-    transform: scale(1.18);
-    transform-origin: 50% 26%;
+    transform: scale(2.1);
+    transform-origin: 50% 49%;
+  }
+
+  .profile-photo.photo-groom {
+    transform: scale(2.1);
+    transform-origin: 50% 49%;
+  }
+
+  .profile-photo.photo-bride {
+    transform: scale(2.1);
+    transform-origin: 53% 49%;
   }
 
   .profile-name {
@@ -622,8 +642,18 @@ const copyLayout = async () => {
   }
 
   .profile-photo {
-    transform: scale(1.18);
-    transform-origin: 50% 26%;
+    transform: scale(2.1);
+    transform-origin: 50% 49%;
+  }
+
+  .profile-photo.photo-groom {
+    transform: scale(2.1);
+    transform-origin: 50% 49%;
+  }
+
+  .profile-photo.photo-bride {
+    transform: scale(2.1);
+    transform-origin: 53% 49%;
   }
 
   .profile-name {
