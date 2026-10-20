@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { wedding } from '../data/wedding'
 
-const { groom, bride, logo, quote, quoteSource } = wedding.bridesGroom
+const { groom, bride, quote, quoteSource } = wedding.bridesGroom
 
 const people = [
   { role: 'Groom', ...groom },
@@ -93,7 +93,6 @@ const copyLayout = async () => {
             </div>
 
             <div class="intro-right">
-              <img :src="logo" alt="Logo" class="intro-monogram" loading="lazy" />
               <p class="intro-quote">{{ quote }}</p>
               <p class="intro-source">{{ quoteSource }}</p>
             </div>
@@ -231,20 +230,12 @@ const copyLayout = async () => {
 .intro-right {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: clamp(0.75rem, 2vh, 1.25rem);
 }
 
-.intro-monogram {
-  display: block;
-  width: clamp(150px, 18vw, 220px);
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  margin: 0 0 clamp(1.25rem, 3vh, 2rem);
-}
-
 .intro-quote {
+  width: 100%;
   margin: 0;
   color: #2c442b;
   font-family: 'Blossom', 'Marcellus', serif;
@@ -254,28 +245,19 @@ const copyLayout = async () => {
 }
 
 .intro-source {
-  margin: 0;
+  width: 100%;
+  margin: clamp(0.5rem, 1.5vh, 1rem) 0 0;
   color: #2c442b;
   font-family: 'Blossom', 'Marcellus', serif;
   font-size: clamp(1.05rem, 2.2vw, 1.3rem);
   font-weight: 600;
   letter-spacing: 0.02em;
+  text-align: left;
 }
 
 @media (min-width: 768px) {
   .intro-grid {
     grid-template-columns: 1fr 1.15fr;
-  }
-
-  .intro-right {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .intro-monogram {
-    align-self: center;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -597,19 +579,6 @@ const copyLayout = async () => {
     width: min(82%, 320px);
   }
 
-  .intro-right {
-    align-items: flex-start;
-  }
-
-  .intro-monogram {
-    width: clamp(180px, 48vw, 250px);
-    align-self: center;
-  }
-
-  .intro-source {
-    width: 100%;
-    text-align: left;
-  }
 
   .doodle-2 {
     left: 98.2%;
