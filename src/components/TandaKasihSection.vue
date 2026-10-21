@@ -166,7 +166,7 @@ const copyAccount = async (number) => {
 
 .description {
   margin: 0 auto clamp(2rem, 4vh, 3rem);
-  width: min(100%, 720px);
+  width: min(100%, 45rem);
   font-family: 'Roboto', 'Montserrat', sans-serif;
   font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   line-height: 1.75;
@@ -179,7 +179,7 @@ const copyAccount = async (number) => {
   display: flex;
   flex-direction: column;
   gap: clamp(1.25rem, 2.5vw, 1.75rem);
-  width: min(94%, 820px);
+  width: min(94%, 51.25rem);
   margin: 0 auto;
 }
 

@@ -15,14 +15,22 @@ const personIllustration = '/assets/brides-groom/ilus_person_1-1-11.png'
 const layoutMode = new URLSearchParams(window.location.search).get('layout') === 'brides-groom'
 const containerRef = ref(null)
 const selectedKey = ref('doodle-8')
-const decorations = ref(wedding.bridesGroom.decorations.map((src, index) => ({
-  key: `doodle-${index + 1}`,
-  label: `Doodle ${index + 1}`,
-  src,
-  x: [-5, 98.2, 99.5, 1.3, 90.2, 43.6, 99.4, -5, -5, 97.6, -5, -5][index],
-  y: [1.1, 5.8, 64.7, 91, 53.5, 90.4, 36, 18.9, 51.1, 86.8, 39.4, 70][index],
-  size: [9.05, 9.2, 9.25, 7.65, 5, 8.95, 7.85, 8.1, 6.65, 7.95, 7.6, 5][index],
-})))
+const centerDoodle = '/assets/brides-groom/icon11-1-20.png'
+
+const decorationItems = [
+  { key: 'doodle-1', label: 'Doodle 1', src: '/assets/brides-groom/icon15-1-13.png', x: -5, y: 1.1, size: 9.05 },
+  { key: 'doodle-2', label: 'Doodle 2', src: '/assets/brides-groom/icon8-1-12.png', x: 98.2, y: 5.8, size: 9.2 },
+  { key: 'doodle-3', label: 'Doodle 3', src: '/assets/brides-groom/icon16-1-14.png', x: 99.5, y: 64.7, size: 9.25 },
+  { key: 'doodle-4', label: 'Doodle 4', src: '/assets/brides-groom/icon13-3-15.png', x: 1.3, y: 91, size: 7.65 },
+  { key: 'doodle-5', label: 'Doodle 5', src: '/assets/brides-groom/icon3-1-16.png', x: 90.2, y: 53.5, size: 5 },
+  { key: 'doodle-7', label: 'Doodle 7', src: '/assets/brides-groom/icon3-3-18.png', x: 99.4, y: 36, size: 7.85 },
+  { key: 'doodle-8', label: 'Doodle 8', src: '/assets/brides-groom/icon3-4-19.png', x: -5, y: 18.9, size: 8.1 },
+  { key: 'doodle-10', label: 'Doodle 10', src: '/assets/brides-groom/icon14-1-21.png', x: 97.6, y: 86.8, size: 7.95 },
+  { key: 'doodle-11', label: 'Doodle 11', src: '/assets/brides-groom/icon17-1-22.png', x: -5, y: 39.4, size: 7.6 },
+  { key: 'doodle-12', label: 'Doodle 12', src: '/assets/brides-groom/icon9-1-23.png', x: -5, y: 70, size: 5 },
+]
+
+const decorations = ref(decorationItems)
 
 const selectedDecoration = computed(() => decorations.value.find(({ key }) => key === selectedKey.value))
 let dragState = null
@@ -126,6 +134,11 @@ const copyLayout = async () => {
                <p class="profile-parents">{{ person.parents }}</p>
              </article>
           </div>
+
+          <!-- Doodle icon11-1-20.png tepat di tengah antara kedua kartu -->
+          <div class="cards-center-doodle reveal" v-reveal="{ delay: 200, scale: 0.85 }">
+            <img :src="centerDoodle" alt="" class="center-doodle-icon" loading="lazy" />
+          </div>
         </div>
 
         <aside v-if="layoutMode" class="layout-toolbar" @pointerdown.stop>
@@ -167,7 +180,7 @@ const copyLayout = async () => {
 
 .brides-groom-container {
   position: relative;
-  width: min(100%, 1200px);
+  width: min(100%, 75rem);
   margin: 0 auto;
   padding: clamp(1rem, 2.5vh, 2rem) clamp(1rem, 4vw, 2.5rem);
 }
@@ -192,7 +205,7 @@ const copyLayout = async () => {
   position: relative;
   z-index: 2;
   box-sizing: border-box;
-  width: min(100%, 1120px);
+  width: min(100%, 70rem);
   margin: clamp(1rem, 3vh, 1.75rem) auto;
   border: 1px solid rgb(232 225 211 / 80%);
   border-radius: 24px;
@@ -262,6 +275,7 @@ const copyLayout = async () => {
 }
 
 .profiles-wrapper {
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -269,7 +283,27 @@ const copyLayout = async () => {
   margin-top: 0;
   align-items: stretch;
   justify-content: center;
-  gap: clamp(0.5rem, 2vw, 1.875rem);
+  gap: clamp(6rem, 12vw, 12rem);
+}
+
+.cards-center-doodle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-doodle-icon {
+  width: clamp(4.5rem, 8vw, 7rem);
+  height: clamp(4.5rem, 8vw, 7rem);
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 18%));
+  animation: bride-doodle-pulse 4.2s ease-in-out infinite;
 }
 
 .profile-card-wrapper {
@@ -277,7 +311,7 @@ const copyLayout = async () => {
   z-index: 2;
   box-sizing: border-box;
   flex: 1 1 0;
-  max-width: 550px;
+  max-width: 27.5rem;
   min-width: 0;
   margin: 0;
   padding: clamp(28px, 4.8vw, 55px) clamp(16px, 3.8vw, 42px);
@@ -457,10 +491,8 @@ const copyLayout = async () => {
 .doodle-3 { top: 64.7%; left: 99.5%; width: 9.25rem; height: 9.25rem; animation-delay: -2.3s; }
 .doodle-4 { top: 91%; left: 1.3%; width: 7.65rem; height: 7.65rem; animation: bride-doodle-twinkle 3.4s ease-in-out infinite; animation-delay: -0.9s; }
 .doodle-5 { top: 53.5%; left: 90.2%; animation: bride-doodle-twinkle 3.6s ease-in-out infinite; animation-delay: -2.1s; }
-.doodle-6 { top: 90.4%; left: 43.6%; width: 8.95rem; height: 8.95rem; animation: bride-doodle-pulse 4.4s ease-in-out infinite; animation-delay: -3s; }
 .doodle-7 { top: 36%; left: 99.4%; right: auto; width: 7.85rem; height: 7.85rem; animation-delay: -1.8s; }
 .doodle-8 { top: 18.9%; left: -5%; right: auto; width: 8.1rem; height: 8.1rem; animation: bride-doodle-pulse 4s ease-in-out infinite; animation-delay: -2.6s; }
-.doodle-9 { top: 51.1%; left: -5%; right: auto; width: 6.65rem; height: 6.65rem; animation-delay: -0.3s; }
 .doodle-10 { top: 86.8%; left: 97.6%; right: auto; width: 7.95rem; height: 7.95rem; animation: bride-doodle-twinkle 3.3s ease-in-out infinite; animation-delay: -1.7s; }
 .doodle-11 { top: 39.4%; left: -5%; right: auto; width: 7.6rem; height: 7.6rem; animation: bride-doodle-pulse 4.5s ease-in-out infinite; animation-delay: -2.9s; }
 .doodle-12 { top: 70%; left: -5%; animation: bride-doodle-twinkle 3.7s ease-in-out infinite; animation-delay: -1.2s; }
@@ -515,8 +547,13 @@ const copyLayout = async () => {
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
-    gap: clamp(2rem, 5vw, 3.5rem);
+    gap: clamp(8.5rem, 24vw, 15rem);
     width: 100%;
+  }
+
+  .center-doodle-icon {
+    width: clamp(3.8rem, 11vw, 5.2rem);
+    height: clamp(3.8rem, 11vw, 5.2rem);
   }
 
   .profile-card-wrapper {

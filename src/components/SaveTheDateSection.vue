@@ -319,7 +319,7 @@ const copyLayout = async () => {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 780px;
+  max-width: 48.75rem;
   margin: 0 auto;
 }
 

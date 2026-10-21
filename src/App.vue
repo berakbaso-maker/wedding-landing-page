@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import { useSmoothScroll } from './composables/useSmoothScroll'
 import MusicPlayer from './components/MusicPlayer.vue'
 import CoverSection from './components/CoverSection.vue'
-import SaveTheDateSection from './components/SaveTheDateSection.vue'
-import GallerySection from './components/GallerySection.vue'
 import BridesGroomSection from './components/BridesGroomSection.vue'
-import GalleryGridSection from './components/GalleryGridSection.vue'
+import SaveTheDateSection from './components/SaveTheDateSection.vue'
 import DetailAcaraSection from './components/DetailAcaraSection.vue'
+import GallerySection from './components/GallerySection.vue'
+import GalleryGridSection from './components/GalleryGridSection.vue'
 import TandaKasihSection from './components/TandaKasihSection.vue'
 
 const musicPlayerRef = ref(null)
@@ -31,8 +31,8 @@ const open = () => {
   <CoverSection :guest-name="guestName" @open="open" />
   <BridesGroomSection />
   <SaveTheDateSection />
+  <DetailAcaraSection />
   <GallerySection />
   <GalleryGridSection />
-  <DetailAcaraSection />
   <TandaKasihSection />
 </template>

@@ -21,6 +21,16 @@
   --page-pad-x: clamp(1rem, 4vw, 3rem);
 }
 
+/* Penskalaan otomatis khusus monitor lebar (> 1440px):
+   - Di Mac / viewport <= 1440px: tetap 16px (100% identik seperti sekarang).
+   - Di layar 1920px (laptop/PC teman di zoom 100%): diskalakan halus hingga 21.33px (~1.33x)
+     sehingga tampilannya langsung pas seperti saat di-zoom 140%. */
+@media (min-width: 1440px) {
+  :root {
+    font-size: clamp(16px, 1.11vw, 21.33px);
+  }
+}
+
 html {
   overflow-x: hidden;
   overflow-x: clip;

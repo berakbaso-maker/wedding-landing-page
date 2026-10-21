@@ -341,7 +341,7 @@ const styleFor = (deco) => ({
 .main-illustration-wrapper {
   position: relative;
   z-index: 2;
-  width: min(92%, 680px);
+  width: min(92%, 42.5rem);
   margin: 0 auto clamp(3rem, 6vh, 5rem);
 }
 
@@ -358,7 +358,7 @@ const styleFor = (deco) => ({
   position: relative;
   z-index: 2;
   display: grid;
-  width: min(100%, 1280px);
+  width: min(100%, 80rem);
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(4rem, 10vw, 10rem);
   margin: 0 auto clamp(3.5rem, 7vh, 5.5rem);
