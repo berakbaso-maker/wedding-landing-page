@@ -142,7 +142,7 @@ export const wedding = {
     accounts: [
       {
         bank: 'Bank BCA',
-        number: '1234567890',
+        number: '5000136699',
         holder: 'Dea Maharani',
         logo: '/assets/tanda-kasih/bca-2.png',
       },
